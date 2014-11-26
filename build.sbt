@@ -10,7 +10,8 @@ lazy val utility = project.in(file("utility")).
 			"com.typesafe.akka" %% "akka-actor" % "2.3.7",
 			"com.typesafe" % "config" % "1.2.1",
 			"joda-time" % "joda-time" % "2.5",
-			"org.joda" % "joda-convert" % "1.2"
+			"org.joda" % "joda-convert" % "1.2",
+			"org.scalatest" % "scalatest_2.11" % "2.2.1" % "test"
 		)
 )
 
@@ -23,7 +24,8 @@ lazy val center = project.in(file("center")).dependsOn(utility).
 			"com.typesafe.akka" %% "akka-actor" % "2.3.7",
 			"com.typesafe" % "config" % "1.2.1",
 			"joda-time" % "joda-time" % "2.5",
-			"org.joda" % "joda-convert" % "1.2"		
+			"org.joda" % "joda-convert" % "1.2",
+			"org.scalatest" % "scalatest_2.11" % "2.2.1" % "test"		
 		)
 )
 
@@ -36,7 +38,8 @@ lazy val node = project.in(file("node")).dependsOn(utility).
 			"com.typesafe.akka" %% "akka-actor" % "2.3.7",
 			"com.typesafe" % "config" % "1.2.1",
 			"joda-time" % "joda-time" % "2.5",
-			"org.joda" % "joda-convert" % "1.2"		
+			"org.joda" % "joda-convert" % "1.2",
+			"org.scalatest" % "scalatest_2.11" % "2.2.1" % "test"		
 		)
 )
 
@@ -49,6 +52,7 @@ lazy val user = project.in(file("user")).dependsOn(utility).
 			"com.typesafe.akka" %% "akka-actor" % "2.3.7",
 			"com.typesafe" % "config" % "1.2.1",
 			"joda-time" % "joda-time" % "2.5", 
-			"org.joda" % "joda-convert" % "1.2"		
+			"org.joda" % "joda-convert" % "1.2",
+			"org.scalatest" % "scalatest_2.11" % "2.2.1" % "test"		
 		)
 )

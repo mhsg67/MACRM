@@ -4,7 +4,7 @@
 		module="utility_2.11"
 		revision="1.0"
 		status="integration"
-		publication="20141124223432"
+		publication="20141125224837"
 	>
 		<description>
 		utility
@@ -38,5 +38,6 @@
 		<dependency org="com.typesafe" name="config" rev="1.2.1" conf="compile->default(compile)"/>
 		<dependency org="joda-time" name="joda-time" rev="2.5" conf="compile->default(compile)"/>
 		<dependency org="org.joda" name="joda-convert" rev="1.2" conf="compile->default(compile)"/>
+		<dependency org="org.scalatest" name="scalatest_2.11" rev="2.2.1" conf="test->default(compile)"/>
 	</dependencies>
 </ivy-module>

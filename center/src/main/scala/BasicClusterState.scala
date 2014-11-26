@@ -17,11 +17,26 @@ class BasicClusterStateBlock(var source: ActorRef, var receiveTime: DateTime, va
  *      3.2 
  */
 object BasicClusterState {
+
     private var table = Map[String, BasicClusterStateBlock]()
+    private var rackIdToNodesId = Map[String, MutableList[String]]()
 
-    def GetStateOfNode(nodeId: String): BasicClusterStateBlock = table(nodeId)
+    def GetStateOfNode(_nodeId: String): BasicClusterStateBlock = table(_nodeId)
 
-    def GetStateOfRack(rackId: String): ListBuffer[BasicClusterStateBlock] = null
-    
-    def UpdateStateOfNode(source:ActorRef, receiveTime:DateTime, submitTime:DateTime, node:Node) = table 
+    def GetListOfNodeInRack(_rackId: String): MutableList[String] = rackIdToNodesId(_rackId)
+
+    def GetStateOfNodeInRack(_rackId: String): MutableList[BasicClusterStateBlock] = {
+        var result = MutableList[BasicClusterStateBlock]()
+        rackIdToNodesId(_rackId).foreach { x => result += table(x) }
+        return result
+    }
+
+    def UpdateStateOfNode(_source: ActorRef, _receiveTime: DateTime, _submitTime: DateTime, _node: Node): Unit = {
+        if (!rackIdToNodesId(_node.rack.rackId).contains(_node.nodeId))
+            rackIdToNodesId(_node.rack.rackId) += _node.nodeId
+        table(_node.nodeId).source = _source
+        table(_node.nodeId).receiveTime = _receiveTime
+        table(_node.nodeId).submitTime = _submitTime
+        table(_node.nodeId).node = _node
+    }
 }

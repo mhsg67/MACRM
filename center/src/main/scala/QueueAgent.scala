@@ -2,8 +2,10 @@ package MACRM.center
 
 import MACRM.utility._
 import akka.actor._
+import scala.collection.mutable._
 
 class QueueAgent extends Agent {
+
     def receive =
         {
             case message: Message_GiveNextResourceRequest_SAtoQA => HandleSchedulingContainerRequest(message)

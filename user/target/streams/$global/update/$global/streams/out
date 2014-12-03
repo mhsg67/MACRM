@@ -1,4 +1,4 @@
-[0m[[0minfo[0m] [0mUpdating {file:/home/node3/workspace/MACRM/}user...[0m
+[0m[[0minfo[0m] [0mUpdating {file:/home/node3/workspace/copy%20of%20MACRM/}user...[0m
 [0m[[0mdebug[0m] [0m:: resolving dependencies :: user#user_2.11;1.0[0m
 [0m[[0mdebug[0m] [0m	confs: [compile, runtime, test, provided, optional, compile-internal, runtime-internal, test-internal, plugin, sources, docs, pom, scala-tool][0m
 [0m[[0mdebug[0m] [0m	validate = true[0m
@@ -7,7 +7,7 @@
 [0m[[0mdebug[0m] [0m== resolving dependencies for user#user_2.11;1.0 [compile][0m
 [0m[[0mdebug[0m] [0m== resolving dependencies user#user_2.11;1.0->org.scala-lang#scala-library;2.11.4 [compile->default(compile)][0m
 [0m[[0minfo[0m] [0mResolving org.scala-lang#scala-library;2.11.4 ...[0m
-[0m[[0mdebug[0m] [0msbt-chain: Checking cache for: sbt.ivyint.MergedDescriptors@513a7b62[0m
+[0m[[0mdebug[0m] [0msbt-chain: Checking cache for: sbt.ivyint.MergedDescriptors@1e24061c[0m
 [0m[[0mdebug[0m] [0msbt-chain: module revision found in cache: org.scala-lang#scala-library;2.11.4[0m
 [0m[[0mdebug[0m] [0m	found org.scala-lang#scala-library;2.11.4 in sbt-chain[0m
 [0m[[0mdebug[0m] [0m	[2.11.4] org.scala-lang#scala-library;2.11.4[0m
@@ -25,6 +25,7 @@
 [0m[[0mdebug[0m] [0m== resolving dependencies utility#utility_2.11;1.0->com.typesafe.akka#akka-actor_2.11;2.3.7 [compile->default(compile)][0m
 [0m[[0minfo[0m] [0mResolving com.typesafe.akka#akka-actor_2.11;2.3.7 ...[0m
 [0m[[0mdebug[0m] [0msbt-chain: Checking cache for: dependency: com.typesafe.akka#akka-actor_2.11;2.3.7 {compile=[default(compile)]}[0m
+[0m[[0mdebug[0m] [0mno default cache defined: set to /home/node3/.ivy2/cache[0m
 [0m[[0mdebug[0m] [0msbt-chain: module revision found in cache: com.typesafe.akka#akka-actor_2.11;2.3.7[0m
 [0m[[0mdebug[0m] [0m	found com.typesafe.akka#akka-actor_2.11;2.3.7 in sbt-chain[0m
 [0m[[0mdebug[0m] [0m== resolving dependencies utility#utility_2.11;1.0->com.typesafe.akka#akka-actor_2.11;2.3.7 [compile->runtime][0m
@@ -57,7 +58,6 @@
 [0m[[0mdebug[0m] [0m== resolving dependencies utility#utility_2.11;1.0->joda-time#joda-time;2.5 [compile->default(compile)][0m
 [0m[[0minfo[0m] [0mResolving joda-time#joda-time;2.5 ...[0m
 [0m[[0mdebug[0m] [0msbt-chain: Checking cache for: dependency: joda-time#joda-time;2.5 {compile=[default(compile)]}[0m
-[0m[[0mdebug[0m] [0mno default cache defined: set to /home/node3/.ivy2/cache[0m
 [0m[[0mdebug[0m] [0msbt-chain: module revision found in cache: joda-time#joda-time;2.5[0m
 [0m[[0mdebug[0m] [0m	found joda-time#joda-time;2.5 in sbt-chain[0m
 [0m[[0mdebug[0m] [0m== resolving dependencies utility#utility_2.11;1.0->joda-time#joda-time;2.5 [compile->runtime][0m
@@ -537,19 +537,19 @@
 [0m[[0mdebug[0m] [0m	[NOT REQUIRED] org.scala-lang#scala-reflect;2.11.4!scala-reflect.jar[0m
 [0m[[0mdebug[0m] [0m	[NOT REQUIRED] org.scala-lang.modules#scala-parser-combinators_2.11;1.0.2!scala-parser-combinators_2.11.jar(bundle)[0m
 [0m[[0mdebug[0m] [0m	[NOT REQUIRED] jline#jline;2.12!jline.jar[0m
-[0m[[0mdebug[0m] [0m:: resolution report :: resolve 704ms :: artifacts dl 24ms[0m
-[0m[[0mdebug[0m] [0m	report for user#user_2.11;1.0 compile produced in /home/node3/workspace/MACRM/user/target/resolution-cache/reports/user-user_2.11-compile.xml[0m
-[0m[[0mdebug[0m] [0m	report for user#user_2.11;1.0 runtime produced in /home/node3/workspace/MACRM/user/target/resolution-cache/reports/user-user_2.11-runtime.xml[0m
-[0m[[0mdebug[0m] [0m	report for user#user_2.11;1.0 test produced in /home/node3/workspace/MACRM/user/target/resolution-cache/reports/user-user_2.11-test.xml[0m
-[0m[[0mdebug[0m] [0m	report for user#user_2.11;1.0 provided produced in /home/node3/workspace/MACRM/user/target/resolution-cache/reports/user-user_2.11-provided.xml[0m
-[0m[[0mdebug[0m] [0m	report for user#user_2.11;1.0 optional produced in /home/node3/workspace/MACRM/user/target/resolution-cache/reports/user-user_2.11-optional.xml[0m
-[0m[[0mdebug[0m] [0m	report for user#user_2.11;1.0 compile-internal produced in /home/node3/workspace/MACRM/user/target/resolution-cache/reports/user-user_2.11-compile-internal.xml[0m
-[0m[[0mdebug[0m] [0m	report for user#user_2.11;1.0 runtime-internal produced in /home/node3/workspace/MACRM/user/target/resolution-cache/reports/user-user_2.11-runtime-internal.xml[0m
-[0m[[0mdebug[0m] [0m	report for user#user_2.11;1.0 test-internal produced in /home/node3/workspace/MACRM/user/target/resolution-cache/reports/user-user_2.11-test-internal.xml[0m
-[0m[[0mdebug[0m] [0m	report for user#user_2.11;1.0 plugin produced in /home/node3/workspace/MACRM/user/target/resolution-cache/reports/user-user_2.11-plugin.xml[0m
-[0m[[0mdebug[0m] [0m	report for user#user_2.11;1.0 sources produced in /home/node3/workspace/MACRM/user/target/resolution-cache/reports/user-user_2.11-sources.xml[0m
-[0m[[0mdebug[0m] [0m	report for user#user_2.11;1.0 docs produced in /home/node3/workspace/MACRM/user/target/resolution-cache/reports/user-user_2.11-docs.xml[0m
-[0m[[0mdebug[0m] [0m	report for user#user_2.11;1.0 pom produced in /home/node3/workspace/MACRM/user/target/resolution-cache/reports/user-user_2.11-pom.xml[0m
-[0m[[0mdebug[0m] [0m	report for user#user_2.11;1.0 scala-tool produced in /home/node3/workspace/MACRM/user/target/resolution-cache/reports/user-user_2.11-scala-tool.xml[0m
-[0m[[0mdebug[0m] [0m	resolve done (704ms resolve - 24ms download)[0m
+[0m[[0mdebug[0m] [0m:: resolution report :: resolve 521ms :: artifacts dl 21ms[0m
+[0m[[0mdebug[0m] [0m	report for user#user_2.11;1.0 compile produced in /home/node3/workspace/copy of MACRM/user/target/resolution-cache/reports/user-user_2.11-compile.xml[0m
+[0m[[0mdebug[0m] [0m	report for user#user_2.11;1.0 runtime produced in /home/node3/workspace/copy of MACRM/user/target/resolution-cache/reports/user-user_2.11-runtime.xml[0m
+[0m[[0mdebug[0m] [0m	report for user#user_2.11;1.0 test produced in /home/node3/workspace/copy of MACRM/user/target/resolution-cache/reports/user-user_2.11-test.xml[0m
+[0m[[0mdebug[0m] [0m	report for user#user_2.11;1.0 provided produced in /home/node3/workspace/copy of MACRM/user/target/resolution-cache/reports/user-user_2.11-provided.xml[0m
+[0m[[0mdebug[0m] [0m	report for user#user_2.11;1.0 optional produced in /home/node3/workspace/copy of MACRM/user/target/resolution-cache/reports/user-user_2.11-optional.xml[0m
+[0m[[0mdebug[0m] [0m	report for user#user_2.11;1.0 compile-internal produced in /home/node3/workspace/copy of MACRM/user/target/resolution-cache/reports/user-user_2.11-compile-internal.xml[0m
+[0m[[0mdebug[0m] [0m	report for user#user_2.11;1.0 runtime-internal produced in /home/node3/workspace/copy of MACRM/user/target/resolution-cache/reports/user-user_2.11-runtime-internal.xml[0m
+[0m[[0mdebug[0m] [0m	report for user#user_2.11;1.0 test-internal produced in /home/node3/workspace/copy of MACRM/user/target/resolution-cache/reports/user-user_2.11-test-internal.xml[0m
+[0m[[0mdebug[0m] [0m	report for user#user_2.11;1.0 plugin produced in /home/node3/workspace/copy of MACRM/user/target/resolution-cache/reports/user-user_2.11-plugin.xml[0m
+[0m[[0mdebug[0m] [0m	report for user#user_2.11;1.0 sources produced in /home/node3/workspace/copy of MACRM/user/target/resolution-cache/reports/user-user_2.11-sources.xml[0m
+[0m[[0mdebug[0m] [0m	report for user#user_2.11;1.0 docs produced in /home/node3/workspace/copy of MACRM/user/target/resolution-cache/reports/user-user_2.11-docs.xml[0m
+[0m[[0mdebug[0m] [0m	report for user#user_2.11;1.0 pom produced in /home/node3/workspace/copy of MACRM/user/target/resolution-cache/reports/user-user_2.11-pom.xml[0m
+[0m[[0mdebug[0m] [0m	report for user#user_2.11;1.0 scala-tool produced in /home/node3/workspace/copy of MACRM/user/target/resolution-cache/reports/user-user_2.11-scala-tool.xml[0m
+[0m[[0mdebug[0m] [0m	resolve done (521ms resolve - 21ms download)[0m
 [0m[[0minfo[0m] [0mDone updating.[0m

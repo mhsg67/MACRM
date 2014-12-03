@@ -1,5 +1,5 @@
 lazy val root = (project in file(".")).
-	aggregate(utility,center,node,user)
+	aggregate(utility,center,finder,node,user)
 
 lazy val utility = project.in(file("utility")).
 	settings(
@@ -52,6 +52,21 @@ lazy val user = project.in(file("user")).dependsOn(utility).
 			"com.typesafe.akka" %% "akka-actor" % "2.3.7",
 			"com.typesafe" % "config" % "1.2.1",
 			"joda-time" % "joda-time" % "2.5", 
-			"org.joda" % "joda-convert" % "1.2"		
+			"org.joda" % "joda-convert" % "1.2",
+			"org.scalatest" % "scalatest_2.11" % "2.2.1" % "test"		
+		)
+)
+
+lazy val finder = project.in(file("finder")).
+	settings(
+		name := "finder",
+		version := "1.0",
+		scalaVersion := "2.11.4",
+		libraryDependencies ++= Seq(
+			"com.typesafe.akka" %% "akka-actor" % "2.3.7",
+			"com.typesafe" % "config" % "1.2.1",
+			"joda-time" % "joda-time" % "2.5",
+			"org.joda" % "joda-convert" % "1.2",
+			"org.scalatest" % "scalatest_2.11" % "2.2.1" % "test"
 		)
 )

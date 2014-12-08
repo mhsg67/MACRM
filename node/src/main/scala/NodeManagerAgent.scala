@@ -1,6 +1,6 @@
 package MACRM.node
 
-import MACRM.utility._
+import ca.usask.agents.macrm.common._
 import akka.actor._
 
 class NodeManagerAgent extends Agent {

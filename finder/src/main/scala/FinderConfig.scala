@@ -1,6 +1,6 @@
 package MACRM.finder
 
-import MACRM.utility._
+import ca.usask.agents.macrm.common._
 import org.joda.time._
 
 /**

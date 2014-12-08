@@ -1,7 +1,7 @@
 package MACRM.finder
 
 import akka.actor._
-import MACRM.utility._
+import ca.usask.agents.macrm.common._
 import org.joda.time._
 import scala.collection.mutable._
 

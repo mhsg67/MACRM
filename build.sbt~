@@ -1,9 +1,8 @@
-lazy val root = (project in file(".")).
-	aggregate(utility,center,finder,node,user)
+lazy val root = (project in file(".")).aggregate(common,center,finder,node,user)
 
-lazy val utility = project.in(file("utility")).
+lazy val macrm-common = project.in(file("macrm-common")).
 	settings(
-		name := "utility",
+		name := "macrm-common",
 		version := "1.0",
 		scalaVersion := "2.11.4",
 		libraryDependencies ++= Seq(
@@ -15,7 +14,7 @@ lazy val utility = project.in(file("utility")).
 		)
 )
 
-lazy val center = project.in(file("center")).dependsOn(utility).
+lazy val center = project.in(file("center")).dependsOn(macrm-common).
 	settings(
 		name := "center",
 		version := "1.0",
@@ -29,7 +28,7 @@ lazy val center = project.in(file("center")).dependsOn(utility).
 		)
 )
 
-lazy val node = project.in(file("node")).dependsOn(utility).
+lazy val node = project.in(file("node")).dependsOn(macrm-common).
 	settings(
 		name := "node",
 		version := "1.0",
@@ -43,7 +42,7 @@ lazy val node = project.in(file("node")).dependsOn(utility).
 		)
 )
 
-lazy val user = project.in(file("user")).dependsOn(utility).
+lazy val user = project.in(file("user")).dependsOn(macrm-common).
 	settings(
 		name := "user",
 		version := "1.0",
@@ -57,7 +56,7 @@ lazy val user = project.in(file("user")).dependsOn(utility).
 		)
 )
 
-lazy val finder = project.in(file("finder")).
+lazy val finder = project.in(file("finder")).dependsOn(macrm-common).
 	settings(
 		name := "finder",
 		version := "1.0",

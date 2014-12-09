@@ -80,3 +80,8 @@ exit
 clean
 compile
 eclipse
+compile
+clean
+compile
+clean
+compile

@@ -6,6 +6,7 @@ import akka.actor._
 
 class ResourceTrackerAgent extends Agent {
     def receive = {
+        case "salam"                                   => println("Salam from node manager")
         case "initiateEvent"                           => Event_initiate()
         case message: Message_GiveClusterState_SAtoCSA => Handle_SchedulingAgent_ClusterStateRequest(message)
         case message: Message_HeartBeat_NMAtoRMA       => Handle_NodeManagerAgent_HeartBeat(message)

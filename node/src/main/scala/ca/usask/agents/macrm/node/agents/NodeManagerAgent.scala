@@ -19,6 +19,8 @@ class NodeManagerAgent extends Agent {
 
     def Event_initiate() = {
         Logger.Log("NodeManagerAgent Initialization")
+        var resourceTracker = context.actorSelection(NodeConfig.getTrackerAddress())
+        resourceTracker ! "salam"
     }
 
     def Event_heartBeat() = {

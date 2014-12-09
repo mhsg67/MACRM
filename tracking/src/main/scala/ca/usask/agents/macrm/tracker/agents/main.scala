@@ -12,7 +12,7 @@ object main extends App {
 
         val system = ActorSystem("ResourceTracker")
         val resourceTracker = system.actorOf(Props[ResourceTrackerAgent], name = "resourceTracker")
-        
+
         resourceTracker ! "initiateEvent"
     }
     catch {

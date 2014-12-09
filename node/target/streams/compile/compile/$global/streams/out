@@ -1,66 +1,39 @@
-[0m[[0mdebug[0m] [0mThe MACRM.utility.Agent source file has the following implicit definitions changed:[0m
-[0m[[0mdebug[0m] [0m	self, context.[0m
-[0m[[0mdebug[0m] [0mAll member reference dependencies will be considered within this context.[0m
-[0m[[0mdebug[0m] [0mFiles invalidated by inheriting from (external) MACRM.utility.Agent: Set(/home/node3/workspace/copy of MACRM/node/src/main/scala/NodeManagerAgent.scala); now invalidating by inheritance (internally).[0m
-[0m[[0mdebug[0m] [0mInvalidating (transitively) by inheritance from /home/node3/workspace/copy of MACRM/node/src/main/scala/NodeManagerAgent.scala...[0m
-[0m[[0mdebug[0m] [0mInitial set of included nodes: Set(/home/node3/workspace/copy of MACRM/node/src/main/scala/NodeManagerAgent.scala)[0m
-[0m[[0mdebug[0m] [0mInvalidated by transitive inheritance dependency: Set(/home/node3/workspace/copy of MACRM/node/src/main/scala/NodeManagerAgent.scala)[0m
-[0m[[0mdebug[0m] [0mGetting direct dependencies of all sources transitively invalidated by inheritance.[0m
-[0m[[0mdebug[0m] [0mGetting sources that directly depend on (external) MACRM.utility.Agent.[0m
-[0m[[0mdebug[0m] [0mThe following member ref dependencies of MACRM.utility.Agent are invalidated:[0m
-[0m[[0mdebug[0m] [0m	/home/node3/workspace/copy of MACRM/node/src/main/scala/NodeManagerAgent.scala[0m
-[0m[[0mdebug[0m] [0mThe MACRM.utility.Message_ResourceRequest_RMAtoNMA source file has the following regular definitions changed:[0m
-[0m[[0mdebug[0m] [0m	notify, _source, listOfResourceRequests, Message_ResourceRequest_RMAtoNMA, source, wait, copy$default$2, $asInstanceOf, Message_ResourceRequest_AMAtoNMA, Message_TakeNextResourceRequest_QAtoSA, Message_ResourceRequestResponse_RMAtoCAorAMA, productArity, SystemMessage, equals, asInstanceOf, synchronized, $isInstanceOf, Message_ResourceRequest_AMAtoRMA, canEqual, Message_HeartBeat_NMAtoRMA, productPrefix, Message_ResourceRequestResponse_NMAtoAMA, notifyAll, Message_TakeClusterState_CSAtoSA, isInstanceOf, BasicSystemMessage, <init>, Message_GiveClusterState_SAtoCSA, ==, clone, Message_GiveNextResourceRequest_SAtoQA, _time, copy$default$3, copy, toString, Message_ResourceRequestResponse_NMAtoRMA, !=, time, getClass, copy$default$1, resourceRequest, ne, eq, productIterator, ##, finalize, productElement, hashCode, Message_ResourceRequest_CAtoRMA.[0m
-[0m[[0mdebug[0m] [0mAll member reference dependencies will be considered within this context.[0m
-[0m[[0mdebug[0m] [0mFiles invalidated by inheriting from (external) MACRM.utility.Message_ResourceRequest_RMAtoNMA: Set(); now invalidating by inheritance (internally).[0m
-[0m[[0mdebug[0m] [0mGetting direct dependencies of all sources transitively invalidated by inheritance.[0m
-[0m[[0mdebug[0m] [0mGetting sources that directly depend on (external) MACRM.utility.Message_ResourceRequest_RMAtoNMA.[0m
-[0m[[0mdebug[0m] [0mThe following modified names cause invalidation of /home/node3/workspace/copy of MACRM/node/src/main/scala/NodeManagerAgent.scala: Set(Message_ResourceRequest_RMAtoNMA, asInstanceOf, isInstanceOf, <init>)[0m
 [0m[[0mdebug[0m] [0m[0m
 [0m[[0mdebug[0m] [0mInitial source changes: [0m
-[0m[[0mdebug[0m] [0m	removed:Set(/home/node3/workspace/copy of MACRM/node/src/main/scala/NodeManagerAgent.scala)[0m
+[0m[[0mdebug[0m] [0m	removed:Set()[0m
 [0m[[0mdebug[0m] [0m	added: Set(/home/node3/workspace/MACRM/node/src/main/scala/NodeManagerAgent.scala)[0m
 [0m[[0mdebug[0m] [0m	modified: Set()[0m
-[0m[[0mdebug[0m] [0mRemoved products: Set(/home/node3/workspace/copy of MACRM/node/target/scala-2.11/classes/MACRM/node/NodeManagerAgent$$anonfun$receive$1.class, /home/node3/workspace/copy of MACRM/node/target/scala-2.11/classes/MACRM/node/NodeManagerAgent.class)[0m
-[0m[[0mdebug[0m] [0mExternal API changes: API Changes: Set(NamesChange(MACRM.utility.Agent,ModifiedNames(regularNames = notify, Receive, wait, $asInstanceOf, equals, asInstanceOf, synchronized, $isInstanceOf, receive, preRestart, aroundReceive, postRestart, postStop, notifyAll, aroundPostRestart, isInstanceOf, aroundPreRestart, aroundPostStop, <init>, preStart, unhandled, ==, clone, Agent, sender, Handle_UnknownMessage, toString, !=, getClass, ne, supervisorStrategy, eq, ##, finalize, hashCode, aroundPreStart, implicitNames = self, context)), NamesChange(MACRM.utility.Message_ResourceRequest_RMAtoNMA,ModifiedNames(regularNames = notify, _source, listOfResourceRequests, Message_ResourceRequest_RMAtoNMA, source, wait, copy$default$2, $asInstanceOf, Message_ResourceRequest_AMAtoNMA, Message_TakeNextResourceRequest_QAtoSA, Message_ResourceRequestResponse_RMAtoCAorAMA, productArity, SystemMessage, equals, asInstanceOf, synchronized, $isInstanceOf, Message_ResourceRequest_AMAtoRMA, canEqual, Message_HeartBeat_NMAtoRMA, productPrefix, Message_ResourceRequestResponse_NMAtoAMA, notifyAll, Message_TakeClusterState_CSAtoSA, isInstanceOf, BasicSystemMessage, <init>, Message_GiveClusterState_SAtoCSA, ==, clone, Message_GiveNextResourceRequest_SAtoQA, _time, copy$default$3, copy, toString, Message_ResourceRequestResponse_NMAtoRMA, !=, time, getClass, copy$default$1, resourceRequest, ne, eq, productIterator, ##, finalize, productElement, hashCode, Message_ResourceRequest_CAtoRMA, implicitNames = )))[0m
+[0m[[0mdebug[0m] [0mRemoved products: Set()[0m
+[0m[[0mdebug[0m] [0mExternal API changes: API Changes: Set()[0m
 [0m[[0mdebug[0m] [0mModified binary dependencies: Set()[0m
-[0m[[0mdebug[0m] [0mInitial directly invalidated sources: Set(/home/node3/workspace/copy of MACRM/node/src/main/scala/NodeManagerAgent.scala, /home/node3/workspace/MACRM/node/src/main/scala/NodeManagerAgent.scala)[0m
+[0m[[0mdebug[0m] [0mInitial directly invalidated sources: Set(/home/node3/workspace/MACRM/node/src/main/scala/NodeManagerAgent.scala)[0m
 [0m[[0mdebug[0m] [0m[0m
 [0m[[0mdebug[0m] [0mSources indirectly invalidated by:[0m
-[0m[[0mdebug[0m] [0m	product: Set(/home/node3/workspace/copy of MACRM/node/src/main/scala/NodeManagerAgent.scala)[0m
+[0m[[0mdebug[0m] [0m	product: Set()[0m
 [0m[[0mdebug[0m] [0m	binary dep: Set()[0m
-[0m[[0mdebug[0m] [0m	external source: Set(/home/node3/workspace/copy of MACRM/node/src/main/scala/NodeManagerAgent.scala)[0m
-[0m[[0mdebug[0m] [0mAll initially invalidated sources: Set(/home/node3/workspace/copy of MACRM/node/src/main/scala/NodeManagerAgent.scala, /home/node3/workspace/MACRM/node/src/main/scala/NodeManagerAgent.scala)[0m
-[0m[[0mdebug[0m] [0mRecompiling all 1 sources: invalidated sources (2) exceeded 50.0% of all sources[0m
+[0m[[0mdebug[0m] [0m	external source: Set()[0m
+[0m[[0mdebug[0m] [0mAll initially invalidated sources: Set(/home/node3/workspace/MACRM/node/src/main/scala/NodeManagerAgent.scala)[0m
+[0m[[0mdebug[0m] [0mRecompiling all 1 sources: invalidated sources (1) exceeded 50.0% of all sources[0m
 [0m[[0minfo[0m] [0mCompiling 1 Scala source to /home/node3/workspace/MACRM/node/target/scala-2.11/classes...[0m
 [0m[[0mdebug[0m] [0mGetting compiler-interface from component compiler for Scala 2.11.4[0m
 [0m[[0mdebug[0m] [0mGetting compiler-interface from component compiler for Scala 2.11.4[0m
-[0m[[0mdebug[0m] [0mRunning cached compiler 58e39d0e, interfacing (CompilerInterface) with Scala compiler version 2.11.4[0m
+[0m[[0mdebug[0m] [0mRunning cached compiler 72a4042f, interfacing (CompilerInterface) with Scala compiler version 2.11.4[0m
 [0m[[0mdebug[0m] [0mCalling Scala compiler with arguments  (CompilerInterface):[0m
 [0m[[0mdebug[0m] [0m	-bootclasspath[0m
 [0m[[0mdebug[0m] [0m	/usr/local/java/jdk1.7.0_65/jre/lib/resources.jar:/usr/local/java/jdk1.7.0_65/jre/lib/rt.jar:/usr/local/java/jdk1.7.0_65/jre/lib/sunrsasign.jar:/usr/local/java/jdk1.7.0_65/jre/lib/jsse.jar:/usr/local/java/jdk1.7.0_65/jre/lib/jce.jar:/usr/local/java/jdk1.7.0_65/jre/lib/charsets.jar:/usr/local/java/jdk1.7.0_65/jre/lib/jfr.jar:/usr/local/java/jdk1.7.0_65/jre/classes:/home/node3/.ivy2/cache/org.scala-lang/scala-library/jars/scala-library-2.11.4.jar[0m
 [0m[[0mdebug[0m] [0m	-classpath[0m
 [0m[[0mdebug[0m] [0m	/home/node3/workspace/MACRM/node/target/scala-2.11/classes:/home/node3/workspace/MACRM/common/target/scala-2.11/classes:/home/node3/.ivy2/cache/com.typesafe.akka/akka-actor_2.11/jars/akka-actor_2.11-2.3.7.jar:/home/node3/.ivy2/cache/com.typesafe/config/bundles/config-1.2.1.jar:/home/node3/.ivy2/cache/joda-time/joda-time/jars/joda-time-2.5.jar:/home/node3/.ivy2/cache/org.joda/joda-convert/jars/joda-convert-1.2.jar[0m
-[0m[[31merror[0m] [0m/home/node3/workspace/MACRM/node/src/main/scala/NodeManagerAgent.scala:3: object utility is not a member of package MACRM[0m
-[0m[[31merror[0m] [0mimport MACRM.utility._[0m
-[0m[[31merror[0m] [0m             ^[0m
-[0m[[31merror[0m] [0m/home/node3/workspace/MACRM/node/src/main/scala/NodeManagerAgent.scala:6: not found: type Agent[0m
-[0m[[31merror[0m] [0mclass NodeManagerAgent extends Agent {[0m
-[0m[[31merror[0m] [0m                               ^[0m
-[0m[[31merror[0m] [0m/home/node3/workspace/MACRM/node/src/main/scala/NodeManagerAgent.scala:8: missing parameter type for expanded function[0m
-[0m[[31merror[0m] [0mThe argument types of an anonymous function must be fully known. (SLS 8.5)[0m
-[0m[[31merror[0m] [0mExpected type was: ?[0m
-[0m[[31merror[0m] [0m        {[0m
-[0m[[31merror[0m] [0m        ^[0m
-[0m[[31merror[0m] [0m/home/node3/workspace/MACRM/node/src/main/scala/NodeManagerAgent.scala:9: not found: type Message_ResourceRequest_RMAtoNMA[0m
-[0m[[31merror[0m] [0m            case message: Message_ResourceRequest_RMAtoNMA => Handle_ResourceManagerAgent_ResourceRequest(message)[0m
-[0m[[31merror[0m] [0m                          ^[0m
-[0m[[31merror[0m] [0m/home/node3/workspace/MACRM/node/src/main/scala/NodeManagerAgent.scala:13: not found: type Message_ResourceRequest_RMAtoNMA[0m
-[0m[[31merror[0m] [0m    def Handle_ResourceManagerAgent_ResourceRequest(message: Message_ResourceRequest_RMAtoNMA) {[0m
-[0m[[31merror[0m] [0m                                                             ^[0m
-[0m[[31merror[0m] [0m/home/node3/workspace/MACRM/node/src/main/scala/NodeManagerAgent.scala:10: not found: value Handle_UnknownMessage[0m
-[0m[[31merror[0m] [0m            case _                                         => Handle_UnknownMessage[0m
-[0m[[31merror[0m] [0m                                                              ^[0m
-[0m[[31merror[0m] [0m6 errors found[0m
-[0m[[0mdebug[0m] [0mCompilation failed (CompilerInterface)[0m
-[0m[[31merror[0m] [0m(node/compile:[31mcompile[0m) Compilation failed[0m
+[0m[[0mdebug[0m] [0mScala compilation took 2.532558273 s[0m
+[0m[[0mdebug[0m] [0mInvalidating /home/node3/workspace/MACRM/node/src/main/scala/NodeManagerAgent.scala...[0m
+[0m[[0mdebug[0m] [0mInvalidating (transitively) by inheritance from /home/node3/workspace/MACRM/node/src/main/scala/NodeManagerAgent.scala...[0m
+[0m[[0mdebug[0m] [0mInitial set of included nodes: Set(/home/node3/workspace/MACRM/node/src/main/scala/NodeManagerAgent.scala)[0m
+[0m[[0mdebug[0m] [0mInvalidated by transitive inheritance dependency: Set(/home/node3/workspace/MACRM/node/src/main/scala/NodeManagerAgent.scala)[0m
+[0m[[0mdebug[0m] [0mThe /home/node3/workspace/MACRM/node/src/main/scala/NodeManagerAgent.scala source file has the following implicit definitions changed:[0m
+[0m[[0mdebug[0m] [0m	self, context.[0m
+[0m[[0mdebug[0m] [0mAll member reference dependencies will be considered within this context.[0m
+[0m[[0mdebug[0m] [0mNew invalidations:[0m
+[0m[[0mdebug[0m] [0m	Set()[0m
+[0m[[0mdebug[0m] [0mInitial set of included nodes: Set()[0m
+[0m[[0mdebug[0m] [0mPreviously invalidated, but (transitively) depend on new invalidations:[0m
+[0m[[0mdebug[0m] [0m	Set()[0m
+[0m[[0mdebug[0m] [0mAll newly invalidated sources after taking into account (previously) recompiled sources:Set()[0m

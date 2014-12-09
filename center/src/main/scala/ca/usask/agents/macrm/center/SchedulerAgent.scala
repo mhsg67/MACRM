@@ -1,6 +1,6 @@
 package ca.usask.agents.macrm.center
 
-import ca.usask.agents.macrm.common._
+import ca.usask.agents.macrm.common.agents._
 
 class SchedulerAgent extends Agent {
     def receive =

@@ -1,129 +1,60 @@
-[0m[[0mdebug[0m] [0mThe MACRM.utility.Message_ResourceRequest_CAtoRMA source file has the following regular definitions changed:[0m
-[0m[[0mdebug[0m] [0m	notify, _source, listOfResourceRequests, Message_ResourceRequest_RMAtoNMA, source, wait, copy$default$2, $asInstanceOf, Message_ResourceRequest_AMAtoNMA, Message_TakeNextResourceRequest_QAtoSA, Message_ResourceRequestResponse_RMAtoCAorAMA, productArity, SystemMessage, equals, asInstanceOf, synchronized, $isInstanceOf, Message_ResourceRequest_AMAtoRMA, canEqual, Message_HeartBeat_NMAtoRMA, productPrefix, Message_ResourceRequestResponse_NMAtoAMA, notifyAll, Message_TakeClusterState_CSAtoSA, isInstanceOf, BasicSystemMessage, <init>, Message_GiveClusterState_SAtoCSA, ==, clone, Message_GiveNextResourceRequest_SAtoQA, _time, copy$default$3, copy, toString, Message_ResourceRequestResponse_NMAtoRMA, !=, time, getClass, copy$default$1, resourceRequest, ne, eq, productIterator, ##, finalize, productElement, hashCode, Message_ResourceRequest_CAtoRMA.[0m
-[0m[[0mdebug[0m] [0mAll member reference dependencies will be considered within this context.[0m
-[0m[[0mdebug[0m] [0mFiles invalidated by inheriting from (external) MACRM.utility.Message_ResourceRequest_CAtoRMA: Set(); now invalidating by inheritance (internally).[0m
-[0m[[0mdebug[0m] [0mGetting direct dependencies of all sources transitively invalidated by inheritance.[0m
-[0m[[0mdebug[0m] [0mGetting sources that directly depend on (external) MACRM.utility.Message_ResourceRequest_CAtoRMA.[0m
-[0m[[0mdebug[0m] [0mThe following modified names cause invalidation of /home/node3/workspace/copy of MACRM/center/src/main/scala/QueueAgent.scala: Set(asInstanceOf, Message_ResourceRequest_AMAtoRMA, isInstanceOf, <init>, Message_GiveNextResourceRequest_SAtoQA, Message_ResourceRequest_CAtoRMA)[0m
-[0m[[0mdebug[0m] [0mThe MACRM.utility.Message_ResourceRequest_AMAtoRMA source file has the following regular definitions changed:[0m
-[0m[[0mdebug[0m] [0m	notify, _source, listOfResourceRequests, Message_ResourceRequest_RMAtoNMA, source, wait, copy$default$2, $asInstanceOf, Message_ResourceRequest_AMAtoNMA, Message_TakeNextResourceRequest_QAtoSA, Message_ResourceRequestResponse_RMAtoCAorAMA, productArity, SystemMessage, equals, asInstanceOf, synchronized, $isInstanceOf, Message_ResourceRequest_AMAtoRMA, canEqual, Message_HeartBeat_NMAtoRMA, productPrefix, Message_ResourceRequestResponse_NMAtoAMA, notifyAll, Message_TakeClusterState_CSAtoSA, isInstanceOf, BasicSystemMessage, <init>, Message_GiveClusterState_SAtoCSA, ==, clone, Message_GiveNextResourceRequest_SAtoQA, _time, copy$default$3, copy, toString, Message_ResourceRequestResponse_NMAtoRMA, !=, time, getClass, copy$default$1, resourceRequest, ne, eq, productIterator, ##, finalize, productElement, hashCode, Message_ResourceRequest_CAtoRMA.[0m
-[0m[[0mdebug[0m] [0mAll member reference dependencies will be considered within this context.[0m
-[0m[[0mdebug[0m] [0mFiles invalidated by inheriting from (external) MACRM.utility.Message_ResourceRequest_AMAtoRMA: Set(); now invalidating by inheritance (internally).[0m
-[0m[[0mdebug[0m] [0mGetting direct dependencies of all sources transitively invalidated by inheritance.[0m
-[0m[[0mdebug[0m] [0mGetting sources that directly depend on (external) MACRM.utility.Message_ResourceRequest_AMAtoRMA.[0m
-[0m[[0mdebug[0m] [0mThe following modified names cause invalidation of /home/node3/workspace/copy of MACRM/center/src/main/scala/QueueAgent.scala: Set(asInstanceOf, Message_ResourceRequest_AMAtoRMA, isInstanceOf, <init>, Message_GiveNextResourceRequest_SAtoQA, Message_ResourceRequest_CAtoRMA)[0m
-[0m[[0mdebug[0m] [0mThe MACRM.utility.Message_TakeNextResourceRequest_QAtoSA source file has the following regular definitions changed:[0m
-[0m[[0mdebug[0m] [0m	notify, _source, listOfResourceRequests, Message_ResourceRequest_RMAtoNMA, source, wait, copy$default$2, $asInstanceOf, Message_ResourceRequest_AMAtoNMA, Message_TakeNextResourceRequest_QAtoSA, Message_ResourceRequestResponse_RMAtoCAorAMA, productArity, SystemMessage, equals, asInstanceOf, synchronized, $isInstanceOf, Message_ResourceRequest_AMAtoRMA, canEqual, Message_HeartBeat_NMAtoRMA, productPrefix, Message_ResourceRequestResponse_NMAtoAMA, notifyAll, Message_TakeClusterState_CSAtoSA, isInstanceOf, BasicSystemMessage, <init>, Message_GiveClusterState_SAtoCSA, ==, clone, Message_GiveNextResourceRequest_SAtoQA, _time, copy$default$3, copy, toString, Message_ResourceRequestResponse_NMAtoRMA, !=, time, getClass, copy$default$1, resourceRequest, ne, eq, productIterator, ##, finalize, productElement, hashCode, Message_ResourceRequest_CAtoRMA.[0m
-[0m[[0mdebug[0m] [0mAll member reference dependencies will be considered within this context.[0m
-[0m[[0mdebug[0m] [0mFiles invalidated by inheriting from (external) MACRM.utility.Message_TakeNextResourceRequest_QAtoSA: Set(); now invalidating by inheritance (internally).[0m
-[0m[[0mdebug[0m] [0mGetting direct dependencies of all sources transitively invalidated by inheritance.[0m
-[0m[[0mdebug[0m] [0mGetting sources that directly depend on (external) MACRM.utility.Message_TakeNextResourceRequest_QAtoSA.[0m
-[0m[[0mdebug[0m] [0mThe following modified names cause invalidation of /home/node3/workspace/copy of MACRM/center/src/main/scala/SchedulerAgent.scala: Set(Message_TakeNextResourceRequest_QAtoSA, asInstanceOf, isInstanceOf, <init>)[0m
-[0m[[0mdebug[0m] [0mThe MACRM.utility.Message_GiveNextResourceRequest_SAtoQA source file has the following regular definitions changed:[0m
-[0m[[0mdebug[0m] [0m	notify, _source, listOfResourceRequests, Message_ResourceRequest_RMAtoNMA, source, wait, copy$default$2, $asInstanceOf, Message_ResourceRequest_AMAtoNMA, Message_TakeNextResourceRequest_QAtoSA, Message_ResourceRequestResponse_RMAtoCAorAMA, productArity, SystemMessage, equals, asInstanceOf, synchronized, $isInstanceOf, Message_ResourceRequest_AMAtoRMA, canEqual, Message_HeartBeat_NMAtoRMA, productPrefix, Message_ResourceRequestResponse_NMAtoAMA, notifyAll, Message_TakeClusterState_CSAtoSA, isInstanceOf, BasicSystemMessage, <init>, Message_GiveClusterState_SAtoCSA, ==, clone, Message_GiveNextResourceRequest_SAtoQA, _time, copy$default$3, copy, toString, Message_ResourceRequestResponse_NMAtoRMA, !=, time, getClass, copy$default$1, resourceRequest, ne, eq, productIterator, ##, finalize, productElement, hashCode, Message_ResourceRequest_CAtoRMA.[0m
-[0m[[0mdebug[0m] [0mAll member reference dependencies will be considered within this context.[0m
-[0m[[0mdebug[0m] [0mFiles invalidated by inheriting from (external) MACRM.utility.Message_GiveNextResourceRequest_SAtoQA: Set(); now invalidating by inheritance (internally).[0m
-[0m[[0mdebug[0m] [0mGetting direct dependencies of all sources transitively invalidated by inheritance.[0m
-[0m[[0mdebug[0m] [0mGetting sources that directly depend on (external) MACRM.utility.Message_GiveNextResourceRequest_SAtoQA.[0m
-[0m[[0mdebug[0m] [0mThe following modified names cause invalidation of /home/node3/workspace/copy of MACRM/center/src/main/scala/QueueAgent.scala: Set(asInstanceOf, Message_ResourceRequest_AMAtoRMA, isInstanceOf, <init>, Message_GiveNextResourceRequest_SAtoQA, Message_ResourceRequest_CAtoRMA)[0m
-[0m[[0mdebug[0m] [0mThe MACRM.utility.Agent source file has the following implicit definitions changed:[0m
-[0m[[0mdebug[0m] [0m	self, context.[0m
-[0m[[0mdebug[0m] [0mAll member reference dependencies will be considered within this context.[0m
-[0m[[0mdebug[0m] [0mFiles invalidated by inheriting from (external) MACRM.utility.Agent: Set(/home/node3/workspace/copy of MACRM/center/src/main/scala/SchedulerAgent.scala, /home/node3/workspace/copy of MACRM/center/src/main/scala/QueueAgent.scala); now invalidating by inheritance (internally).[0m
-[0m[[0mdebug[0m] [0mInvalidating (transitively) by inheritance from /home/node3/workspace/copy of MACRM/center/src/main/scala/SchedulerAgent.scala...[0m
-[0m[[0mdebug[0m] [0mInitial set of included nodes: Set(/home/node3/workspace/copy of MACRM/center/src/main/scala/SchedulerAgent.scala)[0m
-[0m[[0mdebug[0m] [0mInvalidated by transitive inheritance dependency: Set(/home/node3/workspace/copy of MACRM/center/src/main/scala/SchedulerAgent.scala)[0m
-[0m[[0mdebug[0m] [0mInvalidating (transitively) by inheritance from /home/node3/workspace/copy of MACRM/center/src/main/scala/QueueAgent.scala...[0m
-[0m[[0mdebug[0m] [0mInitial set of included nodes: Set(/home/node3/workspace/copy of MACRM/center/src/main/scala/QueueAgent.scala)[0m
-[0m[[0mdebug[0m] [0mInvalidated by transitive inheritance dependency: Set(/home/node3/workspace/copy of MACRM/center/src/main/scala/QueueAgent.scala)[0m
-[0m[[0mdebug[0m] [0mGetting direct dependencies of all sources transitively invalidated by inheritance.[0m
-[0m[[0mdebug[0m] [0mGetting sources that directly depend on (external) MACRM.utility.Agent.[0m
-[0m[[0mdebug[0m] [0mThe following member ref dependencies of MACRM.utility.Agent are invalidated:[0m
-[0m[[0mdebug[0m] [0m	/home/node3/workspace/copy of MACRM/center/src/main/scala/QueueAgent.scala[0m
-[0m[[0mdebug[0m] [0m	/home/node3/workspace/copy of MACRM/center/src/main/scala/SchedulerAgent.scala[0m
 [0m[[0mdebug[0m] [0m[0m
 [0m[[0mdebug[0m] [0mInitial source changes: [0m
-[0m[[0mdebug[0m] [0m	removed:Set(/home/node3/workspace/copy of MACRM/center/src/main/scala/BasicQueue.scala, /home/node3/workspace/copy of MACRM/center/src/main/scala/CenterConfig.scala, /home/node3/workspace/copy of MACRM/center/src/main/scala/QueueAgent.scala, /home/node3/workspace/copy of MACRM/center/src/main/scala/SchedulerAgent.scala)[0m
+[0m[[0mdebug[0m] [0m	removed:Set()[0m
 [0m[[0mdebug[0m] [0m	added: Set(/home/node3/workspace/MACRM/center/src/main/scala/ca/usask/agents/macrm/center/BasicQueue.scala, /home/node3/workspace/MACRM/center/src/main/scala/ca/usask/agents/macrm/center/SchedulerAgent.scala, /home/node3/workspace/MACRM/center/src/main/scala/ca/usask/agents/macrm/center/QueueAgent.scala, /home/node3/workspace/MACRM/center/src/main/scala/ca/usask/agents/macrm/center/CenterConfig.scala)[0m
 [0m[[0mdebug[0m] [0m	modified: Set()[0m
-[0m[[0mdebug[0m] [0mRemoved products: Set(/home/node3/workspace/copy of MACRM/center/target/scala-2.11/classes/MACRM/center/QueueAgent.class, /home/node3/workspace/copy of MACRM/center/target/scala-2.11/classes/MACRM/center/BasicQueue.class, /home/node3/workspace/copy of MACRM/center/target/scala-2.11/classes/MACRM/center/QueueAgent$$anonfun$receive$1.class, /home/node3/workspace/copy of MACRM/center/target/scala-2.11/classes/MACRM/center/SchedulerAgent$$anonfun$receive$1.class, /home/node3/workspace/copy of MACRM/center/target/scala-2.11/classes/MACRM/center/SchedulerAgent.class, /home/node3/workspace/copy of MACRM/center/target/scala-2.11/classes/MACRM/center/CenterConfig.class, /home/node3/workspace/copy of MACRM/center/target/scala-2.11/classes/MACRM/center/BasicQueue$class.class, /home/node3/workspace/copy of MACRM/center/target/scala-2.11/classes/MACRM/center/CenterConfig$.class)[0m
-[0m[[0mdebug[0m] [0mExternal API changes: API Changes: Set(NamesChange(MACRM.utility.Message_ResourceRequest_CAtoRMA,ModifiedNames(regularNames = notify, _source, listOfResourceRequests, Message_ResourceRequest_RMAtoNMA, source, wait, copy$default$2, $asInstanceOf, Message_ResourceRequest_AMAtoNMA, Message_TakeNextResourceRequest_QAtoSA, Message_ResourceRequestResponse_RMAtoCAorAMA, productArity, SystemMessage, equals, asInstanceOf, synchronized, $isInstanceOf, Message_ResourceRequest_AMAtoRMA, canEqual, Message_HeartBeat_NMAtoRMA, productPrefix, Message_ResourceRequestResponse_NMAtoAMA, notifyAll, Message_TakeClusterState_CSAtoSA, isInstanceOf, BasicSystemMessage, <init>, Message_GiveClusterState_SAtoCSA, ==, clone, Message_GiveNextResourceRequest_SAtoQA, _time, copy$default$3, copy, toString, Message_ResourceRequestResponse_NMAtoRMA, !=, time, getClass, copy$default$1, resourceRequest, ne, eq, productIterator, ##, finalize, productElement, hashCode, Message_ResourceRequest_CAtoRMA, implicitNames = )), NamesChange(MACRM.utility.Message_ResourceRequest_AMAtoRMA,ModifiedNames(regularNames = notify, _source, listOfResourceRequests, Message_ResourceRequest_RMAtoNMA, source, wait, copy$default$2, $asInstanceOf, Message_ResourceRequest_AMAtoNMA, Message_TakeNextResourceRequest_QAtoSA, Message_ResourceRequestResponse_RMAtoCAorAMA, productArity, SystemMessage, equals, asInstanceOf, synchronized, $isInstanceOf, Message_ResourceRequest_AMAtoRMA, canEqual, Message_HeartBeat_NMAtoRMA, productPrefix, Message_ResourceRequestResponse_NMAtoAMA, notifyAll, Message_TakeClusterState_CSAtoSA, isInstanceOf, BasicSystemMessage, <init>, Message_GiveClusterState_SAtoCSA, ==, clone, Message_GiveNextResourceRequest_SAtoQA, _time, copy$default$3, copy, toString, Message_ResourceRequestResponse_NMAtoRMA, !=, time, getClass, copy$default$1, resourceRequest, ne, eq, productIterator, ##, finalize, productElement, hashCode, Message_ResourceRequest_CAtoRMA, implicitNames = )), NamesChange(MACRM.utility.Message_TakeNextResourceRequest_QAtoSA,ModifiedNames(regularNames = notify, _source, listOfResourceRequests, Message_ResourceRequest_RMAtoNMA, source, wait, copy$default$2, $asInstanceOf, Message_ResourceRequest_AMAtoNMA, Message_TakeNextResourceRequest_QAtoSA, Message_ResourceRequestResponse_RMAtoCAorAMA, productArity, SystemMessage, equals, asInstanceOf, synchronized, $isInstanceOf, Message_ResourceRequest_AMAtoRMA, canEqual, Message_HeartBeat_NMAtoRMA, productPrefix, Message_ResourceRequestResponse_NMAtoAMA, notifyAll, Message_TakeClusterState_CSAtoSA, isInstanceOf, BasicSystemMessage, <init>, Message_GiveClusterState_SAtoCSA, ==, clone, Message_GiveNextResourceRequest_SAtoQA, _time, copy$default$3, copy, toString, Message_ResourceRequestResponse_NMAtoRMA, !=, time, getClass, copy$default$1, resourceRequest, ne, eq, productIterator, ##, finalize, productElement, hashCode, Message_ResourceRequest_CAtoRMA, implicitNames = )), NamesChange(MACRM.utility.Message_GiveNextResourceRequest_SAtoQA,ModifiedNames(regularNames = notify, _source, listOfResourceRequests, Message_ResourceRequest_RMAtoNMA, source, wait, copy$default$2, $asInstanceOf, Message_ResourceRequest_AMAtoNMA, Message_TakeNextResourceRequest_QAtoSA, Message_ResourceRequestResponse_RMAtoCAorAMA, productArity, SystemMessage, equals, asInstanceOf, synchronized, $isInstanceOf, Message_ResourceRequest_AMAtoRMA, canEqual, Message_HeartBeat_NMAtoRMA, productPrefix, Message_ResourceRequestResponse_NMAtoAMA, notifyAll, Message_TakeClusterState_CSAtoSA, isInstanceOf, BasicSystemMessage, <init>, Message_GiveClusterState_SAtoCSA, ==, clone, Message_GiveNextResourceRequest_SAtoQA, _time, copy$default$3, copy, toString, Message_ResourceRequestResponse_NMAtoRMA, !=, time, getClass, copy$default$1, resourceRequest, ne, eq, productIterator, ##, finalize, productElement, hashCode, Message_ResourceRequest_CAtoRMA, implicitNames = )), NamesChange(MACRM.utility.Agent,ModifiedNames(regularNames = notify, Receive, wait, $asInstanceOf, equals, asInstanceOf, synchronized, $isInstanceOf, receive, preRestart, aroundReceive, postRestart, postStop, notifyAll, aroundPostRestart, isInstanceOf, aroundPreRestart, aroundPostStop, <init>, preStart, unhandled, ==, clone, Agent, sender, Handle_UnknownMessage, toString, !=, getClass, ne, supervisorStrategy, eq, ##, finalize, hashCode, aroundPreStart, implicitNames = self, context)))[0m
+[0m[[0mdebug[0m] [0mRemoved products: Set()[0m
+[0m[[0mdebug[0m] [0mExternal API changes: API Changes: Set()[0m
 [0m[[0mdebug[0m] [0mModified binary dependencies: Set()[0m
-[0m[[0mdebug[0m] [0mInitial directly invalidated sources: Set(/home/node3/workspace/MACRM/center/src/main/scala/ca/usask/agents/macrm/center/CenterConfig.scala, /home/node3/workspace/copy of MACRM/center/src/main/scala/CenterConfig.scala, /home/node3/workspace/MACRM/center/src/main/scala/ca/usask/agents/macrm/center/BasicQueue.scala, /home/node3/workspace/MACRM/center/src/main/scala/ca/usask/agents/macrm/center/QueueAgent.scala, /home/node3/workspace/copy of MACRM/center/src/main/scala/SchedulerAgent.scala, /home/node3/workspace/copy of MACRM/center/src/main/scala/QueueAgent.scala, /home/node3/workspace/copy of MACRM/center/src/main/scala/BasicQueue.scala, /home/node3/workspace/MACRM/center/src/main/scala/ca/usask/agents/macrm/center/SchedulerAgent.scala)[0m
+[0m[[0mdebug[0m] [0mInitial directly invalidated sources: Set(/home/node3/workspace/MACRM/center/src/main/scala/ca/usask/agents/macrm/center/BasicQueue.scala, /home/node3/workspace/MACRM/center/src/main/scala/ca/usask/agents/macrm/center/SchedulerAgent.scala, /home/node3/workspace/MACRM/center/src/main/scala/ca/usask/agents/macrm/center/QueueAgent.scala, /home/node3/workspace/MACRM/center/src/main/scala/ca/usask/agents/macrm/center/CenterConfig.scala)[0m
 [0m[[0mdebug[0m] [0m[0m
 [0m[[0mdebug[0m] [0mSources indirectly invalidated by:[0m
-[0m[[0mdebug[0m] [0m	product: Set(/home/node3/workspace/copy of MACRM/center/src/main/scala/QueueAgent.scala, /home/node3/workspace/copy of MACRM/center/src/main/scala/BasicQueue.scala, /home/node3/workspace/copy of MACRM/center/src/main/scala/SchedulerAgent.scala, /home/node3/workspace/copy of MACRM/center/src/main/scala/CenterConfig.scala)[0m
+[0m[[0mdebug[0m] [0m	product: Set()[0m
 [0m[[0mdebug[0m] [0m	binary dep: Set()[0m
-[0m[[0mdebug[0m] [0m	external source: Set(/home/node3/workspace/copy of MACRM/center/src/main/scala/SchedulerAgent.scala, /home/node3/workspace/copy of MACRM/center/src/main/scala/QueueAgent.scala)[0m
-[0m[[0mdebug[0m] [0mAll initially invalidated sources: Set(/home/node3/workspace/MACRM/center/src/main/scala/ca/usask/agents/macrm/center/CenterConfig.scala, /home/node3/workspace/copy of MACRM/center/src/main/scala/CenterConfig.scala, /home/node3/workspace/MACRM/center/src/main/scala/ca/usask/agents/macrm/center/BasicQueue.scala, /home/node3/workspace/MACRM/center/src/main/scala/ca/usask/agents/macrm/center/QueueAgent.scala, /home/node3/workspace/copy of MACRM/center/src/main/scala/SchedulerAgent.scala, /home/node3/workspace/copy of MACRM/center/src/main/scala/QueueAgent.scala, /home/node3/workspace/copy of MACRM/center/src/main/scala/BasicQueue.scala, /home/node3/workspace/MACRM/center/src/main/scala/ca/usask/agents/macrm/center/SchedulerAgent.scala)[0m
-[0m[[0mdebug[0m] [0mRecompiling all 4 sources: invalidated sources (8) exceeded 50.0% of all sources[0m
+[0m[[0mdebug[0m] [0m	external source: Set()[0m
+[0m[[0mdebug[0m] [0mAll initially invalidated sources: Set(/home/node3/workspace/MACRM/center/src/main/scala/ca/usask/agents/macrm/center/BasicQueue.scala, /home/node3/workspace/MACRM/center/src/main/scala/ca/usask/agents/macrm/center/SchedulerAgent.scala, /home/node3/workspace/MACRM/center/src/main/scala/ca/usask/agents/macrm/center/QueueAgent.scala, /home/node3/workspace/MACRM/center/src/main/scala/ca/usask/agents/macrm/center/CenterConfig.scala)[0m
+[0m[[0mdebug[0m] [0mRecompiling all 4 sources: invalidated sources (4) exceeded 50.0% of all sources[0m
 [0m[[0minfo[0m] [0mCompiling 4 Scala sources to /home/node3/workspace/MACRM/center/target/scala-2.11/classes...[0m
 [0m[[0mdebug[0m] [0mGetting compiler-interface from component compiler for Scala 2.11.4[0m
 [0m[[0mdebug[0m] [0mGetting compiler-interface from component compiler for Scala 2.11.4[0m
-[0m[[0mdebug[0m] [0mRunning cached compiler 26e50fe5, interfacing (CompilerInterface) with Scala compiler version 2.11.4[0m
+[0m[[0mdebug[0m] [0mRunning cached compiler 29dd797c, interfacing (CompilerInterface) with Scala compiler version 2.11.4[0m
 [0m[[0mdebug[0m] [0mCalling Scala compiler with arguments  (CompilerInterface):[0m
 [0m[[0mdebug[0m] [0m	-bootclasspath[0m
 [0m[[0mdebug[0m] [0m	/usr/local/java/jdk1.7.0_65/jre/lib/resources.jar:/usr/local/java/jdk1.7.0_65/jre/lib/rt.jar:/usr/local/java/jdk1.7.0_65/jre/lib/sunrsasign.jar:/usr/local/java/jdk1.7.0_65/jre/lib/jsse.jar:/usr/local/java/jdk1.7.0_65/jre/lib/jce.jar:/usr/local/java/jdk1.7.0_65/jre/lib/charsets.jar:/usr/local/java/jdk1.7.0_65/jre/lib/jfr.jar:/usr/local/java/jdk1.7.0_65/jre/classes:/home/node3/.ivy2/cache/org.scala-lang/scala-library/jars/scala-library-2.11.4.jar[0m
 [0m[[0mdebug[0m] [0m	-classpath[0m
 [0m[[0mdebug[0m] [0m	/home/node3/workspace/MACRM/center/target/scala-2.11/classes:/home/node3/workspace/MACRM/common/target/scala-2.11/classes:/home/node3/.ivy2/cache/com.typesafe.akka/akka-actor_2.11/jars/akka-actor_2.11-2.3.7.jar:/home/node3/.ivy2/cache/com.typesafe/config/bundles/config-1.2.1.jar:/home/node3/.ivy2/cache/joda-time/joda-time/jars/joda-time-2.5.jar:/home/node3/.ivy2/cache/org.joda/joda-convert/jars/joda-convert-1.2.jar[0m
-[0m[[31merror[0m] [0m/home/node3/workspace/MACRM/center/src/main/scala/ca/usask/agents/macrm/center/BasicQueue.scala:3: object utility is not a member of package MACRM[0m
-[0m[[31merror[0m] [0mimport MACRM.utility._[0m
-[0m[[31merror[0m] [0m             ^[0m
-[0m[[31merror[0m] [0m/home/node3/workspace/MACRM/center/src/main/scala/ca/usask/agents/macrm/center/CenterConfig.scala:3: object utility is not a member of package MACRM[0m
-[0m[[31merror[0m] [0mimport MACRM.utility._[0m
-[0m[[31merror[0m] [0m             ^[0m
-[0m[[31merror[0m] [0m/home/node3/workspace/MACRM/center/src/main/scala/ca/usask/agents/macrm/center/QueueAgent.scala:3: object utility is not a member of package MACRM[0m
-[0m[[31merror[0m] [0mimport MACRM.utility._[0m
-[0m[[31merror[0m] [0m             ^[0m
-[0m[[31merror[0m] [0m/home/node3/workspace/MACRM/center/src/main/scala/ca/usask/agents/macrm/center/QueueAgent.scala:7: not found: type Agent[0m
-[0m[[31merror[0m] [0mclass QueueAgent extends Agent {[0m
-[0m[[31merror[0m] [0m                         ^[0m
-[0m[[31merror[0m] [0m/home/node3/workspace/MACRM/center/src/main/scala/ca/usask/agents/macrm/center/QueueAgent.scala:10: missing parameter type for expanded function[0m
-[0m[[31merror[0m] [0mThe argument types of an anonymous function must be fully known. (SLS 8.5)[0m
-[0m[[31merror[0m] [0mExpected type was: ?[0m
-[0m[[31merror[0m] [0m        {[0m
-[0m[[31merror[0m] [0m        ^[0m
-[0m[[31merror[0m] [0m/home/node3/workspace/MACRM/center/src/main/scala/ca/usask/agents/macrm/center/QueueAgent.scala:11: not found: type Message_GiveNextResourceRequest_SAtoQA[0m
-[0m[[31merror[0m] [0m            case message: Message_GiveNextResourceRequest_SAtoQA => HandleSchedulingContainerRequest(message)[0m
-[0m[[31merror[0m] [0m                          ^[0m
-[0m[[31merror[0m] [0m/home/node3/workspace/MACRM/center/src/main/scala/ca/usask/agents/macrm/center/QueueAgent.scala:25: not found: type Message_GiveNextResourceRequest_SAtoQA[0m
-[0m[[31merror[0m] [0m    def HandleSchedulingContainerRequest(message: Message_GiveNextResourceRequest_SAtoQA) {[0m
-[0m[[31merror[0m] [0m                                                  ^[0m
-[0m[[31merror[0m] [0m/home/node3/workspace/MACRM/center/src/main/scala/ca/usask/agents/macrm/center/QueueAgent.scala:12: not found: type Message_ResourceRequest_AMAtoRMA[0m
-[0m[[31merror[0m] [0m            case message: Message_ResourceRequest_AMAtoRMA => Handle_ApplicationMasterAgent_ResourceRequest(message)[0m
-[0m[[31merror[0m] [0m                          ^[0m
-[0m[[31merror[0m] [0m/home/node3/workspace/MACRM/center/src/main/scala/ca/usask/agents/macrm/center/QueueAgent.scala:17: not found: type Message_ResourceRequest_AMAtoRMA[0m
-[0m[[31merror[0m] [0m    def Handle_ApplicationMasterAgent_ResourceRequest(message: Message_ResourceRequest_AMAtoRMA) {[0m
-[0m[[31merror[0m] [0m                                                               ^[0m
-[0m[[31merror[0m] [0m/home/node3/workspace/MACRM/center/src/main/scala/ca/usask/agents/macrm/center/QueueAgent.scala:13: not found: type Message_ResourceRequest_CAtoRMA[0m
-[0m[[31merror[0m] [0m            case message: Message_ResourceRequest_CAtoRMA => Handle_ClientAgent_ResourceRequest(message)[0m
-[0m[[31merror[0m] [0m                          ^[0m
-[0m[[31merror[0m] [0m/home/node3/workspace/MACRM/center/src/main/scala/ca/usask/agents/macrm/center/QueueAgent.scala:21: not found: type Message_ResourceRequest_CAtoRMA[0m
-[0m[[31merror[0m] [0m    def Handle_ClientAgent_ResourceRequest(message: Message_ResourceRequest_CAtoRMA) {[0m
-[0m[[31merror[0m] [0m                                                    ^[0m
-[0m[[31merror[0m] [0m/home/node3/workspace/MACRM/center/src/main/scala/ca/usask/agents/macrm/center/QueueAgent.scala:14: not found: value Handle_UnknownMessage[0m
-[0m[[31merror[0m] [0m            case _ => Handle_UnknownMessage[0m
-[0m[[31merror[0m] [0m                      ^[0m
-[0m[[31merror[0m] [0m/home/node3/workspace/MACRM/center/src/main/scala/ca/usask/agents/macrm/center/SchedulerAgent.scala:3: object utility is not a member of package MACRM[0m
-[0m[[31merror[0m] [0mimport MACRM.utility._[0m
-[0m[[31merror[0m] [0m             ^[0m
-[0m[[31merror[0m] [0m/home/node3/workspace/MACRM/center/src/main/scala/ca/usask/agents/macrm/center/SchedulerAgent.scala:5: not found: type Agent[0m
-[0m[[31merror[0m] [0mclass SchedulerAgent extends Agent {[0m
-[0m[[31merror[0m] [0m                             ^[0m
-[0m[[31merror[0m] [0m/home/node3/workspace/MACRM/center/src/main/scala/ca/usask/agents/macrm/center/SchedulerAgent.scala:7: missing parameter type for expanded function[0m
-[0m[[31merror[0m] [0mThe argument types of an anonymous function must be fully known. (SLS 8.5)[0m
-[0m[[31merror[0m] [0mExpected type was: ?[0m
-[0m[[31merror[0m] [0m        {[0m
-[0m[[31merror[0m] [0m        ^[0m
-[0m[[31merror[0m] [0m/home/node3/workspace/MACRM/center/src/main/scala/ca/usask/agents/macrm/center/SchedulerAgent.scala:8: not found: type Message_TakeNextResourceRequest_QAtoSA[0m
-[0m[[31merror[0m] [0m            case message: Message_TakeNextResourceRequest_QAtoSA => Handle_QueueAgent_ResponsetoNextResourceRequest(message)[0m
-[0m[[31merror[0m] [0m                          ^[0m
-[0m[[31merror[0m] [0m/home/node3/workspace/MACRM/center/src/main/scala/ca/usask/agents/macrm/center/SchedulerAgent.scala:12: not found: type Message_TakeNextResourceRequest_QAtoSA[0m
-[0m[[31merror[0m] [0m    def Handle_QueueAgent_ResponsetoNextResourceRequest(message: Message_TakeNextResourceRequest_QAtoSA) {[0m
-[0m[[31merror[0m] [0m                                                                 ^[0m
-[0m[[31merror[0m] [0m/home/node3/workspace/MACRM/center/src/main/scala/ca/usask/agents/macrm/center/SchedulerAgent.scala:9: not found: value Handle_UnknownMessage[0m
-[0m[[31merror[0m] [0m            case _ => Handle_UnknownMessage[0m
-[0m[[31merror[0m] [0m                      ^[0m
-[0m[[31merror[0m] [0m18 errors found[0m
-[0m[[0mdebug[0m] [0mCompilation failed (CompilerInterface)[0m
-[0m[[31merror[0m] [0m(center/compile:[31mcompile[0m) Compilation failed[0m
+[0m[[0mdebug[0m] [0mScala compilation took 3.911253728 s[0m
+[0m[[0mdebug[0m] [0mInvalidating /home/node3/workspace/MACRM/center/src/main/scala/ca/usask/agents/macrm/center/BasicQueue.scala...[0m
+[0m[[0mdebug[0m] [0mInvalidating (transitively) by inheritance from /home/node3/workspace/MACRM/center/src/main/scala/ca/usask/agents/macrm/center/BasicQueue.scala...[0m
+[0m[[0mdebug[0m] [0mInitial set of included nodes: Set(/home/node3/workspace/MACRM/center/src/main/scala/ca/usask/agents/macrm/center/BasicQueue.scala)[0m
+[0m[[0mdebug[0m] [0mInvalidated by transitive inheritance dependency: Set(/home/node3/workspace/MACRM/center/src/main/scala/ca/usask/agents/macrm/center/BasicQueue.scala)[0m
+[0m[[0mdebug[0m] [0mThe /home/node3/workspace/MACRM/center/src/main/scala/ca/usask/agents/macrm/center/BasicQueue.scala source file has the following regular definitions changed:[0m
+[0m[[0mdebug[0m] [0m	notify, wait, $asInstanceOf, equals, asInstanceOf, synchronized, $isInstanceOf, Enqueue, notifyAll, isInstanceOf, Dequeue, requestQueue, ==, clone, $init$, toString, !=, getClass, ne, BasicQueue, eq, ##, finalize, hashCode.[0m
+[0m[[0mdebug[0m] [0mAll member reference dependencies will be considered within this context.[0m
+[0m[[0mdebug[0m] [0mInvalidating /home/node3/workspace/MACRM/center/src/main/scala/ca/usask/agents/macrm/center/SchedulerAgent.scala...[0m
+[0m[[0mdebug[0m] [0mInvalidating (transitively) by inheritance from /home/node3/workspace/MACRM/center/src/main/scala/ca/usask/agents/macrm/center/SchedulerAgent.scala...[0m
+[0m[[0mdebug[0m] [0mInitial set of included nodes: Set(/home/node3/workspace/MACRM/center/src/main/scala/ca/usask/agents/macrm/center/SchedulerAgent.scala)[0m
+[0m[[0mdebug[0m] [0mInvalidated by transitive inheritance dependency: Set(/home/node3/workspace/MACRM/center/src/main/scala/ca/usask/agents/macrm/center/SchedulerAgent.scala)[0m
+[0m[[0mdebug[0m] [0mThe /home/node3/workspace/MACRM/center/src/main/scala/ca/usask/agents/macrm/center/SchedulerAgent.scala source file has the following implicit definitions changed:[0m
+[0m[[0mdebug[0m] [0m	self, context.[0m
+[0m[[0mdebug[0m] [0mAll member reference dependencies will be considered within this context.[0m
+[0m[[0mdebug[0m] [0mInvalidating /home/node3/workspace/MACRM/center/src/main/scala/ca/usask/agents/macrm/center/QueueAgent.scala...[0m
+[0m[[0mdebug[0m] [0mInvalidating (transitively) by inheritance from /home/node3/workspace/MACRM/center/src/main/scala/ca/usask/agents/macrm/center/QueueAgent.scala...[0m
+[0m[[0mdebug[0m] [0mInitial set of included nodes: Set(/home/node3/workspace/MACRM/center/src/main/scala/ca/usask/agents/macrm/center/QueueAgent.scala)[0m
+[0m[[0mdebug[0m] [0mInvalidated by transitive inheritance dependency: Set(/home/node3/workspace/MACRM/center/src/main/scala/ca/usask/agents/macrm/center/QueueAgent.scala)[0m
+[0m[[0mdebug[0m] [0mThe /home/node3/workspace/MACRM/center/src/main/scala/ca/usask/agents/macrm/center/QueueAgent.scala source file has the following implicit definitions changed:[0m
+[0m[[0mdebug[0m] [0m	self, context.[0m
+[0m[[0mdebug[0m] [0mAll member reference dependencies will be considered within this context.[0m
+[0m[[0mdebug[0m] [0mInvalidating /home/node3/workspace/MACRM/center/src/main/scala/ca/usask/agents/macrm/center/CenterConfig.scala...[0m
+[0m[[0mdebug[0m] [0mInvalidating (transitively) by inheritance from /home/node3/workspace/MACRM/center/src/main/scala/ca/usask/agents/macrm/center/CenterConfig.scala...[0m
+[0m[[0mdebug[0m] [0mInitial set of included nodes: Set(/home/node3/workspace/MACRM/center/src/main/scala/ca/usask/agents/macrm/center/CenterConfig.scala)[0m
+[0m[[0mdebug[0m] [0mInvalidated by transitive inheritance dependency: Set(/home/node3/workspace/MACRM/center/src/main/scala/ca/usask/agents/macrm/center/CenterConfig.scala)[0m
+[0m[[0mdebug[0m] [0mThe /home/node3/workspace/MACRM/center/src/main/scala/ca/usask/agents/macrm/center/CenterConfig.scala source file has the following regular definitions changed:[0m
+[0m[[0mdebug[0m] [0m	notify, wait, $asInstanceOf, equals, asInstanceOf, QueueType, synchronized, $isInstanceOf, notifyAll, isInstanceOf, ==, clone, CenterConfig, toString, !=, getClass, ne, eq, ##, finalize, hashCode.[0m
+[0m[[0mdebug[0m] [0mAll member reference dependencies will be considered within this context.[0m
+[0m[[0mdebug[0m] [0mNew invalidations:[0m
+[0m[[0mdebug[0m] [0m	Set()[0m
+[0m[[0mdebug[0m] [0mInitial set of included nodes: Set()[0m
+[0m[[0mdebug[0m] [0mPreviously invalidated, but (transitively) depend on new invalidations:[0m
+[0m[[0mdebug[0m] [0m	Set()[0m
+[0m[[0mdebug[0m] [0mAll newly invalidated sources after taking into account (previously) recompiled sources:Set()[0m

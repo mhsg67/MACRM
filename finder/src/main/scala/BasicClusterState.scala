@@ -1,11 +1,11 @@
 package MACRM.finder
 
 import akka.actor._
-import ca.usask.agents.macrm.common._
+import ca.usask.agents.macrm.common.records._
 import org.joda.time._
 import scala.collection.mutable._
 
-class BasicClusterStateBlock(var source: ActorRef, var receiveTime: DateTime, var submitTime: DateTime, var node: Node)
+class BasicClusterStateBlock(var source: ActorRef, var receiveTime: DateTime, var submitTime: DateTime, var node: NodeReport)
 
 /*
  * TODO: 
@@ -18,12 +18,12 @@ class BasicClusterStateBlock(var source: ActorRef, var receiveTime: DateTime, va
  */
 object BasicClusterState {
 
-    private var table = Map[String, BasicClusterStateBlock]()
-    private var rackIdToNodesId = Map[String, MutableList[String]]()
+    private var table = Map[NodeId, BasicClusterStateBlock]()
+    private var rackIdToNodesId = Map[String, MutableList[NodeId]]()
 
-    def GetStateOfNode(_nodeId: String): BasicClusterStateBlock = table(_nodeId)
+    def GetStateOfNode(_nodeId: NodeId): BasicClusterStateBlock = table(_nodeId)
 
-    def GetListOfNodeInRack(_rackId: String): MutableList[String] = rackIdToNodesId(_rackId)
+    def GetListOfNodeInRack(_rackId: String): MutableList[NodeId] = rackIdToNodesId(_rackId)
 
     def GetStateOfNodeInRack(_rackId: String): MutableList[BasicClusterStateBlock] = {
         var result = MutableList[BasicClusterStateBlock]()
@@ -31,16 +31,16 @@ object BasicClusterState {
         return result
     }
 
-    def UpdateStateOfNode(_source: ActorRef, _receiveTime: DateTime, _submitTime: DateTime, _node: Node): Unit = {
-        if (!rackIdToNodesId(_node.rack.rackId).contains(_node.nodeId))
-            rackIdToNodesId(_node.rack.rackId) += _node.nodeId
+    def UpdateStateOfNode(_source: ActorRef, _receiveTime: DateTime, _submitTime: DateTime, _node: NodeReport): Unit = {
+        if (!rackIdToNodesId(_node.rackName).contains(_node.nodeId))
+            rackIdToNodesId(_node.rackName) += _node.nodeId
         table(_node.nodeId).source = _source
         table(_node.nodeId).receiveTime = _receiveTime
         table(_node.nodeId).submitTime = _submitTime
         table(_node.nodeId).node = _node
     }
 
-    def IsAvailableNode(_nodeId: String): Boolean = {
+    def IsAvailableNode(_nodeId: NodeId): Boolean = {
         var currentTime = DateTime.now()
         var lastHeartBeatTime = table(_nodeId).submitTime
 

@@ -22,7 +22,7 @@ class NodeManagerAgent extends Agent {
     }
 
     def Event_heartBeat() = {
-
+        Logger.Log("NodeManagerAgent Send Heart Beat")
     }
 
     def Handle_ResourceManagerAgent_ResourceRequest(message: Message_ResourceRequest_RMAtoNMA) = {

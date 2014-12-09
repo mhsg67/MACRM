@@ -1,4 +1,4 @@
-lazy val root = (project in file(".")).aggregate(common,center,finder,node,user)
+lazy val root = (project in file(".")).aggregate(common,center,tracking,node,user)
 
 lazy val common = project.in(file("common")).
 	settings(
@@ -21,6 +21,7 @@ lazy val center = project.in(file("center")).dependsOn(common).
 		scalaVersion := "2.11.4",
 		libraryDependencies ++= Seq(
 			"com.typesafe.akka" %% "akka-actor" % "2.3.7",
+			"com.typesafe.akka" % "akka-remote_2.11" % "2.3.7",
 			"com.typesafe" % "config" % "1.2.1",
 			"joda-time" % "joda-time" % "2.5",
 			"org.joda" % "joda-convert" % "1.2",
@@ -35,6 +36,7 @@ lazy val node = project.in(file("node")).dependsOn(common).
 		scalaVersion := "2.11.4",
 		libraryDependencies ++= Seq(
 			"com.typesafe.akka" %% "akka-actor" % "2.3.7",
+			"com.typesafe.akka" % "akka-remote_2.11" % "2.3.7",
 			"com.typesafe" % "config" % "1.2.1",
 			"joda-time" % "joda-time" % "2.5",
 			"org.joda" % "joda-convert" % "1.2",
@@ -49,6 +51,7 @@ lazy val user = project.in(file("user")).dependsOn(common).
 		scalaVersion := "2.11.4",
 		libraryDependencies ++= Seq(
 			"com.typesafe.akka" %% "akka-actor" % "2.3.7",
+			"com.typesafe.akka" % "akka-remote_2.11" % "2.3.7",
 			"com.typesafe" % "config" % "1.2.1",
 			"joda-time" % "joda-time" % "2.5", 
 			"org.joda" % "joda-convert" % "1.2",
@@ -56,13 +59,14 @@ lazy val user = project.in(file("user")).dependsOn(common).
 		)
 )
 
-lazy val finder = project.in(file("finder")).dependsOn(common).
+lazy val tracking = project.in(file("tracking")).dependsOn(common).
 	settings(
-		name := "finder",
+		name := "tracking",
 		version := "1.0",
 		scalaVersion := "2.11.4",
 		libraryDependencies ++= Seq(
 			"com.typesafe.akka" %% "akka-actor" % "2.3.7",
+			"com.typesafe.akka" % "akka-remote_2.11" % "2.3.7",
 			"com.typesafe" % "config" % "1.2.1",
 			"joda-time" % "joda-time" % "2.5",
 			"org.joda" % "joda-convert" % "1.2",

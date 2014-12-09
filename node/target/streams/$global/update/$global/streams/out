@@ -2,13 +2,12 @@
 [0m[[0mdebug[0m] [0m:: resolving dependencies :: node#node_2.11;1.0[0m
 [0m[[0mdebug[0m] [0m	confs: [compile, runtime, test, provided, optional, compile-internal, runtime-internal, test-internal, plugin, sources, docs, pom, scala-tool][0m
 [0m[[0mdebug[0m] [0m	validate = true[0m
-[0m[[0mdebug[0m] [0mno default cache defined: set to /home/node3/.ivy2/cache[0m
 [0m[[0mdebug[0m] [0m	refresh = false[0m
 [0m[[0mdebug[0m] [0mresolving dependencies for configuration 'compile'[0m
 [0m[[0mdebug[0m] [0m== resolving dependencies for node#node_2.11;1.0 [compile][0m
 [0m[[0mdebug[0m] [0m== resolving dependencies node#node_2.11;1.0->org.scala-lang#scala-library;2.11.4 [compile->default(compile)][0m
 [0m[[0minfo[0m] [0mResolving org.scala-lang#scala-library;2.11.4 ...[0m
-[0m[[0mdebug[0m] [0msbt-chain: Checking cache for: sbt.ivyint.MergedDescriptors@5b328ea7[0m
+[0m[[0mdebug[0m] [0msbt-chain: Checking cache for: sbt.ivyint.MergedDescriptors@75576643[0m
 [0m[[0mdebug[0m] [0msbt-chain: module revision found in cache: org.scala-lang#scala-library;2.11.4[0m
 [0m[[0mdebug[0m] [0m	found org.scala-lang#scala-library;2.11.4 in sbt-chain[0m
 [0m[[0mdebug[0m] [0m	[2.11.4] org.scala-lang#scala-library;2.11.4[0m
@@ -75,6 +74,59 @@
 [0m[[0mdebug[0m] [0m== resolving dependencies node#node_2.11;1.0->com.typesafe.akka#akka-actor_2.11;2.3.7 [compile->runtime][0m
 [0m[[0mdebug[0m] [0m== resolving dependencies node#node_2.11;1.0->com.typesafe.akka#akka-actor_2.11;2.3.7 [compile->compile][0m
 [0m[[0mdebug[0m] [0m== resolving dependencies node#node_2.11;1.0->com.typesafe.akka#akka-actor_2.11;2.3.7 [compile->master][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies node#node_2.11;1.0->com.typesafe.akka#akka-remote_2.11;2.3.7 [compile->default(compile)][0m
+[0m[[0minfo[0m] [0mResolving com.typesafe.akka#akka-remote_2.11;2.3.7 ...[0m
+[0m[[0mdebug[0m] [0msbt-chain: Checking cache for: dependency: com.typesafe.akka#akka-remote_2.11;2.3.7 {compile=[default(compile)]}[0m
+[0m[[0mdebug[0m] [0msbt-chain: module revision found in cache: com.typesafe.akka#akka-remote_2.11;2.3.7[0m
+[0m[[0mdebug[0m] [0m	found com.typesafe.akka#akka-remote_2.11;2.3.7 in sbt-chain[0m
+[0m[[0mdebug[0m] [0m== resolving dependencies node#node_2.11;1.0->com.typesafe.akka#akka-remote_2.11;2.3.7 [compile->runtime][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies node#node_2.11;1.0->com.typesafe.akka#akka-remote_2.11;2.3.7 [compile->compile][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.akka#akka-remote_2.11;2.3.7->org.scala-lang#scala-library;2.11.4 [compile->compile(*)][0m
+[0m[[0mdebug[0m] [0mno default cache defined: set to /home/node3/.ivy2/cache[0m
+[0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.akka#akka-remote_2.11;2.3.7->org.scala-lang#scala-library;2.11.4 [compile->master(compile)][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.akka#akka-remote_2.11;2.3.7->com.typesafe.akka#akka-actor_2.11;2.3.7 [compile->compile(*)][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.akka#akka-remote_2.11;2.3.7->com.typesafe.akka#akka-actor_2.11;2.3.7 [compile->master(compile)][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.akka#akka-remote_2.11;2.3.7->com.typesafe.akka#akka-actor_2.11;2.3.7 [compile->runtime(*)][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.akka#akka-remote_2.11;2.3.7->com.typesafe.akka#akka-actor_2.11;2.3.7 [compile->compile][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.akka#akka-remote_2.11;2.3.7->io.netty#netty;3.8.0.Final [compile->compile(*)][0m
+[0m[[0minfo[0m] [0mResolving io.netty#netty;3.8.0.Final ...[0m
+[0m[[0mdebug[0m] [0msbt-chain: Checking cache for: dependency: io.netty#netty;3.8.0.Final {compile=[compile(*), master(compile)], runtime=[runtime(*)]}[0m
+[0m[[0mdebug[0m] [0msbt-chain: module revision found in cache: io.netty#netty;3.8.0.Final[0m
+[0m[[0mdebug[0m] [0m	found io.netty#netty;3.8.0.Final in sbt-chain[0m
+[0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.akka#akka-remote_2.11;2.3.7->io.netty#netty;3.8.0.Final [compile->master(compile)][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.akka#akka-remote_2.11;2.3.7->io.netty#netty;3.8.0.Final [compile->runtime(*)][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.akka#akka-remote_2.11;2.3.7->io.netty#netty;3.8.0.Final [compile->compile][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.akka#akka-remote_2.11;2.3.7->com.google.protobuf#protobuf-java;2.5.0 [compile->compile(*)][0m
+[0m[[0minfo[0m] [0mResolving com.google.protobuf#protobuf-java;2.5.0 ...[0m
+[0m[[0mdebug[0m] [0msbt-chain: Checking cache for: dependency: com.google.protobuf#protobuf-java;2.5.0 {compile=[compile(*), master(compile)], runtime=[runtime(*)]}[0m
+[0m[[0mdebug[0m] [0msbt-chain: module revision found in cache: com.google.protobuf#protobuf-java;2.5.0[0m
+[0m[[0mdebug[0m] [0m	found com.google.protobuf#protobuf-java;2.5.0 in sbt-chain[0m
+[0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.akka#akka-remote_2.11;2.3.7->com.google.protobuf#protobuf-java;2.5.0 [compile->master(compile)][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.akka#akka-remote_2.11;2.3.7->com.google.protobuf#protobuf-java;2.5.0 [compile->runtime(*)][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.akka#akka-remote_2.11;2.3.7->com.google.protobuf#protobuf-java;2.5.0 [compile->compile][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.akka#akka-remote_2.11;2.3.7->org.uncommons.maths#uncommons-maths;1.2.2a [compile->compile(*)][0m
+[0m[[0minfo[0m] [0mResolving org.uncommons.maths#uncommons-maths;1.2.2a ...[0m
+[0m[[0mdebug[0m] [0msbt-chain: Checking cache for: dependency: org.uncommons.maths#uncommons-maths;1.2.2a {compile=[compile(*), master(compile)], runtime=[runtime(*)]}[0m
+[0m[[0mdebug[0m] [0msbt-chain: module revision found in cache: org.uncommons.maths#uncommons-maths;1.2.2a[0m
+[0m[[0mdebug[0m] [0m	found org.uncommons.maths#uncommons-maths;1.2.2a in sbt-chain[0m
+[0m[[0mdebug[0m] [0mexcluding dependency: jfree#jcommon;1.0.12 {compile=[compile(*), master(compile)], runtime=[runtime(*)]} in compile[0m
+[0m[[0mdebug[0m] [0mexcluding dependency: jfree#jfreechart;1.0.8a {compile=[compile(*), master(compile)], runtime=[runtime(*)]} in compile[0m
+[0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.akka#akka-remote_2.11;2.3.7->org.uncommons.maths#uncommons-maths;1.2.2a [compile->master(compile)][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.akka#akka-remote_2.11;2.3.7->org.uncommons.maths#uncommons-maths;1.2.2a [compile->runtime(*)][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.akka#akka-remote_2.11;2.3.7->org.uncommons.maths#uncommons-maths;1.2.2a [compile->compile][0m
+[0m[[0mdebug[0m] [0mexcluding dependency: jfree#jcommon;1.0.12 {compile=[compile(*), master(compile)], runtime=[runtime(*)]} in runtime[0m
+[0m[[0mdebug[0m] [0mexcluding dependency: jfree#jfreechart;1.0.8a {compile=[compile(*), master(compile)], runtime=[runtime(*)]} in runtime[0m
+[0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.akka#akka-remote_2.11;2.3.7->org.scala-lang#scala-library;2.11.4 [runtime->runtime(*)][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.akka#akka-remote_2.11;2.3.7->org.scala-lang#scala-library;2.11.4 [runtime->compile][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.akka#akka-remote_2.11;2.3.7->com.typesafe.akka#akka-actor_2.11;2.3.7 [runtime->runtime(*)][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.akka#akka-remote_2.11;2.3.7->com.typesafe.akka#akka-actor_2.11;2.3.7 [runtime->compile][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.akka#akka-remote_2.11;2.3.7->io.netty#netty;3.8.0.Final [runtime->runtime(*)][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.akka#akka-remote_2.11;2.3.7->io.netty#netty;3.8.0.Final [runtime->compile][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.akka#akka-remote_2.11;2.3.7->com.google.protobuf#protobuf-java;2.5.0 [runtime->runtime(*)][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.akka#akka-remote_2.11;2.3.7->com.google.protobuf#protobuf-java;2.5.0 [runtime->compile][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.akka#akka-remote_2.11;2.3.7->org.uncommons.maths#uncommons-maths;1.2.2a [runtime->runtime(*)][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.akka#akka-remote_2.11;2.3.7->org.uncommons.maths#uncommons-maths;1.2.2a [runtime->compile][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies node#node_2.11;1.0->com.typesafe.akka#akka-remote_2.11;2.3.7 [compile->master][0m
 [0m[[0mdebug[0m] [0m== resolving dependencies node#node_2.11;1.0->com.typesafe#config;1.2.1 [compile->default(compile)][0m
 [0m[[0mdebug[0m] [0m== resolving dependencies node#node_2.11;1.0->com.typesafe#config;1.2.1 [compile->runtime][0m
 [0m[[0mdebug[0m] [0m== resolving dependencies node#node_2.11;1.0->com.typesafe#config;1.2.1 [compile->compile][0m
@@ -127,6 +179,34 @@
 [0m[[0mdebug[0m] [0m== resolving dependencies node#node_2.11;1.0->com.typesafe.akka#akka-actor_2.11;2.3.7 [compile->runtime][0m
 [0m[[0mdebug[0m] [0m== resolving dependencies node#node_2.11;1.0->com.typesafe.akka#akka-actor_2.11;2.3.7 [compile->compile][0m
 [0m[[0mdebug[0m] [0m== resolving dependencies node#node_2.11;1.0->com.typesafe.akka#akka-actor_2.11;2.3.7 [compile->master][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies node#node_2.11;1.0->com.typesafe.akka#akka-remote_2.11;2.3.7 [compile->default(compile)][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies node#node_2.11;1.0->com.typesafe.akka#akka-remote_2.11;2.3.7 [compile->runtime][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies node#node_2.11;1.0->com.typesafe.akka#akka-remote_2.11;2.3.7 [compile->compile][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.akka#akka-remote_2.11;2.3.7->org.scala-lang#scala-library;2.11.4 [compile->compile(*)][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.akka#akka-remote_2.11;2.3.7->org.scala-lang#scala-library;2.11.4 [compile->master(compile)][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.akka#akka-remote_2.11;2.3.7->com.typesafe.akka#akka-actor_2.11;2.3.7 [compile->compile(*)][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.akka#akka-remote_2.11;2.3.7->com.typesafe.akka#akka-actor_2.11;2.3.7 [compile->master(compile)][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.akka#akka-remote_2.11;2.3.7->io.netty#netty;3.8.0.Final [compile->compile(*)][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.akka#akka-remote_2.11;2.3.7->io.netty#netty;3.8.0.Final [compile->master(compile)][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.akka#akka-remote_2.11;2.3.7->com.google.protobuf#protobuf-java;2.5.0 [compile->compile(*)][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.akka#akka-remote_2.11;2.3.7->com.google.protobuf#protobuf-java;2.5.0 [compile->master(compile)][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.akka#akka-remote_2.11;2.3.7->org.uncommons.maths#uncommons-maths;1.2.2a [compile->compile(*)][0m
+[0m[[0mdebug[0m] [0mexcluding dependency: jfree#jcommon;1.0.12 {compile=[compile(*), master(compile)], runtime=[runtime(*)]} in compile[0m
+[0m[[0mdebug[0m] [0mexcluding dependency: jfree#jfreechart;1.0.8a {compile=[compile(*), master(compile)], runtime=[runtime(*)]} in compile[0m
+[0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.akka#akka-remote_2.11;2.3.7->org.uncommons.maths#uncommons-maths;1.2.2a [compile->master(compile)][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.akka#akka-remote_2.11;2.3.7->org.scala-lang#scala-library;2.11.4 [runtime->runtime(*)][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.akka#akka-remote_2.11;2.3.7->org.scala-lang#scala-library;2.11.4 [runtime->compile][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.akka#akka-remote_2.11;2.3.7->com.typesafe.akka#akka-actor_2.11;2.3.7 [runtime->runtime(*)][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.akka#akka-remote_2.11;2.3.7->com.typesafe.akka#akka-actor_2.11;2.3.7 [runtime->compile][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.akka#akka-remote_2.11;2.3.7->io.netty#netty;3.8.0.Final [runtime->runtime(*)][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.akka#akka-remote_2.11;2.3.7->io.netty#netty;3.8.0.Final [runtime->compile][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.akka#akka-remote_2.11;2.3.7->com.google.protobuf#protobuf-java;2.5.0 [runtime->runtime(*)][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.akka#akka-remote_2.11;2.3.7->com.google.protobuf#protobuf-java;2.5.0 [runtime->compile][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.akka#akka-remote_2.11;2.3.7->org.uncommons.maths#uncommons-maths;1.2.2a [runtime->runtime(*)][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.akka#akka-remote_2.11;2.3.7->org.uncommons.maths#uncommons-maths;1.2.2a [runtime->compile][0m
+[0m[[0mdebug[0m] [0mexcluding dependency: jfree#jcommon;1.0.12 {compile=[compile(*), master(compile)], runtime=[runtime(*)]} in runtime[0m
+[0m[[0mdebug[0m] [0mexcluding dependency: jfree#jfreechart;1.0.8a {compile=[compile(*), master(compile)], runtime=[runtime(*)]} in runtime[0m
+[0m[[0mdebug[0m] [0m== resolving dependencies node#node_2.11;1.0->com.typesafe.akka#akka-remote_2.11;2.3.7 [compile->master][0m
 [0m[[0mdebug[0m] [0m== resolving dependencies node#node_2.11;1.0->com.typesafe#config;1.2.1 [compile->default(compile)][0m
 [0m[[0mdebug[0m] [0m== resolving dependencies node#node_2.11;1.0->com.typesafe#config;1.2.1 [compile->runtime][0m
 [0m[[0mdebug[0m] [0m== resolving dependencies node#node_2.11;1.0->com.typesafe#config;1.2.1 [compile->compile][0m
@@ -180,6 +260,34 @@
 [0m[[0mdebug[0m] [0m== resolving dependencies node#node_2.11;1.0->com.typesafe.akka#akka-actor_2.11;2.3.7 [compile->runtime][0m
 [0m[[0mdebug[0m] [0m== resolving dependencies node#node_2.11;1.0->com.typesafe.akka#akka-actor_2.11;2.3.7 [compile->compile][0m
 [0m[[0mdebug[0m] [0m== resolving dependencies node#node_2.11;1.0->com.typesafe.akka#akka-actor_2.11;2.3.7 [compile->master][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies node#node_2.11;1.0->com.typesafe.akka#akka-remote_2.11;2.3.7 [compile->default(compile)][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies node#node_2.11;1.0->com.typesafe.akka#akka-remote_2.11;2.3.7 [compile->runtime][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies node#node_2.11;1.0->com.typesafe.akka#akka-remote_2.11;2.3.7 [compile->compile][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.akka#akka-remote_2.11;2.3.7->org.scala-lang#scala-library;2.11.4 [compile->compile(*)][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.akka#akka-remote_2.11;2.3.7->org.scala-lang#scala-library;2.11.4 [compile->master(compile)][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.akka#akka-remote_2.11;2.3.7->com.typesafe.akka#akka-actor_2.11;2.3.7 [compile->compile(*)][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.akka#akka-remote_2.11;2.3.7->com.typesafe.akka#akka-actor_2.11;2.3.7 [compile->master(compile)][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.akka#akka-remote_2.11;2.3.7->io.netty#netty;3.8.0.Final [compile->compile(*)][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.akka#akka-remote_2.11;2.3.7->io.netty#netty;3.8.0.Final [compile->master(compile)][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.akka#akka-remote_2.11;2.3.7->com.google.protobuf#protobuf-java;2.5.0 [compile->compile(*)][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.akka#akka-remote_2.11;2.3.7->com.google.protobuf#protobuf-java;2.5.0 [compile->master(compile)][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.akka#akka-remote_2.11;2.3.7->org.uncommons.maths#uncommons-maths;1.2.2a [compile->compile(*)][0m
+[0m[[0mdebug[0m] [0mexcluding dependency: jfree#jcommon;1.0.12 {compile=[compile(*), master(compile)], runtime=[runtime(*)]} in compile[0m
+[0m[[0mdebug[0m] [0mexcluding dependency: jfree#jfreechart;1.0.8a {compile=[compile(*), master(compile)], runtime=[runtime(*)]} in compile[0m
+[0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.akka#akka-remote_2.11;2.3.7->org.uncommons.maths#uncommons-maths;1.2.2a [compile->master(compile)][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.akka#akka-remote_2.11;2.3.7->org.scala-lang#scala-library;2.11.4 [runtime->runtime(*)][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.akka#akka-remote_2.11;2.3.7->org.scala-lang#scala-library;2.11.4 [runtime->compile][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.akka#akka-remote_2.11;2.3.7->com.typesafe.akka#akka-actor_2.11;2.3.7 [runtime->runtime(*)][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.akka#akka-remote_2.11;2.3.7->com.typesafe.akka#akka-actor_2.11;2.3.7 [runtime->compile][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.akka#akka-remote_2.11;2.3.7->io.netty#netty;3.8.0.Final [runtime->runtime(*)][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.akka#akka-remote_2.11;2.3.7->io.netty#netty;3.8.0.Final [runtime->compile][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.akka#akka-remote_2.11;2.3.7->com.google.protobuf#protobuf-java;2.5.0 [runtime->runtime(*)][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.akka#akka-remote_2.11;2.3.7->com.google.protobuf#protobuf-java;2.5.0 [runtime->compile][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.akka#akka-remote_2.11;2.3.7->org.uncommons.maths#uncommons-maths;1.2.2a [runtime->runtime(*)][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.akka#akka-remote_2.11;2.3.7->org.uncommons.maths#uncommons-maths;1.2.2a [runtime->compile][0m
+[0m[[0mdebug[0m] [0mexcluding dependency: jfree#jcommon;1.0.12 {compile=[compile(*), master(compile)], runtime=[runtime(*)]} in runtime[0m
+[0m[[0mdebug[0m] [0mexcluding dependency: jfree#jfreechart;1.0.8a {compile=[compile(*), master(compile)], runtime=[runtime(*)]} in runtime[0m
+[0m[[0mdebug[0m] [0m== resolving dependencies node#node_2.11;1.0->com.typesafe.akka#akka-remote_2.11;2.3.7 [compile->master][0m
 [0m[[0mdebug[0m] [0m== resolving dependencies node#node_2.11;1.0->com.typesafe#config;1.2.1 [compile->default(compile)][0m
 [0m[[0mdebug[0m] [0m== resolving dependencies node#node_2.11;1.0->com.typesafe#config;1.2.1 [compile->runtime][0m
 [0m[[0mdebug[0m] [0m== resolving dependencies node#node_2.11;1.0->com.typesafe#config;1.2.1 [compile->compile][0m
@@ -285,6 +393,34 @@
 [0m[[0mdebug[0m] [0m== resolving dependencies node#node_2.11;1.0->com.typesafe.akka#akka-actor_2.11;2.3.7 [compile->runtime][0m
 [0m[[0mdebug[0m] [0m== resolving dependencies node#node_2.11;1.0->com.typesafe.akka#akka-actor_2.11;2.3.7 [compile->compile][0m
 [0m[[0mdebug[0m] [0m== resolving dependencies node#node_2.11;1.0->com.typesafe.akka#akka-actor_2.11;2.3.7 [compile->master][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies node#node_2.11;1.0->com.typesafe.akka#akka-remote_2.11;2.3.7 [compile->default(compile)][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies node#node_2.11;1.0->com.typesafe.akka#akka-remote_2.11;2.3.7 [compile->runtime][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies node#node_2.11;1.0->com.typesafe.akka#akka-remote_2.11;2.3.7 [compile->compile][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.akka#akka-remote_2.11;2.3.7->org.scala-lang#scala-library;2.11.4 [compile->compile(*)][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.akka#akka-remote_2.11;2.3.7->org.scala-lang#scala-library;2.11.4 [compile->master(compile)][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.akka#akka-remote_2.11;2.3.7->com.typesafe.akka#akka-actor_2.11;2.3.7 [compile->compile(*)][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.akka#akka-remote_2.11;2.3.7->com.typesafe.akka#akka-actor_2.11;2.3.7 [compile->master(compile)][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.akka#akka-remote_2.11;2.3.7->io.netty#netty;3.8.0.Final [compile->compile(*)][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.akka#akka-remote_2.11;2.3.7->io.netty#netty;3.8.0.Final [compile->master(compile)][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.akka#akka-remote_2.11;2.3.7->com.google.protobuf#protobuf-java;2.5.0 [compile->compile(*)][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.akka#akka-remote_2.11;2.3.7->com.google.protobuf#protobuf-java;2.5.0 [compile->master(compile)][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.akka#akka-remote_2.11;2.3.7->org.uncommons.maths#uncommons-maths;1.2.2a [compile->compile(*)][0m
+[0m[[0mdebug[0m] [0mexcluding dependency: jfree#jcommon;1.0.12 {compile=[compile(*), master(compile)], runtime=[runtime(*)]} in compile[0m
+[0m[[0mdebug[0m] [0mexcluding dependency: jfree#jfreechart;1.0.8a {compile=[compile(*), master(compile)], runtime=[runtime(*)]} in compile[0m
+[0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.akka#akka-remote_2.11;2.3.7->org.uncommons.maths#uncommons-maths;1.2.2a [compile->master(compile)][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.akka#akka-remote_2.11;2.3.7->org.scala-lang#scala-library;2.11.4 [runtime->runtime(*)][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.akka#akka-remote_2.11;2.3.7->org.scala-lang#scala-library;2.11.4 [runtime->compile][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.akka#akka-remote_2.11;2.3.7->com.typesafe.akka#akka-actor_2.11;2.3.7 [runtime->runtime(*)][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.akka#akka-remote_2.11;2.3.7->com.typesafe.akka#akka-actor_2.11;2.3.7 [runtime->compile][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.akka#akka-remote_2.11;2.3.7->io.netty#netty;3.8.0.Final [runtime->runtime(*)][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.akka#akka-remote_2.11;2.3.7->io.netty#netty;3.8.0.Final [runtime->compile][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.akka#akka-remote_2.11;2.3.7->com.google.protobuf#protobuf-java;2.5.0 [runtime->runtime(*)][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.akka#akka-remote_2.11;2.3.7->com.google.protobuf#protobuf-java;2.5.0 [runtime->compile][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.akka#akka-remote_2.11;2.3.7->org.uncommons.maths#uncommons-maths;1.2.2a [runtime->runtime(*)][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.akka#akka-remote_2.11;2.3.7->org.uncommons.maths#uncommons-maths;1.2.2a [runtime->compile][0m
+[0m[[0mdebug[0m] [0mexcluding dependency: jfree#jcommon;1.0.12 {compile=[compile(*), master(compile)], runtime=[runtime(*)]} in runtime[0m
+[0m[[0mdebug[0m] [0mexcluding dependency: jfree#jfreechart;1.0.8a {compile=[compile(*), master(compile)], runtime=[runtime(*)]} in runtime[0m
+[0m[[0mdebug[0m] [0m== resolving dependencies node#node_2.11;1.0->com.typesafe.akka#akka-remote_2.11;2.3.7 [compile->master][0m
 [0m[[0mdebug[0m] [0m== resolving dependencies node#node_2.11;1.0->com.typesafe#config;1.2.1 [compile->default(compile)][0m
 [0m[[0mdebug[0m] [0m== resolving dependencies node#node_2.11;1.0->com.typesafe#config;1.2.1 [compile->runtime][0m
 [0m[[0mdebug[0m] [0m== resolving dependencies node#node_2.11;1.0->com.typesafe#config;1.2.1 [compile->compile][0m
@@ -340,6 +476,34 @@
 [0m[[0mdebug[0m] [0m== resolving dependencies node#node_2.11;1.0->com.typesafe.akka#akka-actor_2.11;2.3.7 [compile->runtime][0m
 [0m[[0mdebug[0m] [0m== resolving dependencies node#node_2.11;1.0->com.typesafe.akka#akka-actor_2.11;2.3.7 [compile->compile][0m
 [0m[[0mdebug[0m] [0m== resolving dependencies node#node_2.11;1.0->com.typesafe.akka#akka-actor_2.11;2.3.7 [compile->master][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies node#node_2.11;1.0->com.typesafe.akka#akka-remote_2.11;2.3.7 [compile->default(compile)][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies node#node_2.11;1.0->com.typesafe.akka#akka-remote_2.11;2.3.7 [compile->runtime][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies node#node_2.11;1.0->com.typesafe.akka#akka-remote_2.11;2.3.7 [compile->compile][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.akka#akka-remote_2.11;2.3.7->org.scala-lang#scala-library;2.11.4 [compile->compile(*)][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.akka#akka-remote_2.11;2.3.7->org.scala-lang#scala-library;2.11.4 [compile->master(compile)][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.akka#akka-remote_2.11;2.3.7->com.typesafe.akka#akka-actor_2.11;2.3.7 [compile->compile(*)][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.akka#akka-remote_2.11;2.3.7->com.typesafe.akka#akka-actor_2.11;2.3.7 [compile->master(compile)][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.akka#akka-remote_2.11;2.3.7->io.netty#netty;3.8.0.Final [compile->compile(*)][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.akka#akka-remote_2.11;2.3.7->io.netty#netty;3.8.0.Final [compile->master(compile)][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.akka#akka-remote_2.11;2.3.7->com.google.protobuf#protobuf-java;2.5.0 [compile->compile(*)][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.akka#akka-remote_2.11;2.3.7->com.google.protobuf#protobuf-java;2.5.0 [compile->master(compile)][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.akka#akka-remote_2.11;2.3.7->org.uncommons.maths#uncommons-maths;1.2.2a [compile->compile(*)][0m
+[0m[[0mdebug[0m] [0mexcluding dependency: jfree#jcommon;1.0.12 {compile=[compile(*), master(compile)], runtime=[runtime(*)]} in compile[0m
+[0m[[0mdebug[0m] [0mexcluding dependency: jfree#jfreechart;1.0.8a {compile=[compile(*), master(compile)], runtime=[runtime(*)]} in compile[0m
+[0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.akka#akka-remote_2.11;2.3.7->org.uncommons.maths#uncommons-maths;1.2.2a [compile->master(compile)][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.akka#akka-remote_2.11;2.3.7->org.scala-lang#scala-library;2.11.4 [runtime->runtime(*)][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.akka#akka-remote_2.11;2.3.7->org.scala-lang#scala-library;2.11.4 [runtime->compile][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.akka#akka-remote_2.11;2.3.7->com.typesafe.akka#akka-actor_2.11;2.3.7 [runtime->runtime(*)][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.akka#akka-remote_2.11;2.3.7->com.typesafe.akka#akka-actor_2.11;2.3.7 [runtime->compile][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.akka#akka-remote_2.11;2.3.7->io.netty#netty;3.8.0.Final [runtime->runtime(*)][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.akka#akka-remote_2.11;2.3.7->io.netty#netty;3.8.0.Final [runtime->compile][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.akka#akka-remote_2.11;2.3.7->com.google.protobuf#protobuf-java;2.5.0 [runtime->runtime(*)][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.akka#akka-remote_2.11;2.3.7->com.google.protobuf#protobuf-java;2.5.0 [runtime->compile][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.akka#akka-remote_2.11;2.3.7->org.uncommons.maths#uncommons-maths;1.2.2a [runtime->runtime(*)][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.akka#akka-remote_2.11;2.3.7->org.uncommons.maths#uncommons-maths;1.2.2a [runtime->compile][0m
+[0m[[0mdebug[0m] [0mexcluding dependency: jfree#jcommon;1.0.12 {compile=[compile(*), master(compile)], runtime=[runtime(*)]} in runtime[0m
+[0m[[0mdebug[0m] [0mexcluding dependency: jfree#jfreechart;1.0.8a {compile=[compile(*), master(compile)], runtime=[runtime(*)]} in runtime[0m
+[0m[[0mdebug[0m] [0m== resolving dependencies node#node_2.11;1.0->com.typesafe.akka#akka-remote_2.11;2.3.7 [compile->master][0m
 [0m[[0mdebug[0m] [0m== resolving dependencies node#node_2.11;1.0->com.typesafe#config;1.2.1 [compile->default(compile)][0m
 [0m[[0mdebug[0m] [0m== resolving dependencies node#node_2.11;1.0->com.typesafe#config;1.2.1 [compile->runtime][0m
 [0m[[0mdebug[0m] [0m== resolving dependencies node#node_2.11;1.0->com.typesafe#config;1.2.1 [compile->compile][0m
@@ -395,6 +559,34 @@
 [0m[[0mdebug[0m] [0m== resolving dependencies node#node_2.11;1.0->com.typesafe.akka#akka-actor_2.11;2.3.7 [compile->runtime][0m
 [0m[[0mdebug[0m] [0m== resolving dependencies node#node_2.11;1.0->com.typesafe.akka#akka-actor_2.11;2.3.7 [compile->compile][0m
 [0m[[0mdebug[0m] [0m== resolving dependencies node#node_2.11;1.0->com.typesafe.akka#akka-actor_2.11;2.3.7 [compile->master][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies node#node_2.11;1.0->com.typesafe.akka#akka-remote_2.11;2.3.7 [compile->default(compile)][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies node#node_2.11;1.0->com.typesafe.akka#akka-remote_2.11;2.3.7 [compile->runtime][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies node#node_2.11;1.0->com.typesafe.akka#akka-remote_2.11;2.3.7 [compile->compile][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.akka#akka-remote_2.11;2.3.7->org.scala-lang#scala-library;2.11.4 [compile->compile(*)][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.akka#akka-remote_2.11;2.3.7->org.scala-lang#scala-library;2.11.4 [compile->master(compile)][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.akka#akka-remote_2.11;2.3.7->com.typesafe.akka#akka-actor_2.11;2.3.7 [compile->compile(*)][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.akka#akka-remote_2.11;2.3.7->com.typesafe.akka#akka-actor_2.11;2.3.7 [compile->master(compile)][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.akka#akka-remote_2.11;2.3.7->io.netty#netty;3.8.0.Final [compile->compile(*)][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.akka#akka-remote_2.11;2.3.7->io.netty#netty;3.8.0.Final [compile->master(compile)][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.akka#akka-remote_2.11;2.3.7->com.google.protobuf#protobuf-java;2.5.0 [compile->compile(*)][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.akka#akka-remote_2.11;2.3.7->com.google.protobuf#protobuf-java;2.5.0 [compile->master(compile)][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.akka#akka-remote_2.11;2.3.7->org.uncommons.maths#uncommons-maths;1.2.2a [compile->compile(*)][0m
+[0m[[0mdebug[0m] [0mexcluding dependency: jfree#jcommon;1.0.12 {compile=[compile(*), master(compile)], runtime=[runtime(*)]} in compile[0m
+[0m[[0mdebug[0m] [0mexcluding dependency: jfree#jfreechart;1.0.8a {compile=[compile(*), master(compile)], runtime=[runtime(*)]} in compile[0m
+[0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.akka#akka-remote_2.11;2.3.7->org.uncommons.maths#uncommons-maths;1.2.2a [compile->master(compile)][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.akka#akka-remote_2.11;2.3.7->org.scala-lang#scala-library;2.11.4 [runtime->runtime(*)][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.akka#akka-remote_2.11;2.3.7->org.scala-lang#scala-library;2.11.4 [runtime->compile][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.akka#akka-remote_2.11;2.3.7->com.typesafe.akka#akka-actor_2.11;2.3.7 [runtime->runtime(*)][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.akka#akka-remote_2.11;2.3.7->com.typesafe.akka#akka-actor_2.11;2.3.7 [runtime->compile][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.akka#akka-remote_2.11;2.3.7->io.netty#netty;3.8.0.Final [runtime->runtime(*)][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.akka#akka-remote_2.11;2.3.7->io.netty#netty;3.8.0.Final [runtime->compile][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.akka#akka-remote_2.11;2.3.7->com.google.protobuf#protobuf-java;2.5.0 [runtime->runtime(*)][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.akka#akka-remote_2.11;2.3.7->com.google.protobuf#protobuf-java;2.5.0 [runtime->compile][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.akka#akka-remote_2.11;2.3.7->org.uncommons.maths#uncommons-maths;1.2.2a [runtime->runtime(*)][0m
+[0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.akka#akka-remote_2.11;2.3.7->org.uncommons.maths#uncommons-maths;1.2.2a [runtime->compile][0m
+[0m[[0mdebug[0m] [0mexcluding dependency: jfree#jcommon;1.0.12 {compile=[compile(*), master(compile)], runtime=[runtime(*)]} in runtime[0m
+[0m[[0mdebug[0m] [0mexcluding dependency: jfree#jfreechart;1.0.8a {compile=[compile(*), master(compile)], runtime=[runtime(*)]} in runtime[0m
+[0m[[0mdebug[0m] [0m== resolving dependencies node#node_2.11;1.0->com.typesafe.akka#akka-remote_2.11;2.3.7 [compile->master][0m
 [0m[[0mdebug[0m] [0m== resolving dependencies node#node_2.11;1.0->com.typesafe#config;1.2.1 [compile->default(compile)][0m
 [0m[[0mdebug[0m] [0m== resolving dependencies node#node_2.11;1.0->com.typesafe#config;1.2.1 [compile->runtime][0m
 [0m[[0mdebug[0m] [0m== resolving dependencies node#node_2.11;1.0->com.typesafe#config;1.2.1 [compile->compile][0m
@@ -527,9 +719,13 @@
 [0m[[0mdebug[0m] [0m:: downloading artifacts ::[0m
 [0m[[0mdebug[0m] [0m	[NOT REQUIRED] org.scala-lang#scala-library;2.11.4!scala-library.jar[0m
 [0m[[0mdebug[0m] [0m	[NOT REQUIRED] com.typesafe.akka#akka-actor_2.11;2.3.7!akka-actor_2.11.jar[0m
+[0m[[0mdebug[0m] [0m	[NOT REQUIRED] com.typesafe.akka#akka-remote_2.11;2.3.7!akka-remote_2.11.jar[0m
 [0m[[0mdebug[0m] [0m	[NOT REQUIRED] com.typesafe#config;1.2.1!config.jar(bundle)[0m
 [0m[[0mdebug[0m] [0m	[NOT REQUIRED] joda-time#joda-time;2.5!joda-time.jar[0m
 [0m[[0mdebug[0m] [0m	[NOT REQUIRED] org.joda#joda-convert;1.2!joda-convert.jar[0m
+[0m[[0mdebug[0m] [0m	[NOT REQUIRED] io.netty#netty;3.8.0.Final!netty.jar(bundle)[0m
+[0m[[0mdebug[0m] [0m	[NOT REQUIRED] com.google.protobuf#protobuf-java;2.5.0!protobuf-java.jar(bundle)[0m
+[0m[[0mdebug[0m] [0m	[NOT REQUIRED] org.uncommons.maths#uncommons-maths;1.2.2a!uncommons-maths.jar[0m
 [0m[[0mdebug[0m] [0m	[NOT REQUIRED] org.scalatest#scalatest_2.11;2.2.1!scalatest_2.11.jar(bundle)[0m
 [0m[[0mdebug[0m] [0m	[NOT REQUIRED] org.scala-lang#scala-reflect;2.11.2!scala-reflect.jar[0m
 [0m[[0mdebug[0m] [0m	[NOT REQUIRED] org.scala-lang.modules#scala-xml_2.11;1.0.2!scala-xml_2.11.jar(bundle)[0m
@@ -537,7 +733,7 @@
 [0m[[0mdebug[0m] [0m	[NOT REQUIRED] org.scala-lang#scala-reflect;2.11.4!scala-reflect.jar[0m
 [0m[[0mdebug[0m] [0m	[NOT REQUIRED] org.scala-lang.modules#scala-parser-combinators_2.11;1.0.2!scala-parser-combinators_2.11.jar(bundle)[0m
 [0m[[0mdebug[0m] [0m	[NOT REQUIRED] jline#jline;2.12!jline.jar[0m
-[0m[[0mdebug[0m] [0m:: resolution report :: resolve 183ms :: artifacts dl 10ms[0m
+[0m[[0mdebug[0m] [0m:: resolution report :: resolve 707ms :: artifacts dl 34ms[0m
 [0m[[0mdebug[0m] [0m	report for node#node_2.11;1.0 compile produced in /home/node3/workspace/MACRM/node/target/resolution-cache/reports/node-node_2.11-compile.xml[0m
 [0m[[0mdebug[0m] [0m	report for node#node_2.11;1.0 runtime produced in /home/node3/workspace/MACRM/node/target/resolution-cache/reports/node-node_2.11-runtime.xml[0m
 [0m[[0mdebug[0m] [0m	report for node#node_2.11;1.0 test produced in /home/node3/workspace/MACRM/node/target/resolution-cache/reports/node-node_2.11-test.xml[0m
@@ -551,5 +747,5 @@
 [0m[[0mdebug[0m] [0m	report for node#node_2.11;1.0 docs produced in /home/node3/workspace/MACRM/node/target/resolution-cache/reports/node-node_2.11-docs.xml[0m
 [0m[[0mdebug[0m] [0m	report for node#node_2.11;1.0 pom produced in /home/node3/workspace/MACRM/node/target/resolution-cache/reports/node-node_2.11-pom.xml[0m
 [0m[[0mdebug[0m] [0m	report for node#node_2.11;1.0 scala-tool produced in /home/node3/workspace/MACRM/node/target/resolution-cache/reports/node-node_2.11-scala-tool.xml[0m
-[0m[[0mdebug[0m] [0m	resolve done (183ms resolve - 10ms download)[0m
+[0m[[0mdebug[0m] [0m	resolve done (707ms resolve - 34ms download)[0m
 [0m[[0minfo[0m] [0mDone updating.[0m

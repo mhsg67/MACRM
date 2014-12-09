@@ -70,3 +70,13 @@ eclipse
 compile
 eclipse
 exit
+clean
+compile
+clean
+compile
+eclipse
+clean
+exit
+clean
+compile
+eclipse

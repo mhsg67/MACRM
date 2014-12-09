@@ -4,7 +4,7 @@
 		module="node_2.11"
 		revision="1.0"
 		status="integration"
-		publication="20141209143607"
+		publication="20141209162045"
 	>
 		<description>
 		node
@@ -36,6 +36,7 @@
 		<dependency org="org.scala-lang" name="scala-library" rev="2.11.4" conf="scala-tool->default,optional(default);compile->default(compile)"/>
 		<dependency org="common" name="common_2.11" rev="1.0" conf="compile->default(compile)"/>
 		<dependency org="com.typesafe.akka" name="akka-actor_2.11" rev="2.3.7" conf="compile->default(compile)"/>
+		<dependency org="com.typesafe.akka" name="akka-remote_2.11" rev="2.3.7" conf="compile->default(compile)"/>
 		<dependency org="com.typesafe" name="config" rev="1.2.1" conf="compile->default(compile)"/>
 		<dependency org="joda-time" name="joda-time" rev="2.5" conf="compile->default(compile)"/>
 		<dependency org="org.joda" name="joda-convert" rev="1.2" conf="compile->default(compile)"/>

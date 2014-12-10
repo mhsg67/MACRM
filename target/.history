@@ -147,3 +147,6 @@ tracking/
 tracking/scalaVersion
 tracking/mainClass
 exit
+clean
+compile
+exit

@@ -14,28 +14,28 @@ object NodeConfig {
     }
 
     def getTrackerAddress(): String = {
-        return "akka.tcp://ResourceTracker@" +
+        return "akka.tcp://ResourceTrackerAgent@" +
             trackerIPAddress + ":" +
             trackerDefualtPort + "/" +
-            "user/resourceTracker"
+            "user/ResourceTrackerAgent"
     }
 
     /**
-     * To access resource tracker actor
+     * To access resourceTracker actor
      */
-    var trackerIPAddress = "10.81.4.81"
-    var trackerDefualtPort = "3000"
+    val trackerIPAddress = "127.0.1.1"
+    val trackerDefualtPort = "3000"
 
     /**
      * Based on YARN configuration we set heart beat interval
      * to RM to 1000
      */
-    var heartBeatInterval = 1000 millis
+    val heartBeatInterval = 1000 millis
 
     /**
      * Each node start to send heart beat 3000 millisecond
      * after booting
      */
-    var heartBeatStartDelay = 3000 millis
+    val heartBeatStartDelay = 3000 millis
 
 }

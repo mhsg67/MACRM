@@ -9,6 +9,8 @@ class NodeManagerAgent extends Agent {
     import context.dispatcher;
     val heartBeatEvent = context.system.scheduler.schedule(NodeConfig.heartBeatStartDelay, NodeConfig.heartBeatInterval, self, "heartBeatEvent")
 
+    val resourceTracker = context.actorSelection(NodeConfig.getTrackerAddress())
+    
     def receive = {
         case "initiateEvent"                           => Event_initiate()
         case "heartBeatEvent"                          => Event_heartBeat()
@@ -18,13 +20,13 @@ class NodeManagerAgent extends Agent {
     }
 
     def Event_initiate() = {
-        Logger.Log("NodeManagerAgent Initialization")
-        var resourceTracker = context.actorSelection(NodeConfig.getTrackerAddress())
-        resourceTracker ! "salam"
+        Logger.Log("NodeManagerAgent Initialization")  
     }
 
-    def Event_heartBeat() = {
-        Logger.Log("NodeManagerAgent Send Heart Beat")
+    def Event_heartBeat() = {        
+        /**
+         * TODO: Send Heart Beat to Resource Tracker
+         */
     }
 
     def Handle_ResourceManagerAgent_ResourceRequest(message: Message_ResourceRequest_RMAtoNMA) = {

@@ -2,6 +2,7 @@ package ca.usask.agents.macrm.node.agents
 
 import akka.actor._
 import ca.usask.agents.macrm.node.utils._
+import com.typesafe.config.ConfigFactory
 
 /**
  * It is the starter for node manager; this will create a NodeManagerAgent
@@ -11,8 +12,8 @@ object main extends App {
     try {
         NodeConfig.readConfigurationFile()
 
-        val system = ActorSystem("NodeManager")
-        val nodeManager = system.actorOf(Props[NodeManagerAgent], name = "nodeManager")
+        val system = ActorSystem.create("NodeManagerAgent", ConfigFactory.load().getConfig("NodeManagerAgent"))        
+        val nodeManager = system.actorOf(Props[NodeManagerAgent], name = "NodeManagerAgent")
 
         nodeManager ! "initiateEvent"
     }

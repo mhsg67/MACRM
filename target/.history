@@ -150,3 +150,93 @@ exit
 clean
 compile
 exit
+package
+compile
+package
+exit
+clean
+compile
+package
+tracking/run
+show discoveredMainClasses
+clean
+compile
+package
+tracking/run
+show discoveredMainClasses
+clean
+compile
+package
+show discoveredMainClasses
+run tracking/'
+run tracking/
+run tracking/Main
+tracking/ run 
+man run
+run?
+exit
+tracking/ run
+!:100
+tracking/compile
+exit
+!:200
+clean
+compile
+eclipse
+run tracking/mainClass
+show discoveredMainClasses
+run ca.usask.agents.macrm.tracker.agents.Main
+run user/Main
+run user/
+user/ run
+run user/main
+show discoveredMainClasses
+tracking/run
+node/run
+reload
+clean
+compile
+eclipse
+tracking/run
+node/run
+compile
+node/run
+compile
+node/run
+clean
+compile
+show discoveredMainClasses
+eclipse
+node/run
+tracking/run
+clean
+compile
+eclipse
+tracking/run
+clean
+compile
+tracking/run
+clean
+compile
+eclipse
+compile
+tracking/run
+compile
+clean
+compile
+tracking/run
+compile
+tracking/run
+compile
+tracking/run
+node/run
+compile
+node/run
+compile
+node/run
+compile
+node/run
+clean
+compile
+eclipse
+exit

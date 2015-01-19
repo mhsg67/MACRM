@@ -1,7 +1,7 @@
 
-lazy val common = project.in(file("common")).
+lazy val Common = project.in(file("Common")).
 	settings(
-		name := "common",
+		name := "Common",
 		version := "1.0",
 		scalaVersion := "2.11.4",
 		exportJars := true,
@@ -14,12 +14,13 @@ lazy val common = project.in(file("common")).
 		)
 )
 
-lazy val center = project.in(file("center")).dependsOn(common).
+lazy val ClusterManager = project.in(file("ClusterManager")).dependsOn(Common).
 	settings(
-		name := "center",
+		name := "ClusterManager",
 		version := "1.0",
 		scalaVersion := "2.11.4",
 		exportJars := true,
+		mainClass in (Compile,run):= Some("ca.usask.agents.macrm.clustermanager.agents.main"),
 		libraryDependencies ++= Seq(
 			"com.typesafe.akka" %% "akka-actor" % "2.3.7",
 			"com.typesafe.akka" % "akka-remote_2.11" % "2.3.7",
@@ -30,13 +31,13 @@ lazy val center = project.in(file("center")).dependsOn(common).
 		)
 )
 
-lazy val node = project.in(file("node")).dependsOn(common).
+lazy val NodeManager = project.in(file("NodeManager")).dependsOn(Common).
 	settings(
-		name := "node",
+		name := "NodeManager",
 		version := "1.0",
 		scalaVersion := "2.11.4",
 		exportJars := true,
-		mainClass := Some("ca.usask.agents.macrm.node.agents.main"),
+		mainClass in (Compile,run):= Some("ca.usask.agents.macrm.nodemanager.agents.main"),
 		libraryDependencies ++= Seq(
 			"com.typesafe.akka" %% "akka-actor" % "2.3.7",
 			"com.typesafe.akka" % "akka-remote_2.11" % "2.3.7",
@@ -47,12 +48,13 @@ lazy val node = project.in(file("node")).dependsOn(common).
 		)
 )
 
-lazy val user = project.in(file("user")).dependsOn(common).
+lazy val JobManager = project.in(file("JobManager")).dependsOn(Common).
 	settings(
-		name := "user",
+		name := "JobManager",
 		version := "1.0",
 		scalaVersion := "2.11.4",
 		exportJars := true,
+		mainClass in (Compile,run):= Some("ca.usask.agents.macrm.jobmanager.agents.main"),
 		libraryDependencies ++= Seq(
 			"com.typesafe.akka" %% "akka-actor" % "2.3.7",
 			"com.typesafe.akka" % "akka-remote_2.11" % "2.3.7",
@@ -63,13 +65,13 @@ lazy val user = project.in(file("user")).dependsOn(common).
 		)
 )
 
-lazy val tracking = project.in(file("tracking")).dependsOn(common).
+lazy val ResourceTracker = project.in(file("ResourceTracker")).dependsOn(Common).
 	settings(
-		name := "tracking",
+		name := "ResourceTracker",
 		version := "1.0",
 		scalaVersion := "2.11.4",
 		exportJars := true,
-		mainClass in (Compile,run,packageBin):= Some("ca.usask.agents.macrm.tracker.agents.Main"),
+		mainClass in (Compile,run):= Some("ca.usask.agents.macrm.resourcetracker.agents.Main"),
 		libraryDependencies ++= Seq(
 			"com.typesafe.akka" %% "akka-actor" % "2.3.7",
 			"com.typesafe.akka" % "akka-remote_2.11" % "2.3.7",

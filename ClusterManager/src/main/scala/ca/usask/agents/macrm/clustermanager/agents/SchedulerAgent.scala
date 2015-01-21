@@ -1,15 +1,15 @@
 package ca.usask.agents.macrm.clustermanager.agents
 
+import ca.usask.agents.macrm.clustermanager.utils._
 import ca.usask.agents.macrm.common.agents._
 
 class SchedulerAgent extends Agent {
-    def receive =
-        {
-            case message: Message_TakeNextResourceRequest_QAtoSA => Handle_QueueAgent_ResponsetoNextResourceRequest(message)
-            case _ => Handle_UnknownMessage
-        }
+    def receive = {
+        case "initiateEvent" => Event_initiate()
+        case _               => Handle_UnknownMessage
+    }
 
-    def Handle_QueueAgent_ResponsetoNextResourceRequest(message: Message_TakeNextResourceRequest_QAtoSA) {
-
+    def Event_initiate() = {
+        Logger.Log("ResourceTrackerAgent Initialization")
     }
 }

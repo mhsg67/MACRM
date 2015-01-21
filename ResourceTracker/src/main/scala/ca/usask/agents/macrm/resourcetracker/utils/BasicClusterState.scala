@@ -18,7 +18,14 @@ class BasicClusterStateBlock(var source: ActorRef, var receiveTime: DateTime, va
  *      3.2 
  */
 object BasicClusterState {
-
+    
+    def UpdateClusterState(_source:ActorRef, _receiveTime: DateTime, _nodeReport:NodeReport) = {
+        
+    }
+    
+    /*
+     * old Part
+     */
     private var table = Map[NodeId, BasicClusterStateBlock]()
     private var rackIdToNodesId = Map[String, MutableList[NodeId]]()
 
@@ -45,7 +52,7 @@ object BasicClusterState {
         var currentTime = DateTime.now()
         var lastHeartBeatTime = table(_nodeId).submitTime
 
-        if (currentTime.getMillis() - lastHeartBeatTime.getMillis() > TrackerConfig    .heatbeatTimeOut)
+        if (currentTime.getMillis() - lastHeartBeatTime.getMillis() > ResourceTrakerConfig.heatbeatTimeOut)
             return false
         else
             return true

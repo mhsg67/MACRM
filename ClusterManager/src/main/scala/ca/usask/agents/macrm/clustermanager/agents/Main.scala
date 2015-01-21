@@ -2,20 +2,22 @@ package ca.usask.agents.macrm.clustermanager.agents
 
 import akka.actor._
 import ca.usask.agents.macrm.clustermanager.utils._
+import com.typesafe.config.ConfigFactory
 
 /**
- * It is the starter for Central Resource Manager
+ * It is the starter for ClusterManager
  */
-object main extends App{
-    try
-    {
-         CenterConfig.readConfigurationFile()
-         
-         val system = ActorSystem("ResourceManager")         
-    }
-    catch
-    {
-        case e:Exception => Logger.Error(e.toString())
-    }
+object main extends App {
+    try {
+        ClusterManagerConfig.readConfigurationFile()
 
+        val system = ActorSystem.create("QueueAgent", ConfigFactory.load().getConfig("QueueAgent"))
+        val queueAgent = system.actorOf(Props[QueueAgent], name = "QueueAgent")
+
+        queueAgent ! "initiateEvent"
+
+    }
+    catch {
+        case e: Exception => Logger.Error(e.toString())
+    }
 }

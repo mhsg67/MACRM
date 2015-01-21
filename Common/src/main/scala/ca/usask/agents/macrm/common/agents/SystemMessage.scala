@@ -7,12 +7,14 @@ import org.joda.time.DateTime
 
 import ca.usask.agents.macrm.common.records._
 
-sealed trait BasicMessage
+trait BasicMessage
 
 abstract class SystemMessage(val source: ActorRef, val recieveTime: DateTime)
     extends BasicMessage
 
-/**
+
+    
+ /**
  * from ApplicationMasterAgent(AMA) to ResourceManager:QueueAgent(RMA)
  */
 case class Message_ResourceRequest_AMAtoRMA(_source: ActorRef, _time: DateTime, var listOfResourceRequests: ArrayBuffer[ResourceRequest])

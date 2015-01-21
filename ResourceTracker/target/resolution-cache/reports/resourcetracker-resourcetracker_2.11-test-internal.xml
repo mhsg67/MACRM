@@ -7,7 +7,7 @@
 		revision="1.0"
 		conf="test-internal"
 		confs="compile, runtime, test, provided, optional, compile-internal, runtime-internal, test-internal, plugin, sources, docs, pom, scala-tool"
-		date="20150119154337"/>
+		date="20150120200745"/>
 	<dependencies>
 		<module organisation="com.typesafe.akka" name="akka-remote_2.11">
 			<revision name="2.3.7" status="release" pubdate="20141112040612" resolver="sbt-chain" artresolver="sbt-chain" homepage="http://akka.io/" downloaded="false" searched="false" default="false" conf="default(compile), default, compile, runtime, master" position="6">
@@ -58,7 +58,7 @@
 			</revision>
 		</module>
 		<module organisation="common" name="common_2.11">
-			<revision name="1.0" status="integration" pubdate="20150119154335" resolver="inter-project" artresolver="inter-project" downloaded="false" searched="false" default="false" conf="default(compile), compile" position="1">
+			<revision name="1.0" status="integration" pubdate="20150120200744" resolver="inter-project" artresolver="inter-project" downloaded="false" searched="false" default="false" conf="default(compile), compile" position="1">
 				<metadata-artifact status="failed" details="" size="0" time="0" searched="false"/>
 				<caller organisation="resourcetracker" name="resourcetracker_2.11" conf="test-internal, test, optional, compile, provided, runtime" rev="1.0" rev-constraint-default="1.0" rev-constraint-dynamic="1.0" callerrev="1.0"/>
 				<artifacts>

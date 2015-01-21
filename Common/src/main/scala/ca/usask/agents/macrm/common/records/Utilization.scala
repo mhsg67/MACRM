@@ -1,8 +1,8 @@
 package ca.usask.agents.macrm.common.records
 
-class Utilization(var memoryUtilization: Double = 0.0,
-                  var virtualCoreUtilization: Double = 0.0,
-                  var numberOfContainers: Int = 1)
+class Utilization(val memoryUtilization: Double = 0.0,
+                  val virtualCoreUtilization: Double = 0.0,
+                  val numberOfContainers: Int = 1)
     extends AgentsComaparable[Utilization] {
     override def equal(other: Utilization): Boolean = {
         if (this.memoryUtilization == other.memoryUtilization &&

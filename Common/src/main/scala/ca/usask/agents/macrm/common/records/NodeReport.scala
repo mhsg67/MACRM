@@ -2,11 +2,11 @@ package ca.usask.agents.macrm.common.records
 
 import org.joda.time.DateTime
 
-class NodeReport(var nodeId: NodeId,
-                 var rackName: String,
-                 var used: Resource,
-                 var capability: Resource,
-                 var utilization: Utilization,
-                 var reportTime: DateTime,                 
-                 var nodeState:NodeState.Value,
-                 var nodeQueueState:NodeQueueState) 
+class NodeReport(val nodeId: NodeId,
+                 val rackName: String,
+                 val used: List[(UserId, Resource)], //for each user the total amount of resource that uses
+                 val capability: Resource,
+                 val utilization: Utilization,
+                 val reportTime: DateTime,
+                 val nodeState: NodeState.Value,
+                 val nodeQueueState: NodeQueueState) 

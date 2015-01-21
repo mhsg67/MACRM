@@ -10,9 +10,9 @@ import com.typesafe.config.ConfigFactory
  */
 object main extends App {
     try {
-        NodeConfig.readConfigurationFile()
+        NodeManagerConfig.readConfigurationFile()
 
-        val system = ActorSystem.create("NodeManagerAgent", ConfigFactory.load().getConfig("NodeManagerAgent"))        
+        val system = ActorSystem.create("NodeManagerAgent", ConfigFactory.load().getConfig("NodeManagerAgent"))
         val nodeManager = system.actorOf(Props[NodeManagerAgent], name = "NodeManagerAgent")
 
         nodeManager ! "initiateEvent"

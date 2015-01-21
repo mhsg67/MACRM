@@ -273,3 +273,56 @@ compile
 eclipse
 show discoveredMainClasses
 exit
+compile
+eclipse
+clean
+compile
+eclipse
+clean
+compile
+clean
+compile
+eclipse
+clean
+compile
+eclipse
+exit
+compile
+ClusterManager/run
+show discovered
+show discoveredMainClasses
+JobManager/run
+NodeManager/run
+clean
+compile
+ClusterManager/run
+clean
+compile
+show discoveredMainClasses
+ResourceTracker/run
+JobManager/run
+clean
+compile
+show discoveredMainClasses
+ResourceTracker/run
+reload
+ResourceTracker/run
+compile
+ClusterManager/run
+compile
+ClusterManager/run
+compile
+ClusterManager/run
+compile
+clean
+compile
+eclipse
+exit
+clean
+compile
+clean
+compile
+clean
+compile
+eclipse
+exit

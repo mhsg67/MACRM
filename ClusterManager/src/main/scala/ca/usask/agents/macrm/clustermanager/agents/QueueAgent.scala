@@ -1,28 +1,34 @@
 package ca.usask.agents.macrm.clustermanager.agents
 
+import ca.usask.agents.macrm.clustermanager.utils._
 import ca.usask.agents.macrm.common.agents._
+import com.typesafe.config.ConfigFactory
 import akka.actor._
-import scala.collection.mutable._
 
+/**
+ * TODO: For adaption part which switch to central decision making
+ * create some scheduler actors and forward resource request for allocation to them
+ */
 class QueueAgent extends Agent {
 
-    def receive =
-        {
-            case message: Message_GiveNextResourceRequest_SAtoQA => HandleSchedulingContainerRequest(message)
-            case message: Message_ResourceRequest_AMAtoRMA => Handle_ApplicationMasterAgent_ResourceRequest(message)
-            case message: Message_ResourceRequest_CAtoRMA => Handle_ClientAgent_ResourceRequest(message)
-            case _ => Handle_UnknownMessage
-        }
+    val system = ActorSystem.create("SchedulerAgent", ConfigFactory.load().getConfig("SchedulerAgent"))
 
-    def Handle_ApplicationMasterAgent_ResourceRequest(message: Message_ResourceRequest_AMAtoRMA) {
+    def receive = {
+        case "initiateEvent"                    => Event_initiate()
+        case message: _ServerWithEmptyResources => Handle_ServerWithEmptyResources(message)
+        case message: _EachUserShareOfCluster   => Handle_EachUserShareOfCluster(message)
+        case _                                  => Handle_UnknownMessage
+    }
+
+    def Event_initiate() = {
+        Logger.Log("ResourceTrackerAgent Initialization")        
+    }
+
+    def Handle_ServerWithEmptyResources(message: _ServerWithEmptyResources) {
 
     }
 
-    def Handle_ClientAgent_ResourceRequest(message: Message_ResourceRequest_CAtoRMA) {
-
-    }
-
-    def HandleSchedulingContainerRequest(message: Message_GiveNextResourceRequest_SAtoQA) {
+    def Handle_EachUserShareOfCluster(message: _EachUserShareOfCluster) {
 
     }
 }

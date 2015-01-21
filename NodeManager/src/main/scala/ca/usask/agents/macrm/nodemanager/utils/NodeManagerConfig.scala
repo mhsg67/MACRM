@@ -36,6 +36,6 @@ object NodeManagerConfig {
      * Each node start to send heart beat 3000 millisecond
      * after booting
      */
-    val heartBeatStartDelay = 3000 millis
+    val heartBeatStartDelay = 2000 millis
 
 }

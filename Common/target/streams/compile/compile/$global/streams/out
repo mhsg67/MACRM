@@ -17,13 +17,13 @@
 [0m[[0minfo[0m] [0mCompiling 22 Scala sources to /home/node3/workspace/MACRM/Common/target/scala-2.11/classes...[0m
 [0m[[0mdebug[0m] [0mGetting compiler-interface from component compiler for Scala 2.11.4[0m
 [0m[[0mdebug[0m] [0mGetting compiler-interface from component compiler for Scala 2.11.4[0m
-[0m[[0mdebug[0m] [0mRunning cached compiler 26eea4f8, interfacing (CompilerInterface) with Scala compiler version 2.11.4[0m
+[0m[[0mdebug[0m] [0mRunning cached compiler cc3271d, interfacing (CompilerInterface) with Scala compiler version 2.11.4[0m
 [0m[[0mdebug[0m] [0mCalling Scala compiler with arguments  (CompilerInterface):[0m
 [0m[[0mdebug[0m] [0m	-bootclasspath[0m
 [0m[[0mdebug[0m] [0m	/usr/local/java/jdk1.7.0_65/jre/lib/resources.jar:/usr/local/java/jdk1.7.0_65/jre/lib/rt.jar:/usr/local/java/jdk1.7.0_65/jre/lib/sunrsasign.jar:/usr/local/java/jdk1.7.0_65/jre/lib/jsse.jar:/usr/local/java/jdk1.7.0_65/jre/lib/jce.jar:/usr/local/java/jdk1.7.0_65/jre/lib/charsets.jar:/usr/local/java/jdk1.7.0_65/jre/lib/jfr.jar:/usr/local/java/jdk1.7.0_65/jre/classes:/home/node3/.ivy2/cache/org.scala-lang/scala-library/jars/scala-library-2.11.4.jar[0m
 [0m[[0mdebug[0m] [0m	-classpath[0m
 [0m[[0mdebug[0m] [0m	/home/node3/workspace/MACRM/Common/target/scala-2.11/classes:/home/node3/.ivy2/cache/com.typesafe.akka/akka-actor_2.11/jars/akka-actor_2.11-2.3.7.jar:/home/node3/.ivy2/cache/com.typesafe/config/bundles/config-1.2.1.jar:/home/node3/.ivy2/cache/joda-time/joda-time/jars/joda-time-2.5.jar:/home/node3/.ivy2/cache/org.joda/joda-convert/jars/joda-convert-1.2.jar[0m
-[0m[[0mdebug[0m] [0mScala compilation took 3.822648427 s[0m
+[0m[[0mdebug[0m] [0mScala compilation took 3.395307955 s[0m
 [0m[[0mdebug[0m] [0mNew invalidations:[0m
 [0m[[0mdebug[0m] [0m	Set()[0m
 [0m[[0mdebug[0m] [0mInitial set of included nodes: Set()[0m

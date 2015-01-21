@@ -17,13 +17,13 @@
 [0m[[0minfo[0m] [0mCompiling 6 Scala sources to /home/node3/workspace/MACRM/ClusterManager/target/scala-2.11/classes...[0m
 [0m[[0mdebug[0m] [0mGetting compiler-interface from component compiler for Scala 2.11.4[0m
 [0m[[0mdebug[0m] [0mGetting compiler-interface from component compiler for Scala 2.11.4[0m
-[0m[[0mdebug[0m] [0mRunning cached compiler 52d9fc5d, interfacing (CompilerInterface) with Scala compiler version 2.11.4[0m
+[0m[[0mdebug[0m] [0mRunning cached compiler 6ceb2ae5, interfacing (CompilerInterface) with Scala compiler version 2.11.4[0m
 [0m[[0mdebug[0m] [0mCalling Scala compiler with arguments  (CompilerInterface):[0m
 [0m[[0mdebug[0m] [0m	-bootclasspath[0m
 [0m[[0mdebug[0m] [0m	/usr/local/java/jdk1.7.0_65/jre/lib/resources.jar:/usr/local/java/jdk1.7.0_65/jre/lib/rt.jar:/usr/local/java/jdk1.7.0_65/jre/lib/sunrsasign.jar:/usr/local/java/jdk1.7.0_65/jre/lib/jsse.jar:/usr/local/java/jdk1.7.0_65/jre/lib/jce.jar:/usr/local/java/jdk1.7.0_65/jre/lib/charsets.jar:/usr/local/java/jdk1.7.0_65/jre/lib/jfr.jar:/usr/local/java/jdk1.7.0_65/jre/classes:/home/node3/.ivy2/cache/org.scala-lang/scala-library/jars/scala-library-2.11.4.jar[0m
 [0m[[0mdebug[0m] [0m	-classpath[0m
 [0m[[0mdebug[0m] [0m	/home/node3/workspace/MACRM/ClusterManager/target/scala-2.11/classes:/home/node3/workspace/MACRM/Common/target/scala-2.11/common_2.11-1.0.jar:/home/node3/.ivy2/cache/com.typesafe.akka/akka-actor_2.11/jars/akka-actor_2.11-2.3.7.jar:/home/node3/.ivy2/cache/com.typesafe/config/bundles/config-1.2.1.jar:/home/node3/.ivy2/cache/joda-time/joda-time/jars/joda-time-2.5.jar:/home/node3/.ivy2/cache/org.joda/joda-convert/jars/joda-convert-1.2.jar:/home/node3/.ivy2/cache/com.typesafe.akka/akka-remote_2.11/jars/akka-remote_2.11-2.3.7.jar:/home/node3/.ivy2/cache/io.netty/netty/bundles/netty-3.8.0.Final.jar:/home/node3/.ivy2/cache/com.google.protobuf/protobuf-java/bundles/protobuf-java-2.5.0.jar:/home/node3/.ivy2/cache/org.uncommons.maths/uncommons-maths/jars/uncommons-maths-1.2.2a.jar[0m
-[0m[[0mdebug[0m] [0mScala compilation took 1.667920318 s[0m
+[0m[[0mdebug[0m] [0mScala compilation took 1.447241606 s[0m
 [0m[[0mdebug[0m] [0mNew invalidations:[0m
 [0m[[0mdebug[0m] [0m	Set()[0m
 [0m[[0mdebug[0m] [0mInitial set of included nodes: Set()[0m

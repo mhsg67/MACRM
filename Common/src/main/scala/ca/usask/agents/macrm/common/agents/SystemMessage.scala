@@ -9,11 +9,15 @@ import ca.usask.agents.macrm.common.records._
 
 trait BasicMessage
 
+/**
+ * These are basic message that each agent (RM,RT,NM,JB) use internally 
+ */
+case class _Resource(val _resource: Resource) extends BasicMessage
+
+
+
 abstract class SystemMessage(val source: ActorRef, val recieveTime: DateTime)
-    extends BasicMessage
-
-
-    
+    extends BasicMessage    
  /**
  * from ApplicationMasterAgent(AMA) to ResourceManager:QueueAgent(RMA)
  */

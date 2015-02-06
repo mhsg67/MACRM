@@ -14,4 +14,6 @@ object RealServerState extends ServerState {
     def getServerStatus(_nodeManager: ActorRef, _nodeQueueState: NodeQueueState) = null
 
     def getServerCapability(): Resource = null
+    
+    def getServerAvailableResources(): Resource = null
 }

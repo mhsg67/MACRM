@@ -26,6 +26,8 @@
 [0m[[0mdebug[0m] [0m	  /home/node3/workspace/MACRM/Common/target/scala-2.11/classes/ca/usask/agents/macrm/common/agents/Message_GiveNextResourceRequest_SAtoQA$.class[0m
 [0m[[0mdebug[0m] [0m	ca/usask/agents/macrm/common/agents/Message_ResourceRequestResponse_RMAtoCAorAMA$.class[0m
 [0m[[0mdebug[0m] [0m	  /home/node3/workspace/MACRM/Common/target/scala-2.11/classes/ca/usask/agents/macrm/common/agents/Message_ResourceRequestResponse_RMAtoCAorAMA$.class[0m
+[0m[[0mdebug[0m] [0m	ca/usask/agents/macrm/common/agents/_Resource.class[0m
+[0m[[0mdebug[0m] [0m	  /home/node3/workspace/MACRM/Common/target/scala-2.11/classes/ca/usask/agents/macrm/common/agents/_Resource.class[0m
 [0m[[0mdebug[0m] [0m	ca/usask/agents/macrm/common/agents/_ServerWithEmptyResources$.class[0m
 [0m[[0mdebug[0m] [0m	  /home/node3/workspace/MACRM/Common/target/scala-2.11/classes/ca/usask/agents/macrm/common/agents/_ServerWithEmptyResources$.class[0m
 [0m[[0mdebug[0m] [0m	ca/usask/agents/macrm/common/agents/_ClusterStateRespond.class[0m
@@ -38,6 +40,8 @@
 [0m[[0mdebug[0m] [0m	  /home/node3/workspace/MACRM/Common/target/scala-2.11/classes/ca/usask/agents/macrm/common/agents/ScriptRunner$.class[0m
 [0m[[0mdebug[0m] [0m	ca/usask/agents/macrm/common/records/ContainerId$.class[0m
 [0m[[0mdebug[0m] [0m	  /home/node3/workspace/MACRM/Common/target/scala-2.11/classes/ca/usask/agents/macrm/common/records/ContainerId$.class[0m
+[0m[[0mdebug[0m] [0m	ca/usask/agents/macrm/common/agents/_Resource$.class[0m
+[0m[[0mdebug[0m] [0m	  /home/node3/workspace/MACRM/Common/target/scala-2.11/classes/ca/usask/agents/macrm/common/agents/_Resource$.class[0m
 [0m[[0mdebug[0m] [0m	ca/usask/agents/macrm/common/records/NodeState.class[0m
 [0m[[0mdebug[0m] [0m	  /home/node3/workspace/MACRM/Common/target/scala-2.11/classes/ca/usask/agents/macrm/common/records/NodeState.class[0m
 [0m[[0mdebug[0m] [0m	ca/usask/agents/macrm/common/records/NodeQueueState$.class[0m
@@ -54,10 +58,16 @@
 [0m[[0mdebug[0m] [0m	  /home/node3/workspace/MACRM/Common/target/scala-2.11/classes/ca/usask/agents/macrm/common/records/ResourceRequest.class[0m
 [0m[[0mdebug[0m] [0m	ca/usask/agents/macrm/common/records/ChangeResourceRequest$.class[0m
 [0m[[0mdebug[0m] [0m	  /home/node3/workspace/MACRM/Common/target/scala-2.11/classes/ca/usask/agents/macrm/common/records/ChangeResourceRequest$.class[0m
+[0m[[0mdebug[0m] [0m	ca/usask/agents/macrm/common/agents/_ResourceSamplingResponse$.class[0m
+[0m[[0mdebug[0m] [0m	  /home/node3/workspace/MACRM/Common/target/scala-2.11/classes/ca/usask/agents/macrm/common/agents/_ResourceSamplingResponse$.class[0m
 [0m[[0mdebug[0m] [0m	ca/usask/agents/macrm/common/records[0m
 [0m[[0mdebug[0m] [0m	  /home/node3/workspace/MACRM/Common/target/scala-2.11/classes/ca/usask/agents/macrm/common/records[0m
 [0m[[0mdebug[0m] [0m	ca/usask/agents/macrm/common/agents/BasicMessage.class[0m
 [0m[[0mdebug[0m] [0m	  /home/node3/workspace/MACRM/Common/target/scala-2.11/classes/ca/usask/agents/macrm/common/agents/BasicMessage.class[0m
+[0m[[0mdebug[0m] [0m	ca/usask/agents/macrm/common/agents/_ResourceSamplingCancel.class[0m
+[0m[[0mdebug[0m] [0m	  /home/node3/workspace/MACRM/Common/target/scala-2.11/classes/ca/usask/agents/macrm/common/agents/_ResourceSamplingCancel.class[0m
+[0m[[0mdebug[0m] [0m	ca/usask/agents/macrm/common/agents/_ResourceSamplingResponse.class[0m
+[0m[[0mdebug[0m] [0m	  /home/node3/workspace/MACRM/Common/target/scala-2.11/classes/ca/usask/agents/macrm/common/agents/_ResourceSamplingResponse.class[0m
 [0m[[0mdebug[0m] [0m	ca/usask/agents/macrm/common/records/NodeState$.class[0m
 [0m[[0mdebug[0m] [0m	  /home/node3/workspace/MACRM/Common/target/scala-2.11/classes/ca/usask/agents/macrm/common/records/NodeState$.class[0m
 [0m[[0mdebug[0m] [0m	ca/usask/agents/macrm/common/agents/_EachUserShareOfCluster.class[0m
@@ -118,6 +128,8 @@
 [0m[[0mdebug[0m] [0m	  /home/node3/workspace/MACRM/Common/target/scala-2.11/classes/ca/usask/agents/macrm/common/agents/Message_GiveClusterState_SAtoCSA$.class[0m
 [0m[[0mdebug[0m] [0m	ca/usask/agents/macrm/common/agents/Message_TakeClusterState_CSAtoSA.class[0m
 [0m[[0mdebug[0m] [0m	  /home/node3/workspace/MACRM/Common/target/scala-2.11/classes/ca/usask/agents/macrm/common/agents/Message_TakeClusterState_CSAtoSA.class[0m
+[0m[[0mdebug[0m] [0m	ca/usask/agents/macrm/common/agents/_ResourceSamplingInquiry$.class[0m
+[0m[[0mdebug[0m] [0m	  /home/node3/workspace/MACRM/Common/target/scala-2.11/classes/ca/usask/agents/macrm/common/agents/_ResourceSamplingInquiry$.class[0m
 [0m[[0mdebug[0m] [0m	ca/usask/agents/macrm/common/records/UserId.class[0m
 [0m[[0mdebug[0m] [0m	  /home/node3/workspace/MACRM/Common/target/scala-2.11/classes/ca/usask/agents/macrm/common/records/UserId.class[0m
 [0m[[0mdebug[0m] [0m	ca/usask/agents/macrm/common/records/NodeId$.class[0m
@@ -140,6 +152,8 @@
 [0m[[0mdebug[0m] [0m	  /home/node3/workspace/MACRM/Common/target/scala-2.11/classes/ca/usask/agents/macrm/common/agents/Message_ResourceRequestResponse_RMAtoCAorAMA.class[0m
 [0m[[0mdebug[0m] [0m	ca/usask/agents/macrm/common/records/AgentsComaparable.class[0m
 [0m[[0mdebug[0m] [0m	  /home/node3/workspace/MACRM/Common/target/scala-2.11/classes/ca/usask/agents/macrm/common/records/AgentsComaparable.class[0m
+[0m[[0mdebug[0m] [0m	ca/usask/agents/macrm/common/agents/_ResourceSamplingCancel$.class[0m
+[0m[[0mdebug[0m] [0m	  /home/node3/workspace/MACRM/Common/target/scala-2.11/classes/ca/usask/agents/macrm/common/agents/_ResourceSamplingCancel$.class[0m
 [0m[[0mdebug[0m] [0m	ca/usask/agents/macrm/common/agents/Message_ResourceRequest_CAtoRMA.class[0m
 [0m[[0mdebug[0m] [0m	  /home/node3/workspace/MACRM/Common/target/scala-2.11/classes/ca/usask/agents/macrm/common/agents/Message_ResourceRequest_CAtoRMA.class[0m
 [0m[[0mdebug[0m] [0m	ca/usask/agents/macrm/common/records/Resource.class[0m
@@ -150,6 +164,8 @@
 [0m[[0mdebug[0m] [0m	  /home/node3/workspace/MACRM/Common/target/scala-2.11/classes/ca/usask/agents/macrm/common/agents/_ServerWithEmptyResources.class[0m
 [0m[[0mdebug[0m] [0m	ca/usask/agents/macrm/common/agents/_ClusterStateRequest$.class[0m
 [0m[[0mdebug[0m] [0m	  /home/node3/workspace/MACRM/Common/target/scala-2.11/classes/ca/usask/agents/macrm/common/agents/_ClusterStateRequest$.class[0m
+[0m[[0mdebug[0m] [0m	ca/usask/agents/macrm/common/agents/_ResourceSamplingInquiry.class[0m
+[0m[[0mdebug[0m] [0m	  /home/node3/workspace/MACRM/Common/target/scala-2.11/classes/ca/usask/agents/macrm/common/agents/_ResourceSamplingInquiry.class[0m
 [0m[[0mdebug[0m] [0m	ca/usask/agents/macrm/common/agents[0m
 [0m[[0mdebug[0m] [0m	  /home/node3/workspace/MACRM/Common/target/scala-2.11/classes/ca/usask/agents/macrm/common/agents[0m
 [0m[[0mdebug[0m] [0m	ca/usask/agents/macrm/common/agents/_ClusterStateRespond$.class[0m

@@ -23,7 +23,7 @@ lazy val ClusterManager = project.in(file("ClusterManager")).dependsOn(Common).
 		mainClass in (Compile,run):= Some("ca.usask.agents.macrm.clustermanager.agents.main"),
 		libraryDependencies ++= Seq(
 			"com.typesafe.akka" %% "akka-actor" % "2.3.7",
-			"com.typesafe.akka" % "akka-remote_2.11" % "2.3.7",
+			"com.typesafe.akka" %% "akka-remote" % "2.3.7",
 			"com.typesafe" % "config" % "1.2.1",
 			"joda-time" % "joda-time" % "2.5",
 			"org.joda" % "joda-convert" % "1.2",
@@ -71,7 +71,7 @@ lazy val ResourceTracker = project.in(file("ResourceTracker")).dependsOn(Common)
 		version := "1.0",
 		scalaVersion := "2.11.4",
 		exportJars := true,
-		mainClass in (Compile,run):= Some("ca.usask.agents.macrm.resourcetracker.agents.Main"),
+		mainClass in (Compile,run):= Some("ca.usask.agents.macrm.resourcetracker.agents.main"),
 		libraryDependencies ++= Seq(
 			"com.typesafe.akka" %% "akka-actor" % "2.3.7",
 			"com.typesafe.akka" % "akka-remote_2.11" % "2.3.7",

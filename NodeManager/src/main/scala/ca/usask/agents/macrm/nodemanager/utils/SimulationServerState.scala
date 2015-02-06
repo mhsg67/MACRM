@@ -28,7 +28,7 @@ object SimulationServerState extends ServerState {
         new Utilization(tempResource.memory, tempResource.virtualCore, serverUsed.length)
     }
 
-    def getServerAvailability(): Resource = serverCapability - serverUsed.foldLeft(new Resource(0, 0))((x, y: (UserId, Resource)) => x + y._2)
+    def getServerAvailableResources(): Resource = serverCapability - serverUsed.foldLeft(new Resource(0, 0))((x, y: (UserId, Resource)) => x + y._2)
 
     def getServerCapability(): Resource = serverCapability
 

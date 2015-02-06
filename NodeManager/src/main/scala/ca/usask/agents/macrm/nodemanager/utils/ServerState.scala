@@ -16,6 +16,8 @@ trait ServerState {
     def getServerStatus(_nodeManager: ActorRef, _nodeQueueState: NodeQueueState): NodeReport
 
     def getServerCapability(): Resource
+    
+    def getServerAvailableResources(): Resource
 }
 
 

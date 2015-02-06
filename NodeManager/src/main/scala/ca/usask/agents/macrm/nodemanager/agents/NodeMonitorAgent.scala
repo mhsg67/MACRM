@@ -6,17 +6,18 @@ import ca.usask.agents.macrm.common.agents._
 import org.joda.time.DateTime
 import akka.actor._
 
-class NodeMonitorAgent(val nodeManager: ActorRef) extends Agent {
+class NodeMonitorAgent(val nodeManager: ActorRef, val serverState: ActorRef) extends Agent {
 
     import context.dispatcher
-    override def preStart() = context.system.scheduler.scheduleOnce(NodeManagerConfig.heartBeatStartDelay, self, "heartBeatEvent")
-
-    val serverState = ServerState.apply()
+    override def preStart() = {
+        context.system.scheduler.scheduleOnce(NodeManagerConfig.heartBeatStartDelay, self, "heartBeatEvent")
+    }
 
     def receive = {
-        case "initiateEvent"  => Event_initiate()
-        case "heartBeatEvent" => Event_heartBeat()
-        case _                => Handle_UnknownMessage
+        case "initiateEvent"     => Event_initiate()
+        case "heartBeatEvent"    => serverState ! "heartBeatEvent"
+        case message: _HeartBeat => Handle_heartBeat(message)
+        case _                   => Handle_UnknownMessage
     }
 
     def Event_initiate() = {
@@ -24,16 +25,12 @@ class NodeMonitorAgent(val nodeManager: ActorRef) extends Agent {
     }
 
     /**
-     * Maybe that self scheduled message lose then you should have 
-     * recovery mechanism, maybe sending to message each after NodeManagerConfig.heartBeatInterval*2 
+     * Maybe that self scheduled message lose then you should have
+     * recovery mechanism, maybe sending two message each after NodeManagerConfig.heartBeatInterval*2
      */
-    def Event_heartBeat() = {
-        nodeManager ! create_HeartBeat(createNodeReport())
+    def Handle_heartBeat(_message: _HeartBeat) = {
+        nodeManager ! _message
         context.system.scheduler.scheduleOnce(NodeManagerConfig.heartBeatInterval, self, "heartBeatEvent")
     }
-
-    def createNodeReport(): NodeReport = serverState.getServerStatus(nodeManager, null)
-
-    def create_HeartBeat(_nodeReport: NodeReport) = new _HeartBeat(self, DateTime.now(), _nodeReport)
 
 }

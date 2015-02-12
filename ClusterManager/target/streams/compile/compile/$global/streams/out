@@ -3,30 +3,13 @@
 [0m[[0mdebug[0m] [0m	removed:Set()[0m
 [0m[[0mdebug[0m] [0m	added: Set()[0m
 [0m[[0mdebug[0m] [0m	modified: Set()[0m
-[0m[[0mdebug[0m] [0mRemoved products: Set(/home/node3/workspace/MACRM/ClusterManager/target/scala-2.11/classes/ca/usask/agents/macrm/clustermanager/agents/BasicQueue.class, /home/node3/workspace/MACRM/ClusterManager/target/scala-2.11/classes/ca/usask/agents/macrm/clustermanager/utils/ClusterManagerConfig.class, /home/node3/workspace/MACRM/ClusterManager/target/scala-2.11/classes/ca/usask/agents/macrm/clustermanager/agents/QueueAgent.class, /home/node3/workspace/MACRM/ClusterManager/target/scala-2.11/classes/ca/usask/agents/macrm/clustermanager/agents/main.class, /home/node3/workspace/MACRM/ClusterManager/target/scala-2.11/classes/ca/usask/agents/macrm/clustermanager/agents/main$delayedInit$body.class, /home/node3/workspace/MACRM/ClusterManager/target/scala-2.11/classes/ca/usask/agents/macrm/clustermanager/utils/Logger.class, /home/node3/workspace/MACRM/ClusterManager/target/scala-2.11/classes/ca/usask/agents/macrm/clustermanager/agents/SchedulerAgent$$anonfun$receive$1.class, /home/node3/workspace/MACRM/ClusterManager/target/scala-2.11/classes/ca/usask/agents/macrm/clustermanager/agents/main$.class, /home/node3/workspace/MACRM/ClusterManager/target/scala-2.11/classes/ca/usask/agents/macrm/clustermanager/agents/SchedulerAgent.class, /home/node3/workspace/MACRM/ClusterManager/target/scala-2.11/classes/ca/usask/agents/macrm/clustermanager/utils/ClusterManagerConfig$.class, /home/node3/workspace/MACRM/ClusterManager/target/scala-2.11/classes/ca/usask/agents/macrm/clustermanager/agents/BasicQueue$class.class, /home/node3/workspace/MACRM/ClusterManager/target/scala-2.11/classes/ca/usask/agents/macrm/clustermanager/utils/Logger$.class, /home/node3/workspace/MACRM/ClusterManager/target/scala-2.11/classes/ca/usask/agents/macrm/clustermanager/agents/QueueAgent$$anonfun$receive$1.class)[0m
+[0m[[0mdebug[0m] [0mRemoved products: Set()[0m
 [0m[[0mdebug[0m] [0mExternal API changes: API Changes: Set()[0m
 [0m[[0mdebug[0m] [0mModified binary dependencies: Set()[0m
 [0m[[0mdebug[0m] [0mInitial directly invalidated sources: Set()[0m
 [0m[[0mdebug[0m] [0m[0m
 [0m[[0mdebug[0m] [0mSources indirectly invalidated by:[0m
-[0m[[0mdebug[0m] [0m	product: Set(/home/node3/workspace/MACRM/ClusterManager/src/main/scala/ca/usask/agents/macrm/clustermanager/agents/QueueAgent.scala, /home/node3/workspace/MACRM/ClusterManager/src/main/scala/ca/usask/agents/macrm/clustermanager/agents/BasicQueue.scala, /home/node3/workspace/MACRM/ClusterManager/src/main/scala/ca/usask/agents/macrm/clustermanager/agents/Main.scala, /home/node3/workspace/MACRM/ClusterManager/src/main/scala/ca/usask/agents/macrm/clustermanager/utils/Logger.scala, /home/node3/workspace/MACRM/ClusterManager/src/main/scala/ca/usask/agents/macrm/clustermanager/utils/ClusterManagerConfig.scala, /home/node3/workspace/MACRM/ClusterManager/src/main/scala/ca/usask/agents/macrm/clustermanager/agents/SchedulerAgent.scala)[0m
+[0m[[0mdebug[0m] [0m	product: Set()[0m
 [0m[[0mdebug[0m] [0m	binary dep: Set()[0m
 [0m[[0mdebug[0m] [0m	external source: Set()[0m
-[0m[[0mdebug[0m] [0mAll initially invalidated sources: Set(/home/node3/workspace/MACRM/ClusterManager/src/main/scala/ca/usask/agents/macrm/clustermanager/agents/QueueAgent.scala, /home/node3/workspace/MACRM/ClusterManager/src/main/scala/ca/usask/agents/macrm/clustermanager/agents/BasicQueue.scala, /home/node3/workspace/MACRM/ClusterManager/src/main/scala/ca/usask/agents/macrm/clustermanager/agents/Main.scala, /home/node3/workspace/MACRM/ClusterManager/src/main/scala/ca/usask/agents/macrm/clustermanager/utils/Logger.scala, /home/node3/workspace/MACRM/ClusterManager/src/main/scala/ca/usask/agents/macrm/clustermanager/utils/ClusterManagerConfig.scala, /home/node3/workspace/MACRM/ClusterManager/src/main/scala/ca/usask/agents/macrm/clustermanager/agents/SchedulerAgent.scala)[0m
-[0m[[0mdebug[0m] [0mRecompiling all 6 sources: invalidated sources (6) exceeded 50.0% of all sources[0m
-[0m[[0minfo[0m] [0mCompiling 6 Scala sources to /home/node3/workspace/MACRM/ClusterManager/target/scala-2.11/classes...[0m
-[0m[[0mdebug[0m] [0mGetting compiler-interface from component compiler for Scala 2.11.4[0m
-[0m[[0mdebug[0m] [0mGetting compiler-interface from component compiler for Scala 2.11.4[0m
-[0m[[0mdebug[0m] [0mRunning cached compiler 40329cc8, interfacing (CompilerInterface) with Scala compiler version 2.11.4[0m
-[0m[[0mdebug[0m] [0mCalling Scala compiler with arguments  (CompilerInterface):[0m
-[0m[[0mdebug[0m] [0m	-bootclasspath[0m
-[0m[[0mdebug[0m] [0m	/usr/local/java/jdk1.7.0_65/jre/lib/resources.jar:/usr/local/java/jdk1.7.0_65/jre/lib/rt.jar:/usr/local/java/jdk1.7.0_65/jre/lib/sunrsasign.jar:/usr/local/java/jdk1.7.0_65/jre/lib/jsse.jar:/usr/local/java/jdk1.7.0_65/jre/lib/jce.jar:/usr/local/java/jdk1.7.0_65/jre/lib/charsets.jar:/usr/local/java/jdk1.7.0_65/jre/lib/jfr.jar:/usr/local/java/jdk1.7.0_65/jre/classes:/home/node3/.ivy2/cache/org.scala-lang/scala-library/jars/scala-library-2.11.4.jar[0m
-[0m[[0mdebug[0m] [0m	-classpath[0m
-[0m[[0mdebug[0m] [0m	/home/node3/workspace/MACRM/ClusterManager/target/scala-2.11/classes:/home/node3/workspace/MACRM/Common/target/scala-2.11/common_2.11-1.0.jar:/home/node3/.ivy2/cache/com.typesafe.akka/akka-actor_2.11/jars/akka-actor_2.11-2.3.7.jar:/home/node3/.ivy2/cache/com.typesafe/config/bundles/config-1.2.1.jar:/home/node3/.ivy2/cache/joda-time/joda-time/jars/joda-time-2.5.jar:/home/node3/.ivy2/cache/org.joda/joda-convert/jars/joda-convert-1.2.jar:/home/node3/.ivy2/cache/com.typesafe.akka/akka-remote_2.11/jars/akka-remote_2.11-2.3.7.jar:/home/node3/.ivy2/cache/io.netty/netty/bundles/netty-3.8.0.Final.jar:/home/node3/.ivy2/cache/com.google.protobuf/protobuf-java/bundles/protobuf-java-2.5.0.jar:/home/node3/.ivy2/cache/org.uncommons.maths/uncommons-maths/jars/uncommons-maths-1.2.2a.jar[0m
-[0m[[0mdebug[0m] [0mScala compilation took 1.212070466 s[0m
-[0m[[0mdebug[0m] [0mNew invalidations:[0m
-[0m[[0mdebug[0m] [0m	Set()[0m
-[0m[[0mdebug[0m] [0mInitial set of included nodes: Set()[0m
-[0m[[0mdebug[0m] [0mPreviously invalidated, but (transitively) depend on new invalidations:[0m
-[0m[[0mdebug[0m] [0m	Set()[0m
-[0m[[0mdebug[0m] [0mAll newly invalidated sources after taking into account (previously) recompiled sources:Set()[0m
+[0m[[0mdebug[0m] [0mAll initially invalidated sources: Set()[0m

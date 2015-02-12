@@ -1,5 +1,4 @@
 [0m[[0minfo[0m] [0mUpdating {file:/home/node3/workspace/MACRM/}Common...[0m
-[0m[[0mdebug[0m] [0mno default cache defined: set to /home/node3/.ivy2/cache[0m
 [0m[[0mdebug[0m] [0m:: resolving dependencies :: common#common_2.11;1.0[0m
 [0m[[0mdebug[0m] [0m	confs: [compile, runtime, test, provided, optional, compile-internal, runtime-internal, test-internal, plugin, sources, docs, pom, scala-tool][0m
 [0m[[0mdebug[0m] [0m	validate = true[0m
@@ -8,7 +7,7 @@
 [0m[[0mdebug[0m] [0m== resolving dependencies for common#common_2.11;1.0 [compile][0m
 [0m[[0mdebug[0m] [0m== resolving dependencies common#common_2.11;1.0->org.scala-lang#scala-library;2.11.4 [compile->default(compile)][0m
 [0m[[0minfo[0m] [0mResolving org.scala-lang#scala-library;2.11.4 ...[0m
-[0m[[0mdebug[0m] [0msbt-chain: Checking cache for: sbt.ivyint.MergedDescriptors@2ebb50f9[0m
+[0m[[0mdebug[0m] [0msbt-chain: Checking cache for: sbt.ivyint.MergedDescriptors@494c702a[0m
 [0m[[0mdebug[0m] [0msbt-chain: module revision found in cache: org.scala-lang#scala-library;2.11.4[0m
 [0m[[0mdebug[0m] [0m	found org.scala-lang#scala-library;2.11.4 in sbt-chain[0m
 [0m[[0mdebug[0m] [0m	[2.11.4] org.scala-lang#scala-library;2.11.4[0m
@@ -408,7 +407,7 @@
 [0m[[0mdebug[0m] [0m	[NOT REQUIRED] org.scala-lang#scala-reflect;2.11.4!scala-reflect.jar[0m
 [0m[[0mdebug[0m] [0m	[NOT REQUIRED] org.scala-lang.modules#scala-parser-combinators_2.11;1.0.2!scala-parser-combinators_2.11.jar(bundle)[0m
 [0m[[0mdebug[0m] [0m	[NOT REQUIRED] jline#jline;2.12!jline.jar[0m
-[0m[[0mdebug[0m] [0m:: resolution report :: resolve 205ms :: artifacts dl 13ms[0m
+[0m[[0mdebug[0m] [0m:: resolution report :: resolve 364ms :: artifacts dl 12ms[0m
 [0m[[0mdebug[0m] [0m	report for common#common_2.11;1.0 compile produced in /home/node3/workspace/MACRM/Common/target/resolution-cache/reports/common-common_2.11-compile.xml[0m
 [0m[[0mdebug[0m] [0m	report for common#common_2.11;1.0 runtime produced in /home/node3/workspace/MACRM/Common/target/resolution-cache/reports/common-common_2.11-runtime.xml[0m
 [0m[[0mdebug[0m] [0m	report for common#common_2.11;1.0 test produced in /home/node3/workspace/MACRM/Common/target/resolution-cache/reports/common-common_2.11-test.xml[0m
@@ -422,5 +421,5 @@
 [0m[[0mdebug[0m] [0m	report for common#common_2.11;1.0 docs produced in /home/node3/workspace/MACRM/Common/target/resolution-cache/reports/common-common_2.11-docs.xml[0m
 [0m[[0mdebug[0m] [0m	report for common#common_2.11;1.0 pom produced in /home/node3/workspace/MACRM/Common/target/resolution-cache/reports/common-common_2.11-pom.xml[0m
 [0m[[0mdebug[0m] [0m	report for common#common_2.11;1.0 scala-tool produced in /home/node3/workspace/MACRM/Common/target/resolution-cache/reports/common-common_2.11-scala-tool.xml[0m
-[0m[[0mdebug[0m] [0m	resolve done (205ms resolve - 13ms download)[0m
+[0m[[0mdebug[0m] [0m	resolve done (364ms resolve - 12ms download)[0m
 [0m[[0minfo[0m] [0mDone updating.[0m

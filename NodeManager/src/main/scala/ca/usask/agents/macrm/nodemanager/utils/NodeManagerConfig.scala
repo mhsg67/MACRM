@@ -52,6 +52,19 @@ object NodeManagerConfig {
     val firstCheckAvailableResources = 0 millis
     
     /**
+     * When ContainerManager realizes that it can server container with the size in 
+     * resource sampling inquiry it respond the JobManager and wait for its respond, 
+     * if JobManger does not respond back in x millisecond ContainerManager start serving
+     * other resource sampling inquiries  
+     * 
+     * suppose network delay is 2 millis =>
+     * 2 millis = send resourceSmaplingResponse to JM
+     * 6 millis = JM decision making
+     * 2 millis = send resource allocation request back
+     */
+    val waitForJMActionToResourceSamplingResponseTimeout = 10 millis
+    
+    /**
      * Based on heartBeatStartDelay, it should be more than
      * that
      */
@@ -72,7 +85,5 @@ object NodeManagerConfig {
      *  10 millis = total
      */
     val stopServingJobManagerRequestAfterHeartBeat = 10
-
-    val stopServingJobManagerRequestBeforeHeartBeat = 10
 
 }

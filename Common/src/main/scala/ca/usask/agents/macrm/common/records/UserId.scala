@@ -1,5 +1,8 @@
 package ca.usask.agents.macrm.common.records
 
-class UserId(val id:Int) extends  AgentsComaparable[UserId]{
-    override def equal(other:UserId) = if(this.id == other.id) true else false
+import java.io.Serializable
+
+@SerialVersionUID(100L)
+class UserId(val id: Int) extends AgentsComaparable[UserId] with Serializable {
+    override def equal(other: UserId) = if (this.id == other.id) true else false
 }

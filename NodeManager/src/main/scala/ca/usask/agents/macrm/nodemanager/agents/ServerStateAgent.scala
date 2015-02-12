@@ -29,7 +29,7 @@ class ServerStateAgent(val nodeManager: ActorRef) extends Agent {
     }
 
     def Handle_checkAvailableResources(sender: ActorRef) =
-        if (DateTime.now().getMillis() - lastSubmissionOfHeartBeat.getMillis() < 10)
+        if (DateTime.now().getMillis() - lastSubmissionOfHeartBeat.getMillis() < NodeManagerConfig.stopServingJobManagerRequestAfterHeartBeat)
             sender ! new _Resource(new Resource())
         else
             sender ! new _Resource(serverState.getServerAvailableResources())

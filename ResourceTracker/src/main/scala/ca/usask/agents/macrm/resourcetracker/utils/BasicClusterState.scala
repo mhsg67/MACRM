@@ -39,6 +39,7 @@ object BasicClusterState {
         return result    
     }
 
+    
     def UpdateStateOfNode(_source: ActorRef, _receiveTime: DateTime, _submitTime: DateTime, _node: NodeReport): Unit = {
         if (!rackIdToNodesId(_node.rackName).contains(_node.nodeId))
             rackIdToNodesId(_node.rackName) += _node.nodeId

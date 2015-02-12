@@ -9,5 +9,5 @@ import ca.usask.agents.macrm.common.records.NodeReport
  * current condition
  */
 case class _HeartBeat(_source: ActorRef, _time: DateTime, _report: NodeReport)
-    extends SystemMessage(_source, _time)
-
+    extends BasicMessage 
+    

@@ -1,6 +1,9 @@
 package ca.usask.agents.macrm.common.records
 
-class Resource(val memory: Int = 0, val virtualCore: Int = 0) extends AgentsComaparable[Resource] {
+import java.io.Serializable
+
+@SerialVersionUID(100L)
+class Resource(val memory: Int = 0, val virtualCore: Int = 0) extends AgentsComaparable[Resource] with Serializable {
     override def equal(other: Resource): Boolean = {
         if (this.memory == other.memory && this.virtualCore == other.virtualCore)
             return true;
@@ -19,4 +22,5 @@ class Resource(val memory: Int = 0, val virtualCore: Int = 0) extends AgentsComa
     def <(other: Resource) = if (other.memory >= this.memory && other.virtualCore >= this.virtualCore) true else false
 
     def >(other: Resource) = if (other.memory <= this.memory && other.virtualCore <= this.virtualCore) true else false
+
 }

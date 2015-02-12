@@ -14,79 +14,89 @@ trait BasicMessage
  */
 case class _Resource(val _resource: Resource) extends BasicMessage
 
+case class _FindResources(val _requirment:List[(Resource,NodeConstraint,Int)]) extends BasicMessage
 
-
-abstract class SystemMessage(val source: ActorRef, val recieveTime: DateTime)
+class SystemMessage(val source: ActorRef, val recieveTime: DateTime)
     extends BasicMessage    
- /**
- * from ApplicationMasterAgent(AMA) to ResourceManager:QueueAgent(RMA)
+      
+
+/**
+ * From ResourceTracker to ClusterManager(QueueAgent) to inform it about
+ * a node with free resources. QueueAgent use this for scheduling JobManager
+ * of new submitted job
  */
-case class Message_ResourceRequest_AMAtoRMA(_source: ActorRef, _time: DateTime, var listOfResourceRequests: ArrayBuffer[ResourceRequest])
+case class _ServerWithEmptyResources(_source: ActorRef, _time: DateTime, _report: NodeReport)
     extends SystemMessage(_source, _time)
 
 /**
- * from ClientAgent(CA) to ResourceManager:QueueAgent(RMA)
- */
-case class Message_ResourceRequest_CAtoRMA(_source: ActorRef, _time: DateTime, var listOfResourceRequests: ArrayBuffer[ResourceRequest])
-    extends SystemMessage(_source, _time)
-
-/**
- * from ResourceManager:...Agent(RMA) to either ClientAgent(CA) or ApplicationMasterAgent(AMA)
- */
-case class Message_ResourceRequestResponse_RMAtoCAorAMA(_source: ActorRef, _time: DateTime)
-    extends SystemMessage(_source, _time)
-
-/**
- * from SchedulerAgents(SA) to QueueAgent(QA)
- */
-case class Message_GiveNextResourceRequest_SAtoQA(_source: ActorRef, _time: DateTime)
-    extends SystemMessage(_source, _time)
-
-/**
- * from QueueAgent(QA) to SchedulerAgent(SA) in response to Message_GiveNextResourceRequest_SAtoQA
+ * From ResourceTracker to ClusterManager(QueueAgent) to inform it about
+ * Sharing of cluster among users. It is useful when system is working in
+ * centralize way
  *
+ * TODO: Add information of user share into the message
  */
-case class Message_TakeNextResourceRequest_QAtoSA(_source: ActorRef, _time: DateTime, resourceRequest: ResourceRequest)
+case class _EachUserShareOfCluster(_source: ActorRef, _time: DateTime)
     extends SystemMessage(_source, _time)
 
 /**
- * from each NodeMangerAgent(NMA) to ResourceManager:ClusterStateAgent(RMA)
+ * From ClusterManager(SchedulerAgent) to ResourceTracker in order to
+ * acquire cluster state
  */
-case class Message_HeartBeat_NMAtoRMA(_source: ActorRef, _time: DateTime)
+case class _ClusterStateRequest(_source: ActorRef, _time: DateTime)
     extends SystemMessage(_source, _time)
 
 /**
- * from each SchedulerAgent(SA) to ClusterStateAgent(CSA)
+ * From ResourceTracker to ClusterManager(SchedulerAgent) in response to
+ * _ClusterStateRequest message
+ *
+ * TODO: Add cluster state information in this message
  */
-case class Message_GiveClusterState_SAtoCSA(_source: ActorRef, _time: DateTime)
+case class _ClusterStateRespond(_source: ActorRef, _time: DateTime)
+    extends SystemMessage(_source, _time)
+
+
+/**
+ * From JobManager to ResourceTracker to inform it about job
+ * current condition
+ */
+case class _JMHeartBeat(_source: ActorRef, _time: DateTime, _jobReport: JobReport)
     extends SystemMessage(_source, _time)
 
 /**
- * from ClusterStateAgent(CSA) to SchedulerAgent(SA) in response to Message_GiveClusterState_SAtoCSA
+ * From ResourceTracker to JobManager to inform it about
+ * failure in one of its container
+ *
+ * TODO: It can be used for both node failure and
+ * container failure, then add required information into
+ * the message such as node information and container
+ * information
  */
-case class Message_TakeClusterState_CSAtoSA(_source: ActorRef, _time: DateTime)
+case class _ContainerFailure(_source: ActorRef, _time: DateTime)
     extends SystemMessage(_source, _time)
 
 /**
- * from ResourceManager:SchedulerAgent(RMA) to NodeManagerAgent(NMA)
+ * From ResourceTracker to JobManager
  */
-case class Message_ResourceRequest_RMAtoNMA(_source: ActorRef, _time: DateTime)
+case class _JMHeartBeatResponse(_source: ActorRef, _time: DateTime, _samplingRate:Int)
+
+
+/**
+ * From JobManager to NodeManager to inquiry about node resource
+ * availability
+ */
+case class _ResourceSamplingInquiry(_source: ActorRef, _time: DateTime, _requiredResource: Resource)
     extends SystemMessage(_source, _time)
 
 /**
- * from NodeMangerAgent(NMA) to ResourceManager:SchedulerAgent(RMA) in response to Message_ResourceRequest_RMAtoNMA
+ * From JobManager to NodeManger to cancel previous resource inquiry
+ * request
  */
-case class Message_ResourceRequestResponse_NMAtoRMA(_source: ActorRef, _time: DateTime)
+case class _ResourceSamplingCancel(_source: ActorRef, _time: DateTime)
     extends SystemMessage(_source, _time)
 
 /**
- * from ApplicationMasterAgent(AMA) to NodeManagerAgent(NMA)
+ * From NodeManager to JobManager as a response for resource availability 
+ * inquiry (_ResourceSamplingInquiry)
  */
-case class Message_ResourceRequest_AMAtoNMA(_source: ActorRef, _time: DateTime)
-    extends SystemMessage(_source, _time)
-
-/**
- * from NodeManagerAgent(NMA) to ApplicationMasterAgent(AMA) in response to Message_ResourceRequest_AMAtoNMA
- */
-case class Message_ResourceRequestResponse_NMAtoAMA(_source: ActorRef, _time: DateTime)
+case class _ResourceSamplingResponse(_source: ActorRef, _time: DateTime, _availableResource: Resource)
     extends SystemMessage(_source, _time)

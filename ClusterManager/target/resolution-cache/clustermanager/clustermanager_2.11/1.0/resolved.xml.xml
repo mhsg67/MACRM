@@ -4,7 +4,7 @@
 		module="clustermanager_2.11"
 		revision="1.0"
 		status="integration"
-		publication="20150211190204"
+		publication="20150217145148"
 	>
 		<description>
 		ClusterManager
@@ -41,5 +41,10 @@
 		<dependency org="joda-time" name="joda-time" rev="2.5" conf="compile->default(compile)"/>
 		<dependency org="org.joda" name="joda-convert" rev="1.2" conf="compile->default(compile)"/>
 		<dependency org="org.scalatest" name="scalatest_2.11" rev="2.2.1" conf="test->default(compile)"/>
+		<dependency org="com.typesafe.akka" name="akka-camel_2.11" rev="2.3.7" conf="compile->default(compile)"/>
+		<dependency org="org.apache.camel" name="camel-netty" rev="2.14.1" conf="compile->default(compile)"/>
+		<dependency org="org.apache.camel" name="camel-jetty" rev="2.14.1" conf="compile->default(compile)"/>
+		<dependency org="org.slf4j" name="slf4j-simple" rev="1.7.10" conf="compile->default(compile)"/>
+		<dependency org="com.typesafe.play" name="play-json_2.11" rev="2.4.0-M2" conf="compile->default(compile)"/>
 	</dependencies>
 </ivy-module>

@@ -20,6 +20,7 @@ object SimulationServerState extends ServerState {
         "No Rack",
         serverUsed,
         serverCapability,
+        null,
         getServerUtilization(),
         DateTime.now(),
         getServerNodeState,

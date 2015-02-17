@@ -21,6 +21,6 @@ class Resource(val memory: Int = 0, val virtualCore: Int = 0) extends AgentsComa
 
     def <(other: Resource) = if (other.memory >= this.memory && other.virtualCore >= this.virtualCore) true else false
 
-    def >(other: Resource) = if (other.memory <= this.memory && other.virtualCore <= this.virtualCore) true else false
-
+    def >(other: Resource) = if (other.memory <= this.memory && other.virtualCore <= this.virtualCore) true else false   
+    
 }

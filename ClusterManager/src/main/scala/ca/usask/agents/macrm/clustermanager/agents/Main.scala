@@ -13,8 +13,10 @@ object main extends App {
 
         val system = ActorSystem.create("QueueAgent", ConfigFactory.load().getConfig("QueueAgent"))
         val queueAgent = system.actorOf(Props[QueueAgent], name = "QueueAgent")
-
-        queueAgent ! "initiateEvent"
+        val userInterfaceAgent = system.actorOf(Props(new UserInterfaceAgent(queueAgent)), name = "UserInterfaceAgent")
+        
+        queueAgent ! "initiateEvent"        
+        userInterfaceAgent ! "initiateEvent"
 
     }
     catch {

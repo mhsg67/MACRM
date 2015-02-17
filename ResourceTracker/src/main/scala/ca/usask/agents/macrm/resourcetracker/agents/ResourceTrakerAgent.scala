@@ -26,7 +26,7 @@ class ResourceTrackerAgent extends Agent {
             queueAgent ! create_ServerWithEmptyResources(message._report)
     }
 
-    def doesServerHaveResourceForAJobManager(_nodeReport: NodeReport) = if ((_nodeReport.capability - (_nodeReport.used.foldLeft(new Resource(0, 0))((x, y) => x + y._2))) > ResourceTrakerConfig.minResourceForJobManager) true else false
+    def doesServerHaveResourceForAJobManager(_nodeReport: NodeReport) = if (_nodeReport.getAvailableResources() > ResourceTrakerConfig.minResourceForJobManager) true else false
 
     def create_ServerWithEmptyResources(_nodeReport: NodeReport) = new _ServerWithEmptyResources(self, DateTime.now(), _nodeReport)
 }

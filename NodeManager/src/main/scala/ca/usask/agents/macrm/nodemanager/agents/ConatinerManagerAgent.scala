@@ -17,14 +17,15 @@ class ContainerManagerAgent(val nodeManager: ActorRef, val serverState: ActorRef
     val checkContainersEvent = context.system.scheduler.schedule(NodeManagerConfig.allCheckStartDelay, NodeManagerConfig.checkContainersInterval, self, "checkContainersEvent")
 
     def receive = {
-        case "initiateEvent"                        => Event_initiate
-        case "checkContainersEvent"                 => Event_checkContainers
-        case "checkAvailableResourcesEvent"         => Event_checkAvailableResources
-        case "resourceSamplingResponseTimeoutEvent" => Event_resourceSamplingResponseTimeout
-        case message: _ResourceSamplingInquiry      => Handle_ResourceSamplingInquiry(message)
-        case message: _ResourceSamplingCancel       => Handle_ResourceSamplingCancel(message)
-        case message: _Resource                     => Handle_Resource(message)
-        case _                                      => Handle_UnknownMessage
+        case "initiateEvent"                          => Event_initiate
+        case "checkContainersEvent"                   => Event_checkContainers
+        case "checkAvailableResourcesEvent"           => Event_checkAvailableResources
+        case "resourceSamplingResponseTimeoutEvent"   => Event_resourceSamplingResponseTimeout
+        case message: _ResourceSamplingInquiry        => Handle_ResourceSamplingInquiry(message)
+        case message: _ResourceSamplingCancel         => Handle_ResourceSamplingCancel(message)
+        case message: _Resource                       => Handle_Resource(message)
+        case message: _AllocateContainerForJobManager => Handle_AllocateContainerForJobManager(message)
+        case _                                        => Handle_UnknownMessage
     }
 
     def Event_initiate = {
@@ -61,6 +62,8 @@ class ContainerManagerAgent(val nodeManager: ActorRef, val serverState: ActorRef
             startWaitingForServedResourceSamplingInquiryToResponse()
     }
 
+    def Handle_AllocateContainerForJobManager(message: _AllocateContainerForJobManager) = print("YESSSS")
+
     def tryServerResourceSamplingInquiry(resource: Resource): Boolean = {
         if (resource.isNotUsable() || (resourceSmaplingInquiryList(0)._requiredResource > resource))
             false
@@ -84,4 +87,5 @@ class ContainerManagerAgent(val nodeManager: ActorRef, val serverState: ActorRef
         recentlyServerdSamplingInquiry = resourceSmaplingInquiryList.dequeue()
         context.system.scheduler.scheduleOnce(NodeManagerConfig.waitForJMActionToResourceSamplingResponseTimeout, self, "resourceSamplingResponseTimeoutEvent")
     }
+
 }

@@ -11,13 +11,10 @@ object main extends App {
     try {
         ClusterManagerConfig.readConfigurationFile()
 
-        val system = ActorSystem.create("QueueAgent", ConfigFactory.load().getConfig("QueueAgent"))
-        val queueAgent = system.actorOf(Props[QueueAgent], name = "QueueAgent")
-        val userInterfaceAgent = system.actorOf(Props(new UserInterfaceAgent(queueAgent)), name = "UserInterfaceAgent")
+        val system = ActorSystem.create("ClusterManagerAgent", ConfigFactory.load().getConfig("ClusterManagerAgent"))
+        val clusterManagerAgent = system.actorOf(Props[ClusterManagerAgent], name = "ClusterManagerAgent")
         
-        queueAgent ! "initiateEvent"        
-        userInterfaceAgent ! "initiateEvent"
-
+        clusterManagerAgent ! "initiateEvent"        
     }
     catch {
         case e: Exception => Logger.Error(e.toString())

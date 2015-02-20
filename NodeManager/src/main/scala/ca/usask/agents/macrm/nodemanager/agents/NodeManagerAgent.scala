@@ -15,13 +15,12 @@ class NodeManagerAgent extends Agent {
     val containerManager = context.actorOf(Props(new ContainerManagerAgent(self, serverState)), name = "ContainerManagerAgent")
 
     def receive = {
-        case "initiateEvent" => Event_initiate()
-        case message: _HeartBeat => {            
-            resourceTracker ! new _HeartBeat(self, DateTime.now(), message._report)
-        }
-        case message: _ResourceSamplingInquiry => containerManager ! message
-        case message: _ResourceSamplingCancel  => containerManager ! message
-        case _                                 => Handle_UnknownMessage
+        case "initiateEvent"                          => Event_initiate()
+        case message: _HeartBeat                      => resourceTracker ! new _HeartBeat(self, DateTime.now(), message._report)
+        case message: _ResourceSamplingInquiry        => containerManager ! message
+        case message: _ResourceSamplingCancel         => containerManager ! message
+        case message: _AllocateContainerForJobManager => containerManager ! message
+        case _                                        => Handle_UnknownMessage
     }
 
     def Event_initiate() = {

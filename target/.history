@@ -480,3 +480,12 @@ clean
 compile
 eclipse
 exit
+compile
+ClusterManager/run
+compile
+eclipse
+exit
+clean
+compile
+eclipse
+exit

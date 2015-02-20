@@ -21,6 +21,7 @@ class QueueAgent extends Agent {
 
     def receive = {
         case "initiateEvent"                    => Event_initiate()
+        case "getNextTaskForScheduling"         => Handle_getNextTaskForScheduling(sender)
         case message: _ServerWithEmptyResources => Handle_ServerWithEmptyResources(message)
         case message: _EachUserShareOfCluster   => Handle_EachUserShareOfCluster(message)
         case message: _JobSubmission            => Handle_JobSubmission(message)
@@ -29,7 +30,11 @@ class QueueAgent extends Agent {
     }
 
     def Event_initiate() = {
-        Logger.Log("ResourceTrackerAgent Initialization")
+        Logger.Log("QueueAgent Initialization")
+    }
+
+    def Handle_getNextTaskForScheduling(sender: ActorRef) = {
+
     }
 
     def Handle_ServerWithEmptyResources(message: _ServerWithEmptyResources) = {
@@ -55,7 +60,7 @@ class QueueAgent extends Agent {
 
     def Handle_JobSubmission(message: _JobSubmission) = schedulingQueue.EnqueueJob(message.jobDescription)
 
-    def scheduleTask(task: Tuple2[ActorRef, TaskDescription], message: _ServerWithEmptyResources) = null 
+    def scheduleTask(task: Tuple2[ActorRef, TaskDescription], message: _ServerWithEmptyResources) = null
 
-    def schedulerJob(job: JobDescription, message: _ServerWithEmptyResources) =  message._source ! new _AllocateContainerForJobManager(self,DateTime.now(),job)
+    def schedulerJob(job: JobDescription, message: _ServerWithEmptyResources) = message._report.nodeId.agent ! new _AllocateContainerForJobManager(self, DateTime.now(), job)
 }

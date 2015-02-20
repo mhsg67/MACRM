@@ -12,10 +12,10 @@ object ResourceTrakerConfig {
         Logger.Log("Finished reading configuration file")
     }
 
-    def getQueueAgentAddress() = "akka.tcp://QueueAgent@" +
+    def getQueueAgentAddress() = "akka.tcp://ClusterManagerAgent@" +
         clusterManagerIPAddress + ":" +
-        queueAgentDefualtPort + "/" +
-        "user/QueueAgent"
+        clusterManagerAgentDefualtPort + "/" +
+        "user/ClusterManagerAgent"
 
     /**
      * If we do not receive heart beat from a node during last 2 minutes we
@@ -28,7 +28,7 @@ object ResourceTrakerConfig {
      * To access ClusterManager actor
      */
     val clusterManagerIPAddress = "127.0.1.1"
-    val queueAgentDefualtPort = "2000"
+    val clusterManagerAgentDefualtPort = "2000"
     
     /**
      * Minimum resources for a JobManager container

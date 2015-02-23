@@ -8,7 +8,7 @@ import ca.usask.agents.macrm.common.records._
  */
 object JobManagerConfig {
     
-    var userId: UserId = null
+    var userId: Int = 1
     var jobId: String = null
     
     def readConfigurationFile() = {
@@ -19,7 +19,7 @@ object JobManagerConfig {
          * the central creater of JobManager specify these two, in
          * the case of real system, it should read configuration file
          */
-        userId = new UserId(1)
+        
         jobId = GUIDGenerator.getNextGUID
         
         Logger.Log("Finished reading configuration file")

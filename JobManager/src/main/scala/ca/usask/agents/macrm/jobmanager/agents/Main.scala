@@ -1,10 +1,9 @@
 package ca.usask.agents.macrm.jobmanager.agents
 
-import akka.actor._
 import ca.usask.agents.macrm.jobmanager.utils._
+import ca.usask.agents.macrm.common.records._
 import com.typesafe.config.ConfigFactory
-import ca.usask.agents.macrm.common.records.GUIDGenerator
-import ca.usask.agents.macrm.common.records.UserId
+import akka.actor._
 
 /**
  * It is the starter for JobManager agent

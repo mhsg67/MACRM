@@ -8,7 +8,7 @@ import org.joda.time.DateTime
 import scala.collection._
 import akka.actor._
 
-class JobManagerAgent(val userId: UserId, val jobId: String, var clusterStructure: ClusterStructure, var samplingRate: Int = 2)
+class JobManagerAgent(val userId: Int, val jobId: String, var clusterStructure: ClusterStructure, var samplingRate: Int = 2)
     extends Agent {
 
     val resourceTracker = context.actorSelection(JobManagerConfig.getResourceTrackerAddress())

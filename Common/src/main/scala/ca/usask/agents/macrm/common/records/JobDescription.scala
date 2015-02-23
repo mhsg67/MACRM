@@ -5,16 +5,8 @@ import org.joda.time.DateTime
 import java.io.Serializable
 
 @SerialVersionUID(100L)
-case class TaskDescription(val jobId: Long,
-                           val index: Int,
-                           val duration: DateTime,
-                           val resource: Resource,
-                           val relativeSubmissionTime: DateTime,
-                           val constraints: List[Int]) extends Serializable
-
-@SerialVersionUID(100L)
 case class JobDescription(val jobId: Long,
-                          val userId: UserId,
+                          val userId: Int,
                           val numberOfTasks: Int,
                           var tasks: List[TaskDescription],
                           var constraints: List[Int]) extends Serializable

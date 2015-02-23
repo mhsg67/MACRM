@@ -8,13 +8,16 @@ import akka.actor._
 
 trait AbstractQueue {
     def EnqueueJob(e: JobDescription): Unit
-    def EnqueueTask(a: ActorRef, e: TaskDescription)
-    
-    def RemoveJob(e: JobDescription) 
+    def EnqueueTask(e: TaskDescription)
+
+    def RemoveJob(e: JobDescription)
     def RemoveTask(e: TaskDescription)
 
-    def getFirstOrBestMatchJob(_resource: Resource, _capability: List[Int]): Option[JobDescription]
-    def getFirtOrBestMatchTask(_resource: Resource, _capability: List[Int]): Option[Tuple2[ActorRef, TaskDescription]]
+    def getFirstOrBestMatchJob(resource: Resource, capability: List[Int]): Option[JobDescription]
+    def getFirtOrBestMatchTask(resource: Resource, capability: List[Int]): Option[TaskDescription]
+
+    def doesJobDescriptionMatch(resource: Resource, capability: List[Int], jobDescription: JobDescription): Boolean
+    def doesTaskDescriptionMatch(resource: Resource, capability: List[Int], taskDescription: TaskDescription): Boolean
 }
 
 object AbstractQueue {
@@ -25,42 +28,46 @@ object AbstractQueue {
 
 class FIFOQueue extends AbstractQueue {
 
-    var JobQueue = new collection.mutable.MutableList[JobDescription]()
+    var JobQueue = new MutableList[JobDescription]()
 
-    var TaskQueue = new collection.mutable.MutableList[Tuple2[ActorRef, TaskDescription]]()
+    var TaskQueue = new MutableList[TaskDescription]()
 
     def EnqueueJob(e: JobDescription) = JobQueue += e
 
-    def EnqueueTask(a: ActorRef, e: TaskDescription) = TaskQueue += Tuple2(a, e)
+    def EnqueueTask(e: TaskDescription) = TaskQueue += e
 
     def RemoveJob(e: JobDescription) = JobQueue = JobQueue.filter(x => x.jobId != e.jobId)
 
-    def RemoveTask(e: TaskDescription) = TaskQueue = TaskQueue.filter(x => (x._2.jobId != e.jobId && x._2.index != e.index))
+    def RemoveTask(e: TaskDescription) = TaskQueue = TaskQueue.filter(x => (x.jobId != e.jobId && x.index != e.index))
 
-    def getFirstOrBestMatchJob(_resource: Resource, _capability: List[Int]): Option[JobDescription] = JobQueue match {
+    def getFirstOrBestMatchJob(resource: Resource, capability: List[Int]): Option[JobDescription] = JobQueue match {
         case MutableList() => None
-        case _             => JobQueue.filter(x => doesJobDescriptionMatch(_resource, _capability, x)).headOption
+        case _             => JobQueue.find(x => doesJobDescriptionMatch(resource, capability, x))
     }
 
-    def getFirtOrBestMatchTask(_resource: Resource, _capability: List[Int]): Option[Tuple2[ActorRef, TaskDescription]] = TaskQueue match {
+    def getFirtOrBestMatchTask(resource: Resource, capability: List[Int]): Option[TaskDescription] = TaskQueue match {
         case MutableList() => None
-        case _             => TaskQueue.filter(x => doesTaskDescriptionMatch(_resource, _capability, x._2)).headOption
+        case _             => TaskQueue.find(x => doesTaskDescriptionMatch(resource, capability, x))
     }
 
-    private def doesJobDescriptionMatch(_resource: Resource, _capability: List[Int], _jobDescription: JobDescription) = {
-        if (_jobDescription.numberOfTasks != 1)
+    def doesJobDescriptionMatch(resource: Resource, capability: List[Int], jobDescription: JobDescription) = {
+        if (jobDescription.numberOfTasks != 1)
             true
-        else if (_jobDescription.constraints == null && (_jobDescription.tasks(0).resource < _resource || _jobDescription.tasks(0).resource == _resource))
+        else if (jobDescription.constraints == null && jobDescription.tasks(0).resource < resource)
             true
-        else if (_jobDescription.constraints.foldLeft(true)((x, y) => _capability.contains(y) && x) && (_jobDescription.tasks(0).resource < _resource || _jobDescription.tasks(0).resource == _resource))
+        else if (capability == null)
+            false
+        else if (jobDescription.constraints.foldLeft(true)((x, y) => capability.contains(y) && x) && jobDescription.tasks(0).resource < resource)
             true
         else
             false
     }
 
-    private def doesTaskDescriptionMatch(_resource: Resource, _capability: List[Int], _taskDescription: TaskDescription) = {
+    def doesTaskDescriptionMatch(_resource: Resource, _capability: List[Int], _taskDescription: TaskDescription) = {
         if (_taskDescription.constraints == null && _taskDescription.resource < _resource)
             true
+        else if (_capability == null)
+            false
         else if (_taskDescription.constraints.foldLeft(true)((x, y) => _capability.contains(y) && x) && _taskDescription.resource < _resource)
             true
         else

@@ -7,6 +7,7 @@ import com.typesafe.config.ConfigFactory
 import org.joda.time.DateTime
 import scala.collection.immutable._
 import akka.actor._
+import ca.usask.agents.macrm.common.agents._TaskSubmission
 
 class ClusterManagerAgent extends Agent {
 
@@ -22,12 +23,12 @@ class ClusterManagerAgent extends Agent {
         case "initiateEvent"                    => Event_initiate()
         case "changeToCentralizedMode"          => Handle_ChangeToCentralizedMode()
         case "changeToDistributedMode"          => Handle_ChangeToDistributedMode()
-        case "finishedCentralizeScheduling"       => Handle_FinishedCentralizeScheduling(sender)
+        case "finishedCentralizeScheduling"     => Handle_FinishedCentralizeScheduling(sender)
+        case message: _TaskSubmission           => Handle_TaskSubmission(message)
         case message: _ServerWithEmptyResources => Handle_ServerWithEmptyResources(message)
         case message: _EachUserShareOfCluster   => Handle_EachUserShareOfCluster(message)
         case message: _ServerStatusUpdate       => Handle_ServerStatusUpdate(message)
         case _                                  => Handle_UnknownMessage
-        //TODO:Implement it //case message: _TaskSubmission
     }
 
     def Event_initiate() = {
@@ -40,13 +41,11 @@ class ClusterManagerAgent extends Agent {
         Logger.Log("ClusterManagerAgent Initialization End")
     }
 
-    def Handle_ServerStatusUpdate(message: _ServerStatusUpdate) = {
-
-    }
+    def Handle_ServerStatusUpdate(message: _ServerStatusUpdate) = nodeToRackMap(message._report.nodeId.host, message._report.nodeId.port) ! message
 
     def Handle_ChangeToCentralizedMode() = {
         queueAgent ! "changeToCentralizedMode"
-
+        //TODO:create scheduling agent and rackAgent
     }
 
     def Handle_ChangeToDistributedMode() = {
@@ -55,13 +54,15 @@ class ClusterManagerAgent extends Agent {
     }
 
     def Handle_ServerWithEmptyResources(message: _ServerWithEmptyResources) = queueAgent ! message
-
+        
     def Handle_EachUserShareOfCluster(message: _EachUserShareOfCluster) = queueAgent ! message
+
+    def Handle_TaskSubmission(message: _TaskSubmission) = queueAgent ! message
 
     def Handle_FinishedCentralizeScheduling(sender: ActorRef) = {
         schedulerAgentList = schedulerAgentList.filter(x => x == sender)
-        if(schedulerAgentList.isEmpty){        
-            rackAgentList.foreach(x => {context.stop(x); x ! Kill})
+        if (schedulerAgentList.isEmpty) {
+            rackAgentList.foreach(x => { context.stop(x); x ! Kill })
             resourceTracker ! "finishedCentralizeScheduling"
         }
     }

@@ -20,6 +20,7 @@ class NodeManagerAgent extends Agent {
         case message: _ResourceSamplingInquiry        => containerManager ! message
         case message: _ResourceSamplingCancel         => containerManager ! message
         case message: _AllocateContainerForJobManager => containerManager ! message
+        case message: _AllocateContainerForTask       => containerManager ! message
         case _                                        => Handle_UnknownMessage
     }
 

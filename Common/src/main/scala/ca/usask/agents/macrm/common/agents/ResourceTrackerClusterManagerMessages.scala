@@ -11,7 +11,7 @@ import java.util.Formatter.DateTime
  * of new submitted job
  */
 case class _ServerWithEmptyResources(_source: ActorRef, _time: DateTime, _report: NodeReport)
-    extends SystemMessage(_source, _time)
+    extends BasicMessage
 
 /**
  * From ResourceTracker to ClusterManager to inform it about
@@ -21,7 +21,7 @@ case class _ServerWithEmptyResources(_source: ActorRef, _time: DateTime, _report
  * TODO: Add information of user share into the message
  */
 case class _EachUserShareOfCluster(_source: ActorRef, _time: DateTime)
-    extends SystemMessage(_source, _time)
+    extends BasicMessage
 
 /**
  * From ResourceTracker To ClusterManager to let it know about change in server
@@ -29,4 +29,4 @@ case class _EachUserShareOfCluster(_source: ActorRef, _time: DateTime)
  * decision making
  */
 case class _ServerStatusUpdate(_source: ActorRef, _time: DateTime, _report: NodeReport)
-    extends SystemMessage(_source, _time)
+    extends BasicMessage

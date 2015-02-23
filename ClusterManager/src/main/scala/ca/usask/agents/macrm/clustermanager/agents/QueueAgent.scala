@@ -17,50 +17,56 @@ class QueueAgent extends Agent {
 
     val schedulingQueue = AbstractQueue(ClusterManagerConfig.QueueType)
 
-    val system = ActorSystem.create("SchedulerAgent", ConfigFactory.load().getConfig("SchedulerAgent"))
-
     def receive = {
         case "initiateEvent"                    => Event_initiate()
         case "getNextTaskForScheduling"         => Handle_getNextTaskForScheduling(sender)
         case message: _ServerWithEmptyResources => Handle_ServerWithEmptyResources(message)
         case message: _EachUserShareOfCluster   => Handle_EachUserShareOfCluster(message)
         case message: _JobSubmission            => Handle_JobSubmission(message)
+        case message: _TaskSubmission           => Handle_TaskSubmission(message)
         case _                                  => Handle_UnknownMessage
-        //TODO:Implement it //case message: _TaskSubmission           => Hande_TaskSubmission(message)
     }
 
     def Event_initiate() = {
         Logger.Log("QueueAgent Initialization")
     }
 
-    def Handle_getNextTaskForScheduling(sender: ActorRef) = {
-
-    }
-
+    //TODO: check if you can make it parallel the headOfTaskQueue and 
+    //the headOfJobQueue fetching, be careful about actor system 
     def Handle_ServerWithEmptyResources(message: _ServerWithEmptyResources) = {
-        //TODO: check if you can make it parallel the headOfTaskQueue and 
-        //the headOfJobQueue fetching, be careful about actor system 
         val headOfTaskQueue = schedulingQueue.getFirtOrBestMatchTask(message._report.capability, message._report.otherCapablity)
-        if (headOfTaskQueue != None) {
-            schedulingQueue.RemoveTask(headOfTaskQueue.get._2)
+        if (!headOfTaskQueue.isEmpty) {
+            println("**** Schedule a Task")
+            schedulingQueue.RemoveTask(headOfTaskQueue.get)
             scheduleTask(headOfTaskQueue.get, message)
         }
         else {
             val headOfJobQueue = schedulingQueue.getFirstOrBestMatchJob(message._report.capability, message._report.otherCapablity)
-            if (headOfJobQueue != None) {
+            if (!headOfJobQueue.isEmpty) {
+                println("**** Schedule a Job")
                 schedulingQueue.RemoveJob(headOfJobQueue.get)
                 schedulerJob(headOfJobQueue.get, message)
             }
         }
     }
 
-    def Handle_EachUserShareOfCluster(message: _EachUserShareOfCluster) = {
+    def Handle_JobSubmission(message: _JobSubmission) = schedulingQueue.EnqueueJob(message.jobDescription)
+
+    def Handle_TaskSubmission(message: _TaskSubmission) = schedulingQueue.EnqueueTask(message.taskDescription)
+
+    def scheduleTask(task: TaskDescription, message: _ServerWithEmptyResources) = message._report.nodeId.agent ! new _AllocateContainerForTask(self, DateTime.now, task)
+
+    def schedulerJob(job: JobDescription, message: _ServerWithEmptyResources) =  message._report.nodeId.agent ! new _AllocateContainerForJobManager(self, DateTime.now(), job)
+
+    /*
+     * TODO: Implement following functions
+     */
+
+    def Handle_getNextTaskForScheduling(sender: ActorRef) = {
 
     }
 
-    def Handle_JobSubmission(message: _JobSubmission) = schedulingQueue.EnqueueJob(message.jobDescription)
+    def Handle_EachUserShareOfCluster(message: _EachUserShareOfCluster) = {
 
-    def scheduleTask(task: Tuple2[ActorRef, TaskDescription], message: _ServerWithEmptyResources) = null
-
-    def schedulerJob(job: JobDescription, message: _ServerWithEmptyResources) = message._report.nodeId.agent ! new _AllocateContainerForJobManager(self, DateTime.now(), job)
+    }
 }

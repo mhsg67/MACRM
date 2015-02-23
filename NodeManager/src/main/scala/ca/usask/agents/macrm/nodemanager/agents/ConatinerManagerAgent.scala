@@ -25,6 +25,7 @@ class ContainerManagerAgent(val nodeManager: ActorRef, val serverState: ActorRef
         case message: _ResourceSamplingCancel         => Handle_ResourceSamplingCancel(message)
         case message: _Resource                       => Handle_Resource(message)
         case message: _AllocateContainerForJobManager => Handle_AllocateContainerForJobManager(message)
+        case message: _AllocateContainerForTask       => Handle_AllocateContainerForTask(message)
         case _                                        => Handle_UnknownMessage
     }
 
@@ -62,8 +63,20 @@ class ContainerManagerAgent(val nodeManager: ActorRef, val serverState: ActorRef
             startWaitingForServedResourceSamplingInquiryToResponse()
     }
 
-    def Handle_AllocateContainerForJobManager(message: _AllocateContainerForJobManager) = print("YESSSS")
+    
+    
+    def Handle_AllocateContainerForJobManager(message: _AllocateContainerForJobManager) = {
+        print("YESSSS")
+    }
 
+    def Handle_AllocateContainerForTask(message: _AllocateContainerForTask) = {
+        
+    }
+    
+    
+    
+    
+    
     def tryServerResourceSamplingInquiry(resource: Resource): Boolean = {
         if (resource.isNotUsable() || (resourceSmaplingInquiryList(0)._requiredResource > resource))
             false

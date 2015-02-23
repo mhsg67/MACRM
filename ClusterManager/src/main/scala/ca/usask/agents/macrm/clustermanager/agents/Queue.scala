@@ -13,11 +13,8 @@ trait AbstractQueue {
     def RemoveJob(e: JobDescription)
     def RemoveTask(e: TaskDescription)
 
-    def getFirstOrBestMatchJob(resource: Resource, capability: List[Int]): Option[JobDescription]
-    def getFirtOrBestMatchTask(resource: Resource, capability: List[Int]): Option[TaskDescription]
-
-    def doesJobDescriptionMatch(resource: Resource, capability: List[Int], jobDescription: JobDescription): Boolean
-    def doesTaskDescriptionMatch(resource: Resource, capability: List[Int], taskDescription: TaskDescription): Boolean
+    def getFirstOrBestMatchJob(resource: Resource, capability: List[Constraint]): Option[JobDescription]
+    def getFirtOrBestMatchTask(resource: Resource, capability: List[Constraint]): Option[TaskDescription]
 }
 
 object AbstractQueue {
@@ -40,38 +37,50 @@ class FIFOQueue extends AbstractQueue {
 
     def RemoveTask(e: TaskDescription) = TaskQueue = TaskQueue.filter(x => (x.jobId != e.jobId && x.index != e.index))
 
-    def getFirstOrBestMatchJob(resource: Resource, capability: List[Int]): Option[JobDescription] = JobQueue match {
+    def getFirstOrBestMatchJob(resource: Resource, capability: List[Constraint]): Option[JobDescription] = JobQueue match {
         case MutableList() => None
         case _             => JobQueue.find(x => doesJobDescriptionMatch(resource, capability, x))
     }
 
-    def getFirtOrBestMatchTask(resource: Resource, capability: List[Int]): Option[TaskDescription] = TaskQueue match {
+    def getFirtOrBestMatchTask(resource: Resource, capability: List[Constraint]): Option[TaskDescription] = TaskQueue match {
         case MutableList() => None
         case _             => TaskQueue.find(x => doesTaskDescriptionMatch(resource, capability, x))
     }
 
-    def doesJobDescriptionMatch(resource: Resource, capability: List[Int], jobDescription: JobDescription) = {
+    def doesJobDescriptionMatch(resource: Resource, capability: List[Constraint], jobDescription: JobDescription) = {
         if (jobDescription.numberOfTasks != 1)
             true
         else if (jobDescription.constraints == null && jobDescription.tasks(0).resource < resource)
             true
-        else if (capability == null)
+        else if (jobDescription.constraints != null && capability == null)
             false
-        else if (jobDescription.constraints.foldLeft(true)((x, y) => capability.contains(y) && x) && jobDescription.tasks(0).resource < resource)
+        else if (jobDescription.constraints.foldLeft(true)((x, y) => doesConstraintMatch(capability, y) && x) && jobDescription.tasks(0).resource < resource)
             true
         else
             false
     }
 
-    def doesTaskDescriptionMatch(_resource: Resource, _capability: List[Int], _taskDescription: TaskDescription) = {
-        if (_taskDescription.constraints == null && _taskDescription.resource < _resource)
+    def doesTaskDescriptionMatch(resource: Resource, capability: List[Constraint], taskDescription: TaskDescription) = {
+        if (taskDescription.constraints == null && taskDescription.resource < resource)
             true
-        else if (_capability == null)
+        else if (capability == null)
             false
-        else if (_taskDescription.constraints.foldLeft(true)((x, y) => _capability.contains(y) && x) && _taskDescription.resource < _resource)
+        else if (taskDescription.constraints.foldLeft(true)((x, y) => doesConstraintMatch(capability, y) && x) && taskDescription.resource < resource)
             true
         else
             false
+    }
+
+    //TODO: test it 
+    def doesConstraintMatch(resourceCapabilityList: List[Constraint], taskConstraint: Constraint) = resourceCapabilityList.find(x => x.name == taskConstraint.name) match {
+        case None => false
+        case Some(x) =>
+            taskConstraint.operator match {
+                case 0 => if (x.value == taskConstraint.value) true else false
+                case 1 => if (x.value != taskConstraint.value) true else false
+                case 2 => if (x.value < taskConstraint.value) true else false
+                case 3 => if (x.value > taskConstraint.value) true else false
+            }
     }
 }
 

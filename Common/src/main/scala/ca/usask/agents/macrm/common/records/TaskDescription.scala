@@ -12,4 +12,4 @@ case class TaskDescription(val jobManagerRef: ActorRef,
                            val duration: Duration,
                            val resource: Resource,
                            val relativeSubmissionTime: Duration,
-                           val constraints: List[Int]) extends Serializable
+                           val constraints: List[Constraint]) extends Serializable

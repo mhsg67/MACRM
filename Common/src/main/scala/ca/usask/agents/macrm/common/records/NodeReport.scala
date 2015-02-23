@@ -8,7 +8,7 @@ class NodeReport(val nodeId: NodeId,
                  val rackName: String,
                  val used: List[(Int, Resource)], //That Int reperesents UserId
                  val capability: Resource,
-                 val otherCapablity: List[Int],
+                 val otherCapablity: List[Constraint],
                  val utilization: Utilization,
                  val reportTime: DateTime,
                  val nodeState: NodeState,

@@ -9,4 +9,4 @@ case class JobDescription(val jobId: Long,
                           val userId: Int,
                           val numberOfTasks: Int,
                           var tasks: List[TaskDescription],
-                          var constraints: List[Int]) extends Serializable
+                          var constraints: List[Constraint]) extends Serializable

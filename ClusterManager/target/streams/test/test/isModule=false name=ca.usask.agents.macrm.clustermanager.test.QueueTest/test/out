@@ -1,7 +1,0 @@
-[0m[[0minfo[0m] [0m[32mQueueTest:[0m[0m
-[0m[[0minfo[0m] [0m[32mgetFirstOrBestMatchJob[0m[0m
-[0m[[0minfo[0m] [0m[32m- should get the first element of the queue[0m[0m
-[0m[[0minfo[0m] [0m[32mdoesJobDescriptionMatch[0m[0m
-[0m[[0minfo[0m] [0m[32m- should return right values[0m[0m
-[0m[[0minfo[0m] [0m[32mRemoveJob[0m[0m
-[0m[[0minfo[0m] [0m[32m- should should remove inserted job[0m[0m

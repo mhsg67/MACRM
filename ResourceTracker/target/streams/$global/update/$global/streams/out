@@ -7,7 +7,7 @@
 [0m[[0mdebug[0m] [0m== resolving dependencies for resourcetracker#resourcetracker_2.11;1.0 [compile][0m
 [0m[[0mdebug[0m] [0m== resolving dependencies resourcetracker#resourcetracker_2.11;1.0->org.scala-lang#scala-library;2.11.4 [compile->default(compile)][0m
 [0m[[0minfo[0m] [0mResolving org.scala-lang#scala-library;2.11.4 ...[0m
-[0m[[0mdebug[0m] [0msbt-chain: Checking cache for: sbt.ivyint.MergedDescriptors@496cefa9[0m
+[0m[[0mdebug[0m] [0msbt-chain: Checking cache for: sbt.ivyint.MergedDescriptors@1c20b82c[0m
 [0m[[0mdebug[0m] [0msbt-chain: module revision found in cache: org.scala-lang#scala-library;2.11.4[0m
 [0m[[0mdebug[0m] [0m	found org.scala-lang#scala-library;2.11.4 in sbt-chain[0m
 [0m[[0mdebug[0m] [0m	[2.11.4] org.scala-lang#scala-library;2.11.4[0m
@@ -25,7 +25,6 @@
 [0m[[0mdebug[0m] [0m== resolving dependencies common#common_2.11;1.0->com.typesafe.akka#akka-actor_2.11;2.3.7 [compile->default(compile)][0m
 [0m[[0minfo[0m] [0mResolving com.typesafe.akka#akka-actor_2.11;2.3.7 ...[0m
 [0m[[0mdebug[0m] [0msbt-chain: Checking cache for: dependency: com.typesafe.akka#akka-actor_2.11;2.3.7 {compile=[default(compile)]}[0m
-[0m[[0mdebug[0m] [0mno default cache defined: set to /home/node3/.ivy2/cache[0m
 [0m[[0mdebug[0m] [0msbt-chain: module revision found in cache: com.typesafe.akka#akka-actor_2.11;2.3.7[0m
 [0m[[0mdebug[0m] [0m	found com.typesafe.akka#akka-actor_2.11;2.3.7 in sbt-chain[0m
 [0m[[0mdebug[0m] [0m== resolving dependencies common#common_2.11;1.0->com.typesafe.akka#akka-actor_2.11;2.3.7 [compile->runtime][0m
@@ -66,6 +65,7 @@
 [0m[[0mdebug[0m] [0m== resolving dependencies common#common_2.11;1.0->org.joda#joda-convert;1.2 [compile->default(compile)][0m
 [0m[[0minfo[0m] [0mResolving org.joda#joda-convert;1.2 ...[0m
 [0m[[0mdebug[0m] [0msbt-chain: Checking cache for: dependency: org.joda#joda-convert;1.2 {compile=[default(compile)]}[0m
+[0m[[0mdebug[0m] [0mno default cache defined: set to /home/node3/.ivy2/cache[0m
 [0m[[0mdebug[0m] [0msbt-chain: module revision found in cache: org.joda#joda-convert;1.2[0m
 [0m[[0mdebug[0m] [0m	found org.joda#joda-convert;1.2 in sbt-chain[0m
 [0m[[0mdebug[0m] [0m== resolving dependencies common#common_2.11;1.0->org.joda#joda-convert;1.2 [compile->runtime][0m
@@ -733,7 +733,7 @@
 [0m[[0mdebug[0m] [0m	[NOT REQUIRED] org.scala-lang#scala-reflect;2.11.4!scala-reflect.jar[0m
 [0m[[0mdebug[0m] [0m	[NOT REQUIRED] org.scala-lang.modules#scala-parser-combinators_2.11;1.0.2!scala-parser-combinators_2.11.jar(bundle)[0m
 [0m[[0mdebug[0m] [0m	[NOT REQUIRED] jline#jline;2.12!jline.jar[0m
-[0m[[0mdebug[0m] [0m:: resolution report :: resolve 576ms :: artifacts dl 43ms[0m
+[0m[[0mdebug[0m] [0m:: resolution report :: resolve 251ms :: artifacts dl 11ms[0m
 [0m[[0mdebug[0m] [0m	report for resourcetracker#resourcetracker_2.11;1.0 compile produced in /home/node3/workspace/MACRM/ResourceTracker/target/resolution-cache/reports/resourcetracker-resourcetracker_2.11-compile.xml[0m
 [0m[[0mdebug[0m] [0m	report for resourcetracker#resourcetracker_2.11;1.0 runtime produced in /home/node3/workspace/MACRM/ResourceTracker/target/resolution-cache/reports/resourcetracker-resourcetracker_2.11-runtime.xml[0m
 [0m[[0mdebug[0m] [0m	report for resourcetracker#resourcetracker_2.11;1.0 test produced in /home/node3/workspace/MACRM/ResourceTracker/target/resolution-cache/reports/resourcetracker-resourcetracker_2.11-test.xml[0m
@@ -747,5 +747,5 @@
 [0m[[0mdebug[0m] [0m	report for resourcetracker#resourcetracker_2.11;1.0 docs produced in /home/node3/workspace/MACRM/ResourceTracker/target/resolution-cache/reports/resourcetracker-resourcetracker_2.11-docs.xml[0m
 [0m[[0mdebug[0m] [0m	report for resourcetracker#resourcetracker_2.11;1.0 pom produced in /home/node3/workspace/MACRM/ResourceTracker/target/resolution-cache/reports/resourcetracker-resourcetracker_2.11-pom.xml[0m
 [0m[[0mdebug[0m] [0m	report for resourcetracker#resourcetracker_2.11;1.0 scala-tool produced in /home/node3/workspace/MACRM/ResourceTracker/target/resolution-cache/reports/resourcetracker-resourcetracker_2.11-scala-tool.xml[0m
-[0m[[0mdebug[0m] [0m	resolve done (576ms resolve - 43ms download)[0m
+[0m[[0mdebug[0m] [0m	resolve done (251ms resolve - 11ms download)[0m
 [0m[[0minfo[0m] [0mDone updating.[0m

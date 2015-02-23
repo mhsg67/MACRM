@@ -11,7 +11,8 @@ import play.api.libs.json._
 import akka.actor._
 import akka.camel._
 
-case class testTask(index: Int)
+case class InputTaskDescription(index: Int, duration: Long, relSubTime: Long, cpu: Float, memory: Float)
+case class InputConstraintDescription(index:Int, value1: Int, operator: Int, value2: Int)
 
 class UserInterfaceAgent(val queueAgent: ActorRef) extends Agent with Consumer {
 
@@ -56,18 +57,18 @@ class UserInterfaceAgent(val queueAgent: ActorRef) extends Agent with Consumer {
         try {
             val json: JsValue = Json.parse(messageBody)
 
-            //println(json)
+            val jobId = (json \ "JI").as[Long]
+            val userId = (json \ "UI").as[Int]
 
-            //val jobId = (json \ "ID" ).as[Int]
-            //val userId = new UserId((json \ "UserID").as[Int])
-            //val numberOfTasks = (json \ "#tasks").as[Int]
-
-            val t = (json \ "time").as[Long]
-
-            var tim = new DateTime(t)
-
-            println(tim)
-            println(DateTime.now().getMillis)
+            implicit val tasksRead = Json.reads[InputTaskDescription]
+            val tasks = (json \ "TS").as[List[InputTaskDescription]]
+            
+            
+            
+            implicit val constraintsRead = Json.reads[InputConstraintDescription]
+            val constraints = (json \"CS").as[List[InputConstraintDescription]]            
+            
+            var temp = constraints.groupBy { x => x.index }
 
             //implicit val tasksRead = Json.reads[testTask]
             //val tasks = (json \ "tasks").as[List[testTask]]            
@@ -76,7 +77,7 @@ class UserInterfaceAgent(val queueAgent: ActorRef) extends Agent with Consumer {
 
             //println(jobId.toString())
 
-            return Left("Under Development")
+            return Left(temp.toString())
         }
         catch {
             case e: Exception => Left(e.getMessage)

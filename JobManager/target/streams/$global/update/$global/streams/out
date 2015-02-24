@@ -1,4 +1,5 @@
 [0m[[0minfo[0m] [0mUpdating {file:/home/node3/workspace/MACRM/}JobManager...[0m
+[0m[[0mdebug[0m] [0mno default cache defined: set to /home/node3/.ivy2/cache[0m
 [0m[[0mdebug[0m] [0m:: resolving dependencies :: jobmanager#jobmanager_2.11;1.0[0m
 [0m[[0mdebug[0m] [0m	confs: [compile, runtime, test, provided, optional, compile-internal, runtime-internal, test-internal, plugin, sources, docs, pom, scala-tool][0m
 [0m[[0mdebug[0m] [0m	validate = true[0m
@@ -7,8 +8,7 @@
 [0m[[0mdebug[0m] [0m== resolving dependencies for jobmanager#jobmanager_2.11;1.0 [compile][0m
 [0m[[0mdebug[0m] [0m== resolving dependencies jobmanager#jobmanager_2.11;1.0->org.scala-lang#scala-library;2.11.4 [compile->default(compile)][0m
 [0m[[0minfo[0m] [0mResolving org.scala-lang#scala-library;2.11.4 ...[0m
-[0m[[0mdebug[0m] [0msbt-chain: Checking cache for: sbt.ivyint.MergedDescriptors@6f707c7a[0m
-[0m[[0mdebug[0m] [0mno default cache defined: set to /home/node3/.ivy2/cache[0m
+[0m[[0mdebug[0m] [0msbt-chain: Checking cache for: sbt.ivyint.MergedDescriptors@5a0df9fe[0m
 [0m[[0mdebug[0m] [0msbt-chain: module revision found in cache: org.scala-lang#scala-library;2.11.4[0m
 [0m[[0mdebug[0m] [0m	found org.scala-lang#scala-library;2.11.4 in sbt-chain[0m
 [0m[[0mdebug[0m] [0m	[2.11.4] org.scala-lang#scala-library;2.11.4[0m
@@ -733,7 +733,7 @@
 [0m[[0mdebug[0m] [0m	[NOT REQUIRED] org.scala-lang#scala-reflect;2.11.4!scala-reflect.jar[0m
 [0m[[0mdebug[0m] [0m	[NOT REQUIRED] org.scala-lang.modules#scala-parser-combinators_2.11;1.0.2!scala-parser-combinators_2.11.jar(bundle)[0m
 [0m[[0mdebug[0m] [0m	[NOT REQUIRED] jline#jline;2.12!jline.jar[0m
-[0m[[0mdebug[0m] [0m:: resolution report :: resolve 256ms :: artifacts dl 14ms[0m
+[0m[[0mdebug[0m] [0m:: resolution report :: resolve 161ms :: artifacts dl 10ms[0m
 [0m[[0mdebug[0m] [0m	report for jobmanager#jobmanager_2.11;1.0 compile produced in /home/node3/workspace/MACRM/JobManager/target/resolution-cache/reports/jobmanager-jobmanager_2.11-compile.xml[0m
 [0m[[0mdebug[0m] [0m	report for jobmanager#jobmanager_2.11;1.0 runtime produced in /home/node3/workspace/MACRM/JobManager/target/resolution-cache/reports/jobmanager-jobmanager_2.11-runtime.xml[0m
 [0m[[0mdebug[0m] [0m	report for jobmanager#jobmanager_2.11;1.0 test produced in /home/node3/workspace/MACRM/JobManager/target/resolution-cache/reports/jobmanager-jobmanager_2.11-test.xml[0m
@@ -747,5 +747,5 @@
 [0m[[0mdebug[0m] [0m	report for jobmanager#jobmanager_2.11;1.0 docs produced in /home/node3/workspace/MACRM/JobManager/target/resolution-cache/reports/jobmanager-jobmanager_2.11-docs.xml[0m
 [0m[[0mdebug[0m] [0m	report for jobmanager#jobmanager_2.11;1.0 pom produced in /home/node3/workspace/MACRM/JobManager/target/resolution-cache/reports/jobmanager-jobmanager_2.11-pom.xml[0m
 [0m[[0mdebug[0m] [0m	report for jobmanager#jobmanager_2.11;1.0 scala-tool produced in /home/node3/workspace/MACRM/JobManager/target/resolution-cache/reports/jobmanager-jobmanager_2.11-scala-tool.xml[0m
-[0m[[0mdebug[0m] [0m	resolve done (256ms resolve - 14ms download)[0m
+[0m[[0mdebug[0m] [0m	resolve done (161ms resolve - 10ms download)[0m
 [0m[[0minfo[0m] [0mDone updating.[0m

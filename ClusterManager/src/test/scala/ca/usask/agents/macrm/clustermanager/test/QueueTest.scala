@@ -11,7 +11,7 @@ class QueueTest extends UnitSpec {
 
         val task1 = new TaskDescription(null, 1, 0, new org.joda.time.Duration(100), new Resource(1, 250), new org.joda.time.Duration(2), List())
         val task2 = new TaskDescription(null, 1, 1, new org.joda.time.Duration(200), new Resource(1, 250), new org.joda.time.Duration(2), List())
-        val job1 = new JobDescription(1, 1, 2, List(task1, task2), List())
+        val job1 = new JobDescription(1, 1, 2, List(task1, task2))
         queue.EnqueueJob(job1)
 
         val resource = new Resource(3, 1000)
@@ -27,7 +27,7 @@ class QueueTest extends UnitSpec {
         val const1 = new Constraint("1", 0, 1)
 
         val task1 = new TaskDescription(null, 1, 0, new org.joda.time.Duration(100), new Resource(1, 250), new org.joda.time.Duration(2), List(const1))
-        val job1 = new JobDescription(1, 1, 1, List(task1), List(const1))
+        val job1 = new JobDescription(1, 1, 1, List(task1))
         queue.EnqueueJob(job1)
 
         val resource = new Resource(3, 1000)
@@ -50,7 +50,7 @@ class QueueTest extends UnitSpec {
 
         val task1 = new TaskDescription(null, 1, 0, new org.joda.time.Duration(100), new Resource(1, 250), new org.joda.time.Duration(2), null)
         val task2 = new TaskDescription(null, 1, 1, new org.joda.time.Duration(200), new Resource(1, 250), new org.joda.time.Duration(2), null)
-        val job1 = new JobDescription(1, 1, 2, List(task1, task2), null)
+        val job1 = new JobDescription(1, 1, 2, List(task1, task2))
         queue.EnqueueJob(job1)
 
         val resource = new Resource(3, 1000)

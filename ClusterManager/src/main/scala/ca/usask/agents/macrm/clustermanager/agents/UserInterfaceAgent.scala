@@ -40,7 +40,7 @@ class UserInterfaceAgent(val queueAgent: ActorRef) extends Agent with Consumer {
 
     val task1 = new TaskDescription(null, 1, 0, new org.joda.time.Duration(100), new Resource(1, 250), new org.joda.time.Duration(2), null)
     val task2 = new TaskDescription(null, 1, 1, new org.joda.time.Duration(200), new Resource(1, 250), new org.joda.time.Duration(2), null)
-    val job1 = new JobDescription(1, 1, 2, List(task1, task2), null)
+    val job1 = new JobDescription(1, 1, 2, List(task1, task2))
 
     def TESTsendTestJob() = {
         queueAgent ! new _JobSubmission(job1)

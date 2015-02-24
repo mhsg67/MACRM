@@ -6,13 +6,11 @@ import java.io.Serializable
 class Utilization(val memoryUtilization: Double = 0.0, val virtualCoreUtilization: Double = 0.0, val numberOfContainers: Int = 1)
     extends AgentsComaparable[Utilization] with Serializable {
 
-    override def equal(other: Utilization): Boolean = {
-        if (this.memoryUtilization == other.memoryUtilization &&
-            this.virtualCoreUtilization == other.virtualCoreUtilization &&
-            this.numberOfContainers == other.numberOfContainers)
-            return true;
-        else
-            return false;
+    override def equal(input: Any): Boolean = input match {
+        case that: Utilization => this.memoryUtilization == that.memoryUtilization &&
+            this.virtualCoreUtilization == that.virtualCoreUtilization &&
+            this.numberOfContainers == that.numberOfContainers
+        case _ => false
     }
 
 }

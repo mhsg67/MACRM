@@ -7,5 +7,5 @@ package ca.usask.agents.macrm.common.records
 
 trait AgentsComaparable[T] {
     //override def compare(other:T) = 0;
-    def equal(other:T):Boolean;
+    def equal(other:Any):Boolean;
 }

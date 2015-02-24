@@ -16,7 +16,7 @@ object SimulationServerState extends ServerState {
     //def getServerStatus(_nodeManager: ActorRef, _nodeQueueState: NodeQueueState) = new NodeReport("NoRack")
     
     def getServerStatus(_nodeManager: ActorRef, _nodeQueueState: NodeQueueState) = new NodeReport(
-        new NodeId(agent = _nodeManager),
+        NodeId(_nodeManager),
         "No Rack",
         serverUsed,
         serverCapability,

@@ -50,9 +50,9 @@ class FIFOQueue extends AbstractQueue {
     def doesJobDescriptionMatch(resource: Resource, capability: List[Constraint], jobDescription: JobDescription) = {
         if (jobDescription.numberOfTasks != 1)
             true
-        else if (jobDescription.constraints == null && jobDescription.tasks(0).resource < resource)
+        else if (jobDescription.constraints.isEmpty && jobDescription.tasks(0).resource < resource)
             true
-        else if (jobDescription.constraints != null && capability == null)
+        else if (!jobDescription.constraints.isEmpty && capability.isEmpty)
             false
         else if (jobDescription.constraints.foldLeft(true)((x, y) => doesConstraintMatch(capability, y) && x) && jobDescription.tasks(0).resource < resource)
             true
@@ -61,9 +61,9 @@ class FIFOQueue extends AbstractQueue {
     }
 
     def doesTaskDescriptionMatch(resource: Resource, capability: List[Constraint], taskDescription: TaskDescription) = {
-        if (taskDescription.constraints == null && taskDescription.resource < resource)
+        if (taskDescription.constraints.isEmpty && taskDescription.resource < resource)
             true
-        else if (capability == null)
+        else if (capability.isEmpty)
             false
         else if (taskDescription.constraints.foldLeft(true)((x, y) => doesConstraintMatch(capability, y) && x) && taskDescription.resource < resource)
             true
@@ -71,7 +71,6 @@ class FIFOQueue extends AbstractQueue {
             false
     }
 
-    //TODO: test it 
     def doesConstraintMatch(resourceCapabilityList: List[Constraint], taskConstraint: Constraint) = resourceCapabilityList.find(x => x.name == taskConstraint.name) match {
         case None => false
         case Some(x) =>

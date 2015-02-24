@@ -4,11 +4,9 @@ class ResourceRequestId(val jobId:String) extends AgentsComaparable[ResourceRequ
 
     val id = GUIDGenerator.getNextGUID;    
 
-    override def equal(other: ResourceRequestId): Boolean = {
-        if (this.id == other.id)
-            return true;
-        else
-            return false;
+    override def equal(input: Any): Boolean = input match{
+        case that:ResourceRequestId => this.id == that.id
+        case _ => false
     }
 
     override def toString(): String = jobId + "::" + id

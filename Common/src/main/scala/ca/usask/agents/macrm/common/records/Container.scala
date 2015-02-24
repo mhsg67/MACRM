@@ -6,11 +6,11 @@ import java.io.Serializable
 class Container(var containerId: ContainerId,
                 var nodeId: NodeId,
                 var resource: Resource,
-                var priority: Priority) extends AgentsComaparable[Container] with Serializable {
-    override def equal(other: Container): Boolean = {
-        if (this.nodeId == other.nodeId && this.resource == other.resource)
-            return true;
-        else
-            return false;
+                var priority: Priority)
+    extends AgentsComaparable[Container] with Serializable {
+
+    override def equal(input: Any): Boolean = input match {
+        case that: Container => this.nodeId.equal(that.nodeId) && this.resource.equal(that.resource)
+        case _               => false
     }
 }

@@ -2,17 +2,10 @@ package ca.usask.agents.macrm.clustermanager.agents
 
 import ca.usask.agents.macrm.clustermanager.utils._
 import ca.usask.agents.macrm.common.records._
-import ca.usask.agents.macrm.common.records._
 import ca.usask.agents.macrm.common.agents._
-import play.api.libs.functional.syntax._
-import scala.concurrent.duration._
 import org.joda.time._
-import play.api.libs.json._
 import akka.actor._
 import akka.camel._
-
-case class InputTaskDescription(index: Int, duration: Long, relSubTime: Long, cpu: Float, memory: Float)
-case class InputConstraintDescription(index:Int, value1: Int, operator: Int, value2: Int)
 
 class UserInterfaceAgent(val queueAgent: ActorRef) extends Agent with Consumer {
 
@@ -31,11 +24,11 @@ class UserInterfaceAgent(val queueAgent: ActorRef) extends Agent with Consumer {
 
     def Event_initiate() = {
         Logger.Log("UserInterfaceAgent Initialization")
-        context.system.scheduler.scheduleOnce(1000 millis, self, "sendTestJob")
+        //context.system.scheduler.scheduleOnce(1000 millis, self, "sendTestJob")
     }
 
     def Handle_UserMessage(message: CamelMessage, sender: ActorRef) = {
-        getJobDescription(message.body.toString()) match {
+        JSONManager.getJobDescription(message.body.toString()) match {
             case Left(x) => sender ! "Incorrect job submission format: " + x
             case Right(x) => {
                 jobIdToUserRef(x.jobId) = sender
@@ -52,35 +45,5 @@ class UserInterfaceAgent(val queueAgent: ActorRef) extends Agent with Consumer {
     def TESTsendTestJob() = {
         queueAgent ! new _JobSubmission(job1)
     }
-
-    def getJobDescription(messageBody: String): Either[String, JobDescription] = {
-        try {
-            val json: JsValue = Json.parse(messageBody)
-
-            val jobId = (json \ "JI").as[Long]
-            val userId = (json \ "UI").as[Int]
-
-            implicit val tasksRead = Json.reads[InputTaskDescription]
-            val tasks = (json \ "TS").as[List[InputTaskDescription]]
-            
-            
-            
-            implicit val constraintsRead = Json.reads[InputConstraintDescription]
-            val constraints = (json \"CS").as[List[InputConstraintDescription]]            
-            
-            var temp = constraints.groupBy { x => x.index }
-
-            //implicit val tasksRead = Json.reads[testTask]
-            //val tasks = (json \ "tasks").as[List[testTask]]            
-
-            //tasks.foreach { x => println(x.index) }
-
-            //println(jobId.toString())
-
-            return Left(temp.toString())
-        }
-        catch {
-            case e: Exception => Left(e.getMessage)
-        }
-    }
+    
 }

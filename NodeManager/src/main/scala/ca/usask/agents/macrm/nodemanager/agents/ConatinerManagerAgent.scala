@@ -78,7 +78,7 @@ class ContainerManagerAgent(val nodeManager: ActorRef, val serverState: ActorRef
     
     
     def tryServerResourceSamplingInquiry(resource: Resource): Boolean = {
-        if (resource.isNotUsable() || (resourceSmaplingInquiryList(0)._requiredResource > resource))
+        if (resource.isNotUsable() || (resourceSmaplingInquiryList(0)._minRequiredResource > resource))
             false
         else {
             nodeManager ! new _ResourceSamplingResponse(self, DateTime.now(), resource)

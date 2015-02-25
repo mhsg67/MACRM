@@ -9,7 +9,7 @@ import ca.usask.agents.macrm.common.records.Resource
  * From JobManager to NodeManager to inquiry about node resource
  * availability
  */
-case class _ResourceSamplingInquiry(_source: ActorRef, _time: DateTime, _requiredResource: Resource)
+case class _ResourceSamplingInquiry(_source: ActorRef, _time: DateTime, _minRequiredResource: Resource)
     extends BasicMessage
 
 /**

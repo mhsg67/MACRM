@@ -8,9 +8,13 @@ import org.joda.time.DateTime
 import scala.collection._
 import akka.actor._
 
-class JobManagerAgent(val userId: Int, val jobId: String, var clusterStructure: ClusterStructure, var samplingRate: Int = 2)
+class JobManagerAgent(val userId: Int,
+                      val jobId: String,
+                      val samplingInformation: SamplingInformation,
+                      val jobDescription: JobDescription)
     extends Agent {
 
+    val samplingManager = new SamplingManager()
     val resourceTracker = context.actorSelection(JobManagerConfig.getResourceTrackerAddress())
 
     import context.dispatcher
@@ -37,10 +41,9 @@ class JobManagerAgent(val userId: Int, val jobId: String, var clusterStructure: 
 
     def create_JMHeartBeat() = new _JMHeartBeat(self, DateTime.now(), new JobReport(userId, jobId))
 
-    def Handle_FindResources(message: _FindResources) = createSamplingList(message._requirment).map(x =>
-        getActorRefFromNodeId(x._1) ! new _ResourceSamplingInquiry(self, DateTime.now(), x._2))
+    def Handle_FindResources(message: _FindResources) = createSamplingList(message.tasksDescriptions, false).foreach(x => (getActorRefFromNodeId(x._1) ! _ResourceSamplingInquiry(self,DateTime.now(), x._2))) 
 
-    def createSamplingList(requirementList: List[(Resource, NodeConstraint, Int)]): List[(NodeId, Resource)] = null
+    def createSamplingList(tasks: List[TaskDescription], retry:Boolean): List[(NodeId, Resource)] = samplingManager.getSamplingNode(tasks,retry) 
 
     def getActorRefFromNodeId(node: NodeId): ActorSelection = context.actorSelection(createNodeManagerAddressString(node.host, node.port))
 
@@ -49,6 +52,6 @@ class JobManagerAgent(val userId: Int, val jobId: String, var clusterStructure: 
         port.toString() + "/" +
         "user/NodeManagerAgent"
 
-    def Handle_JMHeartBeatResponse(message: _JMHeartBeatResponse) = samplingRate = message._samplingRate    
-    
+    def Handle_JMHeartBeatResponse(message: _JMHeartBeatResponse) = samplingManager.loadNewSamplingRate(message._samplingRate)
+
 }

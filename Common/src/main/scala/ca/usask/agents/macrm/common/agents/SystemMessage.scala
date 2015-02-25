@@ -14,7 +14,7 @@ trait BasicMessage
  */
 case class _Resource(val _resource: Resource) extends BasicMessage
 
-case class _FindResources(val _requirment:List[(Resource,NodeConstraint,Int)]) extends BasicMessage
+case class _FindResources(val tasksDescriptions:List[TaskDescription]) extends BasicMessage
 
 case class _JobSubmission(val jobDescription:JobDescription)
 

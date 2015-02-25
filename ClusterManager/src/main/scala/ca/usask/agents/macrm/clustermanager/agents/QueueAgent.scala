@@ -45,7 +45,10 @@ class QueueAgent extends Agent {
             if (!headOfJobQueue.isEmpty) {
                 println("**** Schedule a Job")
                 schedulingQueue.RemoveJob(headOfJobQueue.get)
-                schedulerJob(headOfJobQueue.get, message)
+                if(headOfJobQueue.get.numberOfTasks != 1)
+                    schedulerJob(headOfJobQueue.get, message)
+                else
+                    schedulerJob(headOfJobQueue.get, message)
             }
         }
     }

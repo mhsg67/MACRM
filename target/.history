@@ -1,12 +1,3 @@
-compile
-eclipse
-exit
-clean
-compile
-clean
-compile
-eclipse
-clean
 exit
 clean
 compile
@@ -498,3 +489,12 @@ ClusterManager/test
 clean
 compile
 eclipse
+exit
+clean
+compile
+eclipse
+compile
+clean
+compile
+eclipse
+compile

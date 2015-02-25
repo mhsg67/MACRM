@@ -16,7 +16,6 @@ class UserInterfaceAgent(val queueAgent: ActorRef) extends Agent with Consumer {
     def receive = {
         case "initiateEvent"       => Event_initiate()
         case message: CamelMessage => Handle_UserMessage(message, sender())
-        case "sendTestJob"         => TESTsendTestJob()
         case _                     => Handle_UnknownMessage
     }
 
@@ -24,7 +23,6 @@ class UserInterfaceAgent(val queueAgent: ActorRef) extends Agent with Consumer {
 
     def Event_initiate() = {
         Logger.Log("UserInterfaceAgent Initialization")
-        //context.system.scheduler.scheduleOnce(1000 millis, self, "sendTestJob")
     }
 
     def Handle_UserMessage(message: CamelMessage, sender: ActorRef) = {
@@ -37,13 +35,4 @@ class UserInterfaceAgent(val queueAgent: ActorRef) extends Agent with Consumer {
         }
 
     }
-
-    val task1 = new TaskDescription(null, 1, 0, new org.joda.time.Duration(100), new Resource(1, 250), new org.joda.time.Duration(2), null)
-    val task2 = new TaskDescription(null, 1, 1, new org.joda.time.Duration(200), new Resource(1, 250), new org.joda.time.Duration(2), null)
-    val job1 = new JobDescription(1, 1, 2, List(task1, task2))
-
-    def TESTsendTestJob() = {
-        queueAgent ! new _JobSubmission(job1)
-    }
-    
 }

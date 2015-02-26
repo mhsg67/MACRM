@@ -10,37 +10,26 @@ import org.joda.time.DateTime
 object SimulationServerState extends ServerState {
 
     var serverResource: Resource = null
-    var serverCapability: List[Constraint] = null
-    var serverUsed: List[(Int, Resource)] = null //That Int represent UserId
-    val serverNodeState = NodeState("RUNNING")
+    var serverCapabilities: List[Constraint] = null
+    var serverContainers: List[Container] = null
+    var serverNodeState = NodeState("RUNNING")
+
+    def initializeServer(): Boolean = true
 
     def initializeSimulationServer(resource: Resource, capability: List[Constraint]) = {
         serverResource = resource
-        serverCapability = capability
+        serverCapabilities = capability
         true
     }
 
-    def getServerStatus(_nodeManager: ActorRef, _nodeQueueState: NodeQueueState) = new NodeReport(
-        NodeId(_nodeManager),
-        "No Rack",
-        serverUsed,
-        serverResource,
-        serverCapability,
-        getServerUtilization(),
-        DateTime.now(),
-        getServerNodeState,
-        _nodeQueueState)
+    def getServerStatus(nodeManager: ActorRef, serverQueueState: Int) =
+        new NodeReport(NodeId(nodeManager), serverResource, serverCapabilities,
+            serverContainers, serverUtilization, serverNodeState, serverQueueState)
 
-    def getServerUtilization(): Utilization = {
-        val tempResource = serverUsed.foldLeft(new Resource(0, 0))((x, y) => x + y._2)
-        new Utilization(tempResource.memory, tempResource.virtualCore, serverUsed.length)
-    }
+    def serverUtilization(): Utilization = new Utilization(0.0, 0.0)
 
-    def getServerAvailableResources(): Resource = serverResource - serverUsed.foldLeft(new Resource(0, 0))((x, y: (Int, Resource)) => x + y._2)
+    def getServerFreeResources = serverResource - serverContainers.foldLeft(new Resource(0, 0))((x, y) => y.resource + x)
 
-    def getServerCapability(): Resource = serverResource
+    def getServerResource() = serverResource
 
-    def getServerNodeState(): NodeState = serverNodeState
-
-    def initializeServer(): Boolean = true
 }

@@ -38,10 +38,12 @@ class ResourceTrackerAgent extends Agent {
             clusterManagerAgent ! new _ServerWithEmptyResources(self, DateTime.now(), addIPandPortToNodeReport(message._report, message._source))
     }
 
-    def doesServerHaveResourceForAJobManager(_nodeReport: NodeReport) = if (_nodeReport.getAvailableResources() > ResourceTrakerConfig.minResourceForJobManager) true else false
+    def doesServerHaveResourceForAJobManager(_nodeReport: NodeReport) = if (_nodeReport.getFreeResources() > ResourceTrakerConfig.minResourceForJobManager) true else false
 
-    def addIPandPortToNodeReport(oldReport: NodeReport, sender: ActorRef) = new NodeReport(new NodeId(sender.path.address.host.get, sender.path.address.port.get, sender), oldReport.rackName, oldReport.used,
-        oldReport.capability, oldReport.otherCapablity, oldReport.utilization, oldReport.reportTime, oldReport.nodeState, oldReport.nodeQueueState)
+    def addIPandPortToNodeReport(oldReport: NodeReport, sender: ActorRef) =
+        new NodeReport(new NodeId(sender.path.address.host.get, sender.path.address.port.get, sender),
+            oldReport.resource, oldReport.capabilities, oldReport.containers, oldReport.utilization,
+            oldReport.nodeState, oldReport.queueState)
 
     def Handle_FinishedCentralizeScheduling() = {
         //TODO: Stop sending _ServerStatusUpdate

@@ -1,0 +1,5 @@
+[0m[[0minfo[0m] [0m[32mJSONManagerTest:[0m[0m
+[0m[[0minfo[0m] [0m[32mgetJobDescription[0m[0m
+[0m[[0minfo[0m] [0m[32m- should return JobDescription Object[0m[0m
+[0m[[0minfo[0m] [0m[32mgetJobDescription[0m[0m
+[0m[[0minfo[0m] [0m[32m- should return JobDescription with constraints[0m[0m

@@ -1,12 +1,3 @@
-last root/compile/runMain
-exit
-run ca.usask.agents.macrm.tracker.agents.main
-console
-exit
-compile
-clean
-compile
-package
 project
 projects
 tracking/compile
@@ -498,3 +489,12 @@ compile
 clean
 compile
 eclipse
+compile
+clean
+compile
+eclipse
+compile
+clean
+compile
+eclipse
+ClusterManager/test

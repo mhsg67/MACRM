@@ -39,9 +39,9 @@ class ServerStateAgent(val nodeManager: ActorRef) extends Agent {
         if (DateTime.now().getMillis() - lastSubmissionOfHeartBeat.getMillis() < NodeManagerConfig.stopServingJobManagerRequestAfterHeartBeat)
             sender ! new _Resource(new Resource())
         else
-            sender ! new _Resource(serverState.getServerAvailableResources())
+            sender ! new _Resource(serverState.getServerFreeResources())
 
-    def createNodeReport(): NodeReport = serverState.getServerStatus(nodeManager, null)
+    def createNodeReport(): NodeReport = serverState.getServerStatus(nodeManager, 0) //TODO:change 0 to right number
 
     def create_HeartBeat(_nodeReport: NodeReport) = new _HeartBeat(self, DateTime.now(), _nodeReport)
 

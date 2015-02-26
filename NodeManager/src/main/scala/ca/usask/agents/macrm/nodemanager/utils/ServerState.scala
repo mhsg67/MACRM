@@ -12,16 +12,16 @@ import org.joda.time.DateTime
 trait ServerState {
 
     def initializeServer(): Boolean
-    
-    def initializeSimulationServer(resource:Resource, capability:List[Constraint]): Boolean
 
-    def getServerStatus(_nodeManager: ActorRef, _nodeQueueState: NodeQueueState): NodeReport
+    def getServerResource(): Resource
 
-    def getServerCapability(): Resource
-    
-    def getServerAvailableResources(): Resource
+    def getServerFreeResources(): Resource
+
+    def getServerStatus(nodeManager: ActorRef, nodeQueueState: Int): NodeReport
+
+    def initializeSimulationServer(resource: Resource, capability: List[Constraint]): Boolean
+
 }
-
 
 /**
  * This is just class factory to create either of above classes depends on simulation or real case

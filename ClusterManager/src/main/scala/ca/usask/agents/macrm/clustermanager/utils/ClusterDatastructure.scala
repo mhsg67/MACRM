@@ -5,7 +5,7 @@ import ca.usask.agents.macrm.common.records._
 class ClusterDatastructure {
 
     var samplingRate = 2
-    var clusterNodes = List[NodeReport]()
+    var clusterNodes = List[NodeReport]()//TODO: it should change to just hold required infomration 
     var rareResource = List[Constraint]()
 
     def updateClusterStructure(newSamplingRate: Int = -1, removedServers: List[NodeId] = null, addedServers: List[NodeReport] = null, rareResourcesUpdate: List[(Boolean, Constraint)] = null) = {
@@ -24,7 +24,7 @@ class ClusterDatastructure {
     }
 
     def getCurrentSamplingInformation(constraints: List[Constraint]): SamplingInformation = {
-        var tempClusterNodes = clusterNodes.map(x => (x.nodeId, getMatchCapablitiesOfNode(x.otherCapablity, constraints)))
+        var tempClusterNodes = clusterNodes.map(x => (x.nodeId, getMatchCapablitiesOfNode(x.capabilities, constraints)))
         tempClusterNodes = tempClusterNodes.filterNot(x => x._2 == List())
         new SamplingInformation(samplingRate, tempClusterNodes)
     }    

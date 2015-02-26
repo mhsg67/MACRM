@@ -34,14 +34,14 @@ class QueueAgent extends Agent {
     //TODO: check if you can make it parallel the headOfTaskQueue and 
     //the headOfJobQueue fetching, be careful about actor system 
     def Handle_ServerWithEmptyResources(message: _ServerWithEmptyResources) = {
-        val headOfTaskQueue = schedulingQueue.getFirtOrBestMatchTask(message._report.capability, message._report.otherCapablity)
+        val headOfTaskQueue = schedulingQueue.getFirtOrBestMatchTask(message._report.resource, message._report.capabilities)
         if (!headOfTaskQueue.isEmpty) {
             println("**** Schedule a Task")
             schedulingQueue.RemoveTask(headOfTaskQueue.get)
             scheduleTask(headOfTaskQueue.get, message)
         }
         else {
-            val headOfJobQueue = schedulingQueue.getFirstOrBestMatchJob(message._report.capability, message._report.otherCapablity)
+            val headOfJobQueue = schedulingQueue.getFirstOrBestMatchJob(message._report.resource, message._report.capabilities)
             if (!headOfJobQueue.isEmpty) {
                 println("**** Schedule a Job")
                 schedulingQueue.RemoveJob(headOfJobQueue.get)

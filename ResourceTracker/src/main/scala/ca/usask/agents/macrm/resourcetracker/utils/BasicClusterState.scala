@@ -44,14 +44,14 @@ object BasicClusterState {
     }
 
     
-    def UpdateStateOfNode(_source: ActorRef, _receiveTime: DateTime, _submitTime: DateTime, _node: NodeReport): Unit = {
+    /*def UpdateStateOfNode(_source: ActorRef, _receiveTime: DateTime, _submitTime: DateTime, _node: NodeReport): Unit = {
         if (!rackIdToNodesId(_node.rackName).contains(_node.nodeId))
             rackIdToNodesId(_node.rackName) += _node.nodeId
         table(_node.nodeId).source = _source
         table(_node.nodeId).receiveTime = _receiveTime
         table(_node.nodeId).submitTime = _submitTime
         table(_node.nodeId).node = _node
-    }
+    }*/
 
     def IsAvailableNode(_nodeId: NodeId): Boolean = {
         var currentTime = DateTime.now()

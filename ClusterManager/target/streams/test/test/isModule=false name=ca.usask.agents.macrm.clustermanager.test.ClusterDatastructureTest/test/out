@@ -1,0 +1,7 @@
+[0m[[0minfo[0m] [0m[32mClusterDatastructureTest:[0m[0m
+[0m[[0minfo[0m] [0m[32mupdateClusterStructure[0m[0m
+[0m[[0minfo[0m] [0m[32m- should change newSamplingRate && add new Servers && remove some Servers[0m[0m
+[0m[[0minfo[0m] [0m[32mdoseCapabilityMatchConstraint[0m[0m
+[0m[[0minfo[0m] [0m[32m- should return right boolean value[0m[0m
+[0m[[0minfo[0m] [0m[32mgetMatchCapablitiesOfNode[0m[0m
+[0m[[0minfo[0m] [0m[32m- should return list of node with related capablity[0m[0m

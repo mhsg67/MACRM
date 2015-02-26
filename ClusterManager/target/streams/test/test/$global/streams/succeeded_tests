@@ -1,0 +1,5 @@
+#Successful Tests
+#Thu Feb 26 17:55:01 CST 2015
+ca.usask.agents.macrm.clustermanager.test.JSONManagerTest=1424994901634
+ca.usask.agents.macrm.clustermanager.test.ClusterDatastructureTest=1424994901330
+ca.usask.agents.macrm.clustermanager.test.QueueTest=1424994901268

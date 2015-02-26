@@ -13,9 +13,9 @@ object RealServerState extends ServerState {
     
     def initializeSimulationServer(resource:Resource, capability:List[Constraint]) = false
 
-    def getServerStatus(_nodeManager: ActorRef, _nodeQueueState: NodeQueueState) = null
+    def getServerStatus(nodeManager: ActorRef, nodeQueueState: Int) = null
 
-    def getServerCapability(): Resource = null
+    def getServerFreeResources(): Resource = null
     
-    def getServerAvailableResources(): Resource = null
+    def getServerResource(): Resource = null
 }

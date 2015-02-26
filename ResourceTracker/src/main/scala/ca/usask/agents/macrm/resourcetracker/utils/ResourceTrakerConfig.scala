@@ -1,6 +1,7 @@
 package ca.usask.agents.macrm.resourcetracker.utils
 
 import ca.usask.agents.macrm.common.records._
+import scala.concurrent.duration._
 
 /**
  * Holds the system configuration parameters for resource tracker project
@@ -36,5 +37,10 @@ object ResourceTrakerConfig {
      val minMemory = 500
      val minVirtualCore = 1
      val minResourceForJobManager = new Resource(minMemory,minVirtualCore)
+    
+    /**
+     * Delay for sending first _ClusterStateUpdate to the cluster manager
+     */
+    val firstClusterStateUpdateDelay = 3000 millis
 
 }

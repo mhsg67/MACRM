@@ -17,6 +17,7 @@ class JobManagerAgent(val userId: Int,
     val samplingManager = new SamplingManager()
     val resourceTracker = context.actorSelection(JobManagerConfig.getResourceTrackerAddress())
 
+    //TODO: postpone it after first sampling try
     import context.dispatcher
     override def preStart() = {
         context.system.scheduler.scheduleOnce(JobManagerConfig.heartBeatStartDelay, self, "heartBeatEvent")

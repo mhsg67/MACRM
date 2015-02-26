@@ -3,12 +3,14 @@ package ca.usask.agents.macrm.common.records
 import java.io.Serializable
 
 @SerialVersionUID(100L)
-class Resource(val memory: Int = 0, val virtualCore: Int = 0) extends AgentsComaparable[Resource] with Serializable {    
+class Resource(val memory: Int = 0,
+               val virtualCore: Int = 0)
+    extends Serializable {
 
-    override def equal(input:Any):Boolean = input match {
-        case other:Resource => this.memory == other.memory && this.virtualCore == other.virtualCore
-        case _ => false
-    }    
+    override def equals(input: Any): Boolean = input match {
+        case other: Resource => this.memory == other.memory && this.virtualCore == other.virtualCore
+        case _               => false
+    }
 
     override def toString(): String = return "<memory:" + memory.toString() + ", vCores:" + virtualCore.toString() + ">"
 

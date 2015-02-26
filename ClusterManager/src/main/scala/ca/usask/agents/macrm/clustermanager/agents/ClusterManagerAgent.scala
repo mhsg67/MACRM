@@ -24,6 +24,7 @@ class ClusterManagerAgent extends Agent {
         case "changeToCentralizedMode"          => Handle_ChangeToCentralizedMode()
         case "changeToDistributedMode"          => Handle_ChangeToDistributedMode()
         case "finishedCentralizeScheduling"     => Handle_FinishedCentralizeScheduling(sender)
+        case message: _ClusterState             => Handle_ClusterStateUpdate(message)
         case message: _TaskSubmission           => Handle_TaskSubmission(message)
         case message: _ServerWithEmptyResources => Handle_ServerWithEmptyResources(message)
         case message: _EachUserShareOfCluster   => Handle_EachUserShareOfCluster(message)
@@ -54,10 +55,17 @@ class ClusterManagerAgent extends Agent {
     }
 
     def Handle_ServerWithEmptyResources(message: _ServerWithEmptyResources) = queueAgent ! message
-        
+
     def Handle_EachUserShareOfCluster(message: _EachUserShareOfCluster) = queueAgent ! message
 
     def Handle_TaskSubmission(message: _TaskSubmission) = queueAgent ! message
+
+    //TODO: in case of centralize scheduling you should use this 
+    //information for changing RackAgents and sampling rate of 
+    //schedulerAgents
+    def Handle_ClusterStateUpdate(message: _ClusterState) = {
+        queueAgent ! message
+    }
 
     def Handle_FinishedCentralizeScheduling(sender: ActorRef) = {
         schedulerAgentList = schedulerAgentList.filter(x => x == sender)

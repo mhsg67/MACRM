@@ -10,17 +10,21 @@ import java.io.Serializable
 class NodeId(val host: String,
              val port: Int,
              val agent: ActorRef)
-    extends AgentsComaparable[NodeId] with Serializable {
+    extends Serializable {
 
-    override def equal(input: Any): Boolean = input match {
-        case that: NodeId => (this.host == that.host && this.port == that.port) || this.agent == that.agent
-        case _            => false
+    override def equals(input: Any): Boolean = input match {
+        case that: NodeId => this.agent match {
+            case null => this.host == that.host && this.port == that.port
+            case _    => this.agent == that.agent
+        }
+        case _ => false
     }
 
     override def toString() = "<host:" + host + " port:" + port.toString() + ">"
 }
 
 object NodeId {
-    def apply(agent: ActorRef) = new NodeId("0.0.0.0", 0, agent)
-    def apply(host: String, port: Int) = new NodeId(host, port, null)
+    def apply(host: String, port: Int, agent: ActorRef): NodeId = new NodeId(host, port, agent)
+    def apply(agent: ActorRef): NodeId = apply("0.0.0.0", 0, agent)
+    def apply(host: String, port: Int): NodeId = apply(host, port, null)
 }

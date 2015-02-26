@@ -7,8 +7,10 @@ object Priority {
 }
 
 @SerialVersionUID(100L)
-class Priority(var priority: Int) extends AgentsComaparable[Priority] with Serializable {
-    override def equal(input: Any): Boolean = input match {
+class Priority(var priority: Int)
+    extends Serializable {
+
+    override def equals(input: Any): Boolean = input match {
         case that: Priority => this.priority == that.priority
         case _              => false
     }

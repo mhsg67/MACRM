@@ -4,9 +4,9 @@ import java.io.Serializable
 
 @SerialVersionUID(100L)
 class ContainerId(val id: Long = -1)
-    extends AgentsComaparable[ContainerId] with Serializable {
+    extends Serializable {
 
-    override def equal(input: Any): Boolean = input match {
+    override def equals(input: Any): Boolean = input match {
         case that: ContainerId => this.id == that.id
         case _                 => false
     }

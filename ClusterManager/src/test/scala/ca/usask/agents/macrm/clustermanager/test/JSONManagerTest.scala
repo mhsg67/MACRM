@@ -1,6 +1,6 @@
 package ca.usask.agents.macrm.clustermanager.test
 
-import ca.usask.agents.macrm.clustermanager.agents._
+import ca.usask.agents.macrm.clustermanager.utils._
 import ca.usask.agents.macrm.common.records._
 import org.joda.time._
 

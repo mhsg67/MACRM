@@ -19,6 +19,10 @@ class BasicClusterStateBlock(var source: ActorRef, var receiveTime: DateTime, va
  */
 object BasicClusterState {
     
+    def updateClusterDatabase() = {
+        
+    }
+    
     def UpdateClusterState(_source:ActorRef, _receiveTime: DateTime, _nodeReport:NodeReport) = {
         
     }

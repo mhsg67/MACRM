@@ -1,13 +1,11 @@
 package ca.usask.agents.macrm.clustermanager.agents
 
 import ca.usask.agents.macrm.clustermanager.utils._
+import ca.usask.agents.macrm.common.records._
 import ca.usask.agents.macrm.common.agents._
 import com.typesafe.config.ConfigFactory
-import akka.actor._
-import ca.usask.agents.macrm.common.records.TaskDescription
-import ca.usask.agents.macrm.common.records.JobDescription
-import ca.usask.agents.macrm.common.agents._AllocateContainerForJobManager
 import org.joda.time.DateTime
+import akka.actor._
 
 /**
  * TODO: For adaption part which switch to central decision making
@@ -16,6 +14,7 @@ import org.joda.time.DateTime
 class QueueAgent extends Agent {
 
     val schedulingQueue = AbstractQueue(ClusterManagerConfig.QueueType)
+    val clusterStructure = new ClusterStructure()
 
     def receive = {
         case "initiateEvent"                    => Event_initiate()
@@ -45,10 +44,10 @@ class QueueAgent extends Agent {
             if (!headOfJobQueue.isEmpty) {
                 println("**** Schedule a Job")
                 schedulingQueue.RemoveJob(headOfJobQueue.get)
-                if(headOfJobQueue.get.numberOfTasks != 1)
-                    schedulerJob(headOfJobQueue.get, message)
+                if (headOfJobQueue.get.numberOfTasks != 1)
+                    schedulerJob(headOfJobQueue.get, message, clusterStructure.getCurrentSamplingInformation(headOfJobQueue.get.constraints()))
                 else
-                    schedulerJob(headOfJobQueue.get, message)
+                    schedulerJob(headOfJobQueue.get, message, null)
             }
         }
     }
@@ -59,7 +58,7 @@ class QueueAgent extends Agent {
 
     def scheduleTask(task: TaskDescription, message: _ServerWithEmptyResources) = message._report.nodeId.agent ! new _AllocateContainerForTask(self, DateTime.now, task)
 
-    def schedulerJob(job: JobDescription, message: _ServerWithEmptyResources) =  message._report.nodeId.agent ! new _AllocateContainerForJobManager(self, DateTime.now(), job)
+    def schedulerJob(job: JobDescription, message: _ServerWithEmptyResources, samplingInformation: SamplingInformation) = message._report.nodeId.agent ! new _AllocateContainerForJobManager(self, DateTime.now(), job, samplingInformation)
 
     /*
      * TODO: Implement following functions

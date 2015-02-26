@@ -9,18 +9,23 @@ import org.joda.time.DateTime
  */
 object SimulationServerState extends ServerState {
 
-    val serverCapability = new Resource(1000, 3)
+    var serverResource: Resource = null
+    var serverCapability: List[Constraint] = null
+    var serverUsed: List[(Int, Resource)] = null //That Int represent UserId
     val serverNodeState = NodeState("RUNNING")
-    val serverUsed:List[(Int,Resource)] = List() //That Int represent UserId
 
-    //def getServerStatus(_nodeManager: ActorRef, _nodeQueueState: NodeQueueState) = new NodeReport("NoRack")
-    
+    def initializeSimulationServer(resource: Resource, capability: List[Constraint]) = {
+        serverResource = resource
+        serverCapability = capability
+        true
+    }
+
     def getServerStatus(_nodeManager: ActorRef, _nodeQueueState: NodeQueueState) = new NodeReport(
         NodeId(_nodeManager),
         "No Rack",
         serverUsed,
+        serverResource,
         serverCapability,
-        null,
         getServerUtilization(),
         DateTime.now(),
         getServerNodeState,
@@ -31,9 +36,9 @@ object SimulationServerState extends ServerState {
         new Utilization(tempResource.memory, tempResource.virtualCore, serverUsed.length)
     }
 
-    def getServerAvailableResources(): Resource = serverCapability - serverUsed.foldLeft(new Resource(0, 0))((x, y: (Int, Resource)) => x + y._2)
+    def getServerAvailableResources(): Resource = serverResource - serverUsed.foldLeft(new Resource(0, 0))((x, y: (Int, Resource)) => x + y._2)
 
-    def getServerCapability(): Resource = serverCapability
+    def getServerCapability(): Resource = serverResource
 
     def getServerNodeState(): NodeState = serverNodeState
 

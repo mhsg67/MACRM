@@ -12,6 +12,8 @@ import org.joda.time.DateTime
 trait ServerState {
 
     def initializeServer(): Boolean
+    
+    def initializeSimulationServer(resource:Resource, capability:List[Constraint]): Boolean
 
     def getServerStatus(_nodeManager: ActorRef, _nodeQueueState: NodeQueueState): NodeReport
 

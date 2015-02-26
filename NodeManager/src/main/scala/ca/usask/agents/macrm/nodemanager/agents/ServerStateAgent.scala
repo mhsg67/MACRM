@@ -13,14 +13,21 @@ class ServerStateAgent(val nodeManager: ActorRef) extends Agent {
     val serverState = ServerState.apply()
 
     def receive = {
-        case "initiateEvent"                => Event_initiate
-        case "heartBeatEvent"               => Handle_heartBeat(sender())
-        case "checkContainersEvent"         => Handle_checkContainers(sender())
-        case "checkAvailableResourcesEvent" => Handle_checkAvailableResources(sender())
+        case "initiateEvent"                         => Event_initiate
+        case "heartBeatEvent"                        => Handle_heartBeat(sender())
+        case "checkContainersEvent"                  => Handle_checkContainers(sender())
+        case "checkAvailableResourcesEvent"          => Handle_checkAvailableResources(sender())
+        case message: _NodeManagerSimulationInitiate => Event_NodeManagerSimulationInitiate(message)
     }
 
     def Event_initiate = {
         Logger.Log("ServerStateAgent Initialization")
+    }
+
+    def Event_NodeManagerSimulationInitiate(message: _NodeManagerSimulationInitiate) = {
+        Logger.Log("ServerStateAgent Initialization")
+
+        serverState.initializeSimulationServer(message.resource, message.capabilities)
     }
 
     def Handle_heartBeat(_sender: ActorRef) = {

@@ -10,6 +10,8 @@ import org.joda.time.DateTime
 object RealServerState extends ServerState {
 
     def initializeServer() = false
+    
+    def initializeSimulationServer(resource:Resource, capability:List[Constraint]) = false
 
     def getServerStatus(_nodeManager: ActorRef, _nodeQueueState: NodeQueueState) = null
 

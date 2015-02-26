@@ -18,4 +18,6 @@ case class _FindResources(val tasksDescriptions:List[TaskDescription]) extends B
 
 case class _JobSubmission(val jobDescription:JobDescription)
 
-case class _TaskSubmission(val taskDescription:TaskDescription) extends BasicMessage 
+case class _TaskSubmission(val taskDescription:TaskDescription) extends BasicMessage
+
+case class _NodeManagerSimulationInitiate(val resource:Resource,val capabilities:List[Constraint])

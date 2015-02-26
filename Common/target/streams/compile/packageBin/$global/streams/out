@@ -84,12 +84,16 @@
 [0m[[0mdebug[0m] [0m	  /home/node3/workspace/MACRM/Common/target/scala-2.11/classes/ca/usask/agents/macrm/common/records/JobDescription$$anonfun$constraints$1.class[0m
 [0m[[0mdebug[0m] [0m	ca/usask/agents/macrm/common/agents/_JMHeartBeat$.class[0m
 [0m[[0mdebug[0m] [0m	  /home/node3/workspace/MACRM/Common/target/scala-2.11/classes/ca/usask/agents/macrm/common/agents/_JMHeartBeat$.class[0m
+[0m[[0mdebug[0m] [0m	ca/usask/agents/macrm/common/agents/_NodeManagerSimulationInitiate$.class[0m
+[0m[[0mdebug[0m] [0m	  /home/node3/workspace/MACRM/Common/target/scala-2.11/classes/ca/usask/agents/macrm/common/agents/_NodeManagerSimulationInitiate$.class[0m
 [0m[[0mdebug[0m] [0m	ca/usask/agents/macrm/common/records/RUNNING$.class[0m
 [0m[[0mdebug[0m] [0m	  /home/node3/workspace/MACRM/Common/target/scala-2.11/classes/ca/usask/agents/macrm/common/records/RUNNING$.class[0m
 [0m[[0mdebug[0m] [0m	ca/usask/agents/macrm/common/records/LOST.class[0m
 [0m[[0mdebug[0m] [0m	  /home/node3/workspace/MACRM/Common/target/scala-2.11/classes/ca/usask/agents/macrm/common/records/LOST.class[0m
 [0m[[0mdebug[0m] [0m	ca/usask/agents/macrm/common/records/RUNNING.class[0m
 [0m[[0mdebug[0m] [0m	  /home/node3/workspace/MACRM/Common/target/scala-2.11/classes/ca/usask/agents/macrm/common/records/RUNNING.class[0m
+[0m[[0mdebug[0m] [0m	ca/usask/agents/macrm/common/agents/_NodeManagerSimulationInitiate.class[0m
+[0m[[0mdebug[0m] [0m	  /home/node3/workspace/MACRM/Common/target/scala-2.11/classes/ca/usask/agents/macrm/common/agents/_NodeManagerSimulationInitiate.class[0m
 [0m[[0mdebug[0m] [0m	ca/usask/agents/macrm/common/records/Priority$.class[0m
 [0m[[0mdebug[0m] [0m	  /home/node3/workspace/MACRM/Common/target/scala-2.11/classes/ca/usask/agents/macrm/common/records/Priority$.class[0m
 [0m[[0mdebug[0m] [0m	ca/usask/agents/macrm/common/agents/_AllocateContainerForJobManager$.class[0m

@@ -1,17 +1,3 @@
-compile 
-package
-exit
-compile
-clean
-compile
-package
-run
-exit
-clean
-compile
-package
-run tracking
-run-main akka.Main ca.usask.agents.macrm.tracker.agents.main
 last root/compile/runMain
 exit
 run ca.usask.agents.macrm.tracker.agents.main
@@ -497,4 +483,18 @@ compile
 clean
 compile
 compile -feature
+eclipse
+ClusterManager/test
+compile
+eclipse
+compile
+ClusterManager/test
+compile
+clean
+compile
+eclipse
+ClusterManager/test
+compile
+clean
+compile
 eclipse

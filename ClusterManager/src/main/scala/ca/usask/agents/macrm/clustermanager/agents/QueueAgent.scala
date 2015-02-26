@@ -14,11 +14,12 @@ import akka.actor._
 class QueueAgent extends Agent {
 
     val schedulingQueue = AbstractQueue(ClusterManagerConfig.QueueType)
-    val clusterStructure = new ClusterStructure()
+    val clusterStructure = new ClusterDatastructure()
 
     def receive = {
         case "initiateEvent"                    => Event_initiate()
         case "getNextTaskForScheduling"         => Handle_getNextTaskForScheduling(sender)
+        case message: _ClusterState             => Handle_ClusterState(message)
         case message: _ServerWithEmptyResources => Handle_ServerWithEmptyResources(message)
         case message: _EachUserShareOfCluster   => Handle_EachUserShareOfCluster(message)
         case message: _JobSubmission            => Handle_JobSubmission(message)
@@ -60,6 +61,8 @@ class QueueAgent extends Agent {
 
     def schedulerJob(job: JobDescription, message: _ServerWithEmptyResources, samplingInformation: SamplingInformation) = message._report.nodeId.agent ! new _AllocateContainerForJobManager(self, DateTime.now(), job, samplingInformation)
 
+    def Handle_ClusterState(message:_ClusterState) = clusterStructure.updateClusterStructure(message._newSamplingRate, message._removedServers, message._addedServers, message._rareResources)
+    
     /*
      * TODO: Implement following functions
      */

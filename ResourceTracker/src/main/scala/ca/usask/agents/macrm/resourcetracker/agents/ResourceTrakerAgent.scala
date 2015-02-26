@@ -1,38 +1,39 @@
 package ca.usask.agents.macrm.resourcetracker.agents
 
-import ca.usask.agents.macrm.common.agents._
-import ca.usask.agents.macrm.common.records._
 import ca.usask.agents.macrm.resourcetracker.utils._
+import ca.usask.agents.macrm.common.records._
+import ca.usask.agents.macrm.common.agents._
+import org.joda.time._
 import akka.actor._
-import org.joda.time.DateTime
 
 class ResourceTrackerAgent extends Agent {
 
     val clusterManagerAgent = context.actorSelection(ResourceTrakerConfig.getQueueAgentAddress())
-
-    import context.dispatcher
-    override def preStart() = {
-        context.system.scheduler.scheduleOnce(ResourceTrakerConfig.firstClusterStateUpdateDelay, self, "sendFirstClusterStateUpdate")
-    }
+    val clusterDatabaseReaderAgent = context.actorOf(Props(new ClusterDatabaseReaderAgent(self)), name = "ClusterDatabaseReaderAgent")
+    val clusterDatabaseWriterAgent = context.actorOf(Props(new ClusterDatabaseWriterAgent(self)), name = "ClusterDatabaseWriterAgent")
 
     def receive = {
         case "initiateEvent"                => Event_initiate()
-        case "sendFirstClusterStateUpdate"  => Event_sendFirstClusterStateUpdate()
         case "finishedCentralizeScheduling" => Handle_FinishedCentralizeScheduling()
         case message: _HeartBeat            => Handle_HeartBeat(message)
+        case message: _JMHeartBeat          => Handle_JMHeartBeat(message)
         case _                              => Handle_UnknownMessage
     }
 
     def Event_initiate() = {
         Logger.Log("ResourceTrackerAgent Initialization")
+
+        clusterDatabaseWriterAgent ! "initiateEvent"
+        clusterDatabaseReaderAgent ! "initiateEvent"
     }
 
-    def Event_sendFirstClusterStateUpdate() = {
-
+    def Handle_JMHeartBeat(message: _JMHeartBeat) = {
+        clusterDatabaseWriterAgent ! message
+        clusterDatabaseReaderAgent ! message
     }
 
-    def Handle_HeartBeat(message: _HeartBeat) {
-        BasicClusterState.UpdateClusterState(message._source, message._time, message._report)
+    def Handle_HeartBeat(message: _HeartBeat) = {
+        clusterDatabaseWriterAgent ! message
         if (doesServerHaveResourceForAJobManager(message._report))
             clusterManagerAgent ! new _ServerWithEmptyResources(self, DateTime.now(), addIPandPortToNodeReport(message._report, message._source))
     }

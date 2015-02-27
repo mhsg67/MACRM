@@ -19,7 +19,11 @@ class ClusterDatabaseWriterAgent(val resourceTrackerAgent: ActorRef) extends Age
     }
 
     def Handle_HeartBeat(message: _HeartBeat) = {
-        BasicClusterState.UpdateClusterState(message._source, message._time, message._report)
+        val nodeId = new NodeId(message._source.path.address.host.get, message._source.path.address.port.get, message._source)
+        val usedResources = message._report.containers.foldLeft(new Resource(0, 0))((x, y) => y.resource + x)
+        ClusterDatabase.updateNodeState(nodeId, message._report.resource, usedResources, message._report.capabilities,
+            message._report.utilization, message._report.queueState)
+        ClusterDatabase.updateNodeContainer(nodeId, message._report.containers)
     }
 
 }

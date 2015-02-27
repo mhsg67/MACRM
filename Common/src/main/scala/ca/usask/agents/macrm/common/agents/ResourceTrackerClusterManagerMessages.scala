@@ -8,7 +8,7 @@ import akka.actor._
  * From ResourceTracker to ClusterManager to inform it about 
  * changes in cluster structure and sampling rates
  */
-case class _ClusterState(_source:ActorRef, _time: DateTime, _newSamplingRate:Int = -1, _removedServers:List[NodeId] = null, _addedServers:List[NodeReport] = null, _rareResources:List[(Boolean,Constraint)] = null)
+case class _ClusterState(_source:ActorRef, _time: DateTime, _newSamplingRate:Int = -1, _removedServers:List[NodeId] = null, _addedServers:List[(NodeId,List[Constraint])] = null, _rareResources:List[(Boolean,Constraint)] = null)
 
 /**
  * From ResourceTracker to ClusterManager to inform it about

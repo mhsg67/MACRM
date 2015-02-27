@@ -7,6 +7,11 @@ import java.io.Serializable
 case class Constraint(val name: String,
                       val operator: Int,
                       val value: Int) extends Serializable {
+    
+    override def equals(input:Any):Boolean = input match {
+        case that:Constraint => this.name == that.name && this.operator == that.operator && this.value == that.value 
+        case _ => false
+    }
 
     override def toString() = "<" + name + {
         operator match {

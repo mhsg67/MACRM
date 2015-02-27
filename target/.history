@@ -1,13 +1,3 @@
-project
-projects
-tracking/compile
-node/compile
-reload
-tracking/compile
-clean
-compile
-tracking/compile
-reload
 tracking/compile
 clean
 compile
@@ -498,3 +488,13 @@ clean
 compile
 eclipse
 ClusterManager/test
+exit
+ResourceTracker/test
+ResourceTracker/test:compile
+ResourceTracker/test
+ClusterManager/test
+compile
+eclipse
+clean
+compile
+eclipse

@@ -28,7 +28,7 @@ class ResourceTrackerAgent extends Agent {
     }
 
     def Handle_JMHeartBeat(message: _JMHeartBeat) = {
-        clusterDatabaseWriterAgent ! message
+        //clusterDatabaseWriterAgent ! message
         clusterDatabaseReaderAgent ! message
     }
 

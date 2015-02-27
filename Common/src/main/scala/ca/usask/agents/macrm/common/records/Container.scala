@@ -11,7 +11,11 @@ class Container(val containerId: Long,
     extends Serializable {
 
     override def equals(input: Any): Boolean = input match {
-        case that: Container => this.containerId == that.containerId && this.userId == that.userId && this.jobId == that.jobId && this.taskIndex == that.taskIndex
-        case _               => false
+        case that: Container => this.containerId == that.containerId &&
+            this.userId == that.userId &&
+            this.jobId == that.jobId &&
+            this.taskIndex == that.taskIndex &&
+            this.resource == that.resource
+        case _ => false
     }
 }

@@ -9,6 +9,8 @@ import akka.actor._
 
 class ContainerManagerAgent(val nodeManager: ActorRef, val serverState: ActorRef) extends Agent {
 
+    var ignoreNextResourceMessage = false
+    var ignoreResourceSamplingResponseTimeoutEvent = 0
     var resourceSmaplingInquiryList = Queue[_ResourceSamplingInquiry]()
     var recentlyServerdSamplingInquiry: _ResourceSamplingInquiry = null
     var havePendingServing = false
@@ -17,16 +19,15 @@ class ContainerManagerAgent(val nodeManager: ActorRef, val serverState: ActorRef
     val checkContainersEvent = context.system.scheduler.schedule(NodeManagerConfig.allCheckStartDelay, NodeManagerConfig.checkContainersInterval, self, "checkContainersEvent")
 
     def receive = {
-        case "initiateEvent"                          => Event_initiate
-        case "checkContainersEvent"                   => Event_checkContainers
-        case "checkAvailableResourcesEvent"           => Event_checkAvailableResources
-        case "resourceSamplingResponseTimeoutEvent"   => Event_resourceSamplingResponseTimeout
-        case message: _ResourceSamplingInquiry        => Handle_ResourceSamplingInquiry(message)
-        case message: _ResourceSamplingCancel         => Handle_ResourceSamplingCancel(message)
-        case message: _Resource                       => Handle_Resource(message)
-        case message: _AllocateContainerForJobManager => Handle_AllocateContainerForJobManager(message)
-        case message: _AllocateContainerForTask       => Handle_AllocateContainerForTask(message)
-        case _                                        => Handle_UnknownMessage
+        case "initiateEvent"                        => Event_initiate
+        case "checkContainersEvent"                 => Event_checkContainers
+        case "resourceSamplingResponseTimeoutEvent" => Event_resourceSamplingResponseTimeout
+        case message: _ResourceSamplingInquiry      => Handle_ResourceSamplingInquiry(message)
+        case message: _ResourceSamplingCancel       => Handle_ResourceSamplingCancel(message)
+        case message: _Resource                     => Handle_Resource(message)
+        case message: _AllocateContainerFromCM      => Handle_AllocateContainerFromCM(message)
+        case message: _AllocateContainerFromJM      => Handle_AllocateContainerFromJM(message)
+        case _                                      => Handle_UnknownMessage
     }
 
     def Event_initiate = {
@@ -35,70 +36,66 @@ class ContainerManagerAgent(val nodeManager: ActorRef, val serverState: ActorRef
 
     def Event_checkContainers = serverState ! "checkContainersEvent"
 
-    def Event_checkAvailableResources = serverState ! "checkAvailableResourcesEvent"
-
-    def Event_resourceSamplingResponseTimeout = {
-        havePendingServing = false
-        recentlyServerdSamplingInquiry = null
-        if (resourceSmaplingInquiryList.length > 0)
-            startCheckingAvailableResourcesForServingSamplingInquiries(false)
-    }
-
     def Handle_ResourceSamplingInquiry(message: _ResourceSamplingInquiry) = {
         resourceSmaplingInquiryList += message
-        if (resourceSmaplingInquiryList.length == 1 && !havePendingServing)
-            startCheckingAvailableResourcesForServingSamplingInquiries(false)
+        if (resourceSmaplingInquiryList.length == 1)
+            serverState ! "checkAvailableResourcesEvent"
     }
 
-    def Handle_ResourceSamplingCancel(message: _ResourceSamplingCancel) = {
-        resourceSmaplingInquiryList = resourceSmaplingInquiryList.filter((x: _ResourceSamplingInquiry) => x._source == message._source)
-        if (recentlyServerdSamplingInquiry._source == message._source && resourceSmaplingInquiryList.length > 0)
-            startCheckingAvailableResourcesForServingSamplingInquiries(false)
-    }
-
-    def Handle_Resource(message: _Resource) = {
-        if (!tryServerResourceSamplingInquiry(message._resource))
-            startCheckingAvailableResourcesForServingSamplingInquiries(true)
-        else
-            startWaitingForServedResourceSamplingInquiryToResponse()
-    }
-
-    
-    
-    def Handle_AllocateContainerForJobManager(message: _AllocateContainerForJobManager) = {
-        print("YESSSS")
-    }
-
-    def Handle_AllocateContainerForTask(message: _AllocateContainerForTask) = {
-        
-    }
-    
-    
-    
-    
-    
-    def tryServerResourceSamplingInquiry(resource: Resource): Boolean = {
-        if (resource.isNotUsable() || (resourceSmaplingInquiryList(0)._minRequiredResource > resource))
-            false
+    def Handle_Resource(message: _Resource): Unit = {
+        if (ignoreNextResourceMessage) {
+            ignoreNextResourceMessage = false
+            serverState ! "checkAvailableResourcesEvent"
+        }
+        else if (message._resource.isNotUsable())
+            resourceSmaplingInquiryList = Queue()
+        else if (resourceSmaplingInquiryList(0)._minRequiredResource > message._resource) {
+            havePendingServing = true
+            nodeManager ! new _ResourceSamplingResponse(self, DateTime.now(), message._resource)
+            context.system.scheduler.scheduleOnce(NodeManagerConfig.waitForJMActionToResourceSamplingResponseTimeout, self, "resourceSamplingResponseTimeoutEvent")
+        }
         else {
-            nodeManager ! new _ResourceSamplingResponse(self, DateTime.now(), resource)
-            true
+            resourceSmaplingInquiryList.dequeue()
+            if (resourceSmaplingInquiryList.length > 0)
+                Handle_Resource(message)
         }
     }
 
-    def startCheckingAvailableResourcesForServingSamplingInquiries(withDelay: Boolean) = {
-        havePendingServing = false;
-        recentlyServerdSamplingInquiry = null
-        if (withDelay)
-            context.system.scheduler.scheduleOnce(NodeManagerConfig.checkAvailableResource, self, "checkAvailableResourcesEvent")
-        else
-            context.system.scheduler.scheduleOnce(NodeManagerConfig.firstCheckAvailableResources, self, "checkAvailableResourcesEvent")
+    def Event_resourceSamplingResponseTimeout = {
+        if (ignoreResourceSamplingResponseTimeoutEvent>0)
+            ignoreResourceSamplingResponseTimeoutEvent -=1
+        else {
+            havePendingServing = false
+            resourceSmaplingInquiryList.dequeue()
+            if (resourceSmaplingInquiryList.length == 1)
+                serverState ! "checkAvailableResourcesEvent"
+        }
     }
 
-    def startWaitingForServedResourceSamplingInquiryToResponse() = {
-        havePendingServing = true
-        recentlyServerdSamplingInquiry = resourceSmaplingInquiryList.dequeue()
-        context.system.scheduler.scheduleOnce(NodeManagerConfig.waitForJMActionToResourceSamplingResponseTimeout, self, "resourceSamplingResponseTimeoutEvent")
+    def Handle_ResourceSamplingCancel(message: _ResourceSamplingCancel) = {
+        if (resourceSmaplingInquiryList.length > 0) {
+            if (resourceSmaplingInquiryList(0)._source == message._source) {
+                resourceSmaplingInquiryList = resourceSmaplingInquiryList.filter((x) => x._source == message._source)
+                if (havePendingServing) {
+                    ignoreResourceSamplingResponseTimeoutEvent += 1
+                    havePendingServing = false
+                }
+                else if (resourceSmaplingInquiryList.length > 0)
+                    serverState ! "checkAvailableResourcesEvent"
+            }
+            else {
+                resourceSmaplingInquiryList = resourceSmaplingInquiryList.filter((x) => x._source == message._source)
+            }
+        }
+    }
+
+    def Handle_AllocateContainerFromCM(message: _AllocateContainerFromCM) = {
+        if(resourceSmaplingInquiryList.length > 0)
+            ignoreNextResourceMessage = true
+    }
+
+    def Handle_AllocateContainerFromJM(message: _AllocateContainerFromJM) = {
+        ignoreResourceSamplingResponseTimeoutEvent += 1
     }
 
 }

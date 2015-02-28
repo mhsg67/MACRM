@@ -84,6 +84,7 @@ object NodeManagerConfig {
      *
      *  10 millis = total
      */
-    val stopServingJobManagerRequestAfterHeartBeat = 10
+    val stopServingJobManagerRequestAfterHeartBeat = 10 
+    val stopServingJobManagerRequestBeforeHeartBeat = 1000 -  waitForJMActionToResourceSamplingResponseTimeout.toMillis
 
 }

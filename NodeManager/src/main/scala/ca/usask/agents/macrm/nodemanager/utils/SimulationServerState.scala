@@ -22,9 +22,9 @@ object SimulationServerState extends ServerState {
         true
     }
 
-    def getServerStatus(nodeManager: ActorRef, serverQueueState: Int) =
+    def getServerStatus(nodeManager: ActorRef) =
         new NodeReport(NodeId(nodeManager), serverResource, serverCapabilities,
-            serverContainers, serverUtilization, serverNodeState, serverQueueState)
+            serverContainers, serverUtilization, serverNodeState, 0)
 
     def serverUtilization(): Utilization = new Utilization(0.0, 0.0)
 

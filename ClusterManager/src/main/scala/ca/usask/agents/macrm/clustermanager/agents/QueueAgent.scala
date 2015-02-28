@@ -31,6 +31,8 @@ class QueueAgent extends Agent {
         Logger.Log("QueueAgent Initialization")
     }
 
+    //TODO: try to schedule as much task and job as possible since 
+    //the node may have lots of free resources
     //TODO: check if you can make it parallel the headOfTaskQueue and 
     //the headOfJobQueue fetching, be careful about actor system 
     def Handle_ServerWithEmptyResources(message: _ServerWithEmptyResources) = {
@@ -57,7 +59,7 @@ class QueueAgent extends Agent {
 
     def Handle_TaskSubmission(message: _TaskSubmission) = schedulingQueue.EnqueueTask(message.taskDescription)
 
-    def scheduleTask(task: TaskDescription, message: _ServerWithEmptyResources) = message._report.nodeId.agent ! new _AllocateContainerForTask(self, DateTime.now, task)
+    def scheduleTask(task: TaskDescription, message: _ServerWithEmptyResources) = message._report.nodeId.agent ! new _AllocateContainerForTask(self, DateTime.now, List(task))
 
     def schedulerJob(job: JobDescription, message: _ServerWithEmptyResources, samplingInformation: SamplingInformation) = message._report.nodeId.agent ! new _AllocateContainerForJobManager(self, DateTime.now(), job, samplingInformation)
 

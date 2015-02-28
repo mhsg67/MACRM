@@ -17,7 +17,7 @@ trait ServerState {
 
     def getServerFreeResources(): Resource
 
-    def getServerStatus(nodeManager: ActorRef, nodeQueueState: Int): NodeReport
+    def getServerStatus(nodeManager: ActorRef): NodeReport
 
     def initializeSimulationServer(resource: Resource, capability: List[Constraint]): Boolean
 

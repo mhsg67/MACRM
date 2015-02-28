@@ -4,6 +4,7 @@ import ca.usask.agents.macrm.nodemanager.utils._
 import ca.usask.agents.macrm.common.records._
 import ca.usask.agents.macrm.common.agents._
 import org.joda.time.DateTime
+import scala.concurrent.duration._
 import akka.actor._
 
 class ServerStateAgent(val nodeManager: ActorRef) extends Agent {
@@ -36,12 +37,21 @@ class ServerStateAgent(val nodeManager: ActorRef) extends Agent {
     }
 
     def Handle_checkAvailableResources(sender: ActorRef) =
-        if (DateTime.now().getMillis() - lastSubmissionOfHeartBeat.getMillis() < NodeManagerConfig.stopServingJobManagerRequestAfterHeartBeat)
-            sender ! new _Resource(new Resource())
-        else
+        if (shouldServerNowOrWaitForHeartBeatResponse())
             sender ! new _Resource(serverState.getServerFreeResources())
+        else
+            sender ! new _Resource(new Resource(0,0))
 
-    def createNodeReport(): NodeReport = serverState.getServerStatus(nodeManager, 0) //TODO:change 0 to right number
+    def shouldServerNowOrWaitForHeartBeatResponse(): Boolean = {
+        if (DateTime.now().getMillis() - lastSubmissionOfHeartBeat.getMillis() < NodeManagerConfig.stopServingJobManagerRequestAfterHeartBeat)
+            false
+        else if (DateTime.now().getMillis() - lastSubmissionOfHeartBeat.getMillis() > NodeManagerConfig.stopServingJobManagerRequestBeforeHeartBeat)
+            false
+        else
+            true
+    }
+
+    def createNodeReport(): NodeReport = serverState.getServerStatus(nodeManager)
 
     def create_HeartBeat(_nodeReport: NodeReport) = new _HeartBeat(self, DateTime.now(), _nodeReport)
 

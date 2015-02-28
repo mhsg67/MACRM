@@ -21,6 +21,8 @@ trait ServerState {
 
     def initializeSimulationServer(resource: Resource, capability: List[Constraint]): Boolean
 
+    def createContainer(userId: Int, jobId: Long, taskIndex: Int, size: Resource): Option[Int]
+
 }
 
 /**

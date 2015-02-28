@@ -1,12 +1,3 @@
-clean
-compile
-clean
-compile
-tracking/compile
-reload
-tracking/compile
-tracking/configuration
-exti
 exit
 clean
 compile
@@ -498,3 +489,12 @@ clean
 compile
 eclipse
 compile
+eclipse
+compile
+clean
+compile
+clean
+compile
+exit
+eclipse
+exit

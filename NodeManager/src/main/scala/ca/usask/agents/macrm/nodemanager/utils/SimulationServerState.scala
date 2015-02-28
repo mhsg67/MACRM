@@ -9,6 +9,7 @@ import org.joda.time.DateTime
  */
 object SimulationServerState extends ServerState {
 
+    var nextContainerId = 0
     var serverResource: Resource = null
     var serverCapabilities: List[Constraint] = null
     var serverContainers: List[Container] = null
@@ -31,5 +32,15 @@ object SimulationServerState extends ServerState {
     def getServerFreeResources = serverResource - serverContainers.foldLeft(new Resource(0, 0))((x, y) => y.resource + x)
 
     def getServerResource() = serverResource
+
+    def createContainer(userId: Int, jobId: Long, taskIndex: Int, size: Resource): Option[Int] = {
+        if ((serverResource - serverContainers.foldLeft(new Resource(0, 0))((x, y) => y.resource + x)) < size)
+            None
+        else {
+            serverContainers = new Container(nextContainerId, userId, jobId, taskIndex, size) :: serverContainers
+            nextContainerId += 1
+            Some(nextContainerId - 1)
+        }
+    }
 
 }

@@ -12,7 +12,8 @@ case class TaskDescription(val jobManagerRef: ActorRef,
                            val duration: Duration,
                            val resource: Resource,
                            val relativeSubmissionTime: Duration,
-                           val constraints: List[Constraint]) extends Serializable{
+                           val constraints: List[Constraint],
+                           val userId: Int = -1) extends Serializable{
     
     override def toString() = "<index:" + index.toString() + " duration:" + duration.getMillis.toString() + " resource:" + 
     resource.toString() + " relSubTime:" + relativeSubmissionTime.getMillis.toString() + " contraints:[" + 

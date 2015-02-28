@@ -10,12 +10,14 @@ import org.joda.time.DateTime
 object RealServerState extends ServerState {
 
     def initializeServer() = false
-    
-    def initializeSimulationServer(resource:Resource, capability:List[Constraint]) = false
+
+    def initializeSimulationServer(resource: Resource, capability: List[Constraint]) = false
 
     def getServerStatus(nodeManager: ActorRef) = null
 
     def getServerFreeResources(): Resource = null
-    
+
     def getServerResource(): Resource = null
+
+    def createContainer(userId: Int, jobId: Long, taskIndex: Int, size: Resource): Option[Int] = None
 }

@@ -1,13 +1,3 @@
-run tracking/
-run tracking/Main
-tracking/ run 
-man run
-run?
-exit
-tracking/ run
-!:100
-tracking/compile
-exit
 !:200
 clean
 compile
@@ -498,3 +488,13 @@ clean
 compile
 eclipse
 exit
+clean
+compile
+eclipse
+compile
+eclipse
+exit
+compile
+clean
+compile
+eclipse

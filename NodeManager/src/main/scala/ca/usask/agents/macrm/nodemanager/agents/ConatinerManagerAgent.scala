@@ -135,8 +135,8 @@ class ContainerManagerAgent(val nodeManager: ActorRef, val serverState: ActorRef
 
     def createJobManagerActor(job: JobDescription, samplInfo: SamplingInformation) = {
         if (isSimulation) {
-            val newJobManager = context.actorOf(Props(new JobManagerAgent(job.userId, job.jobId, samplInfo, job)), name = "JobManagerAgent")
-            newJobManager ! "initiateEvent"
+            val newJobManager = context.actorOf(Props(new JobManagerAgent(job.userId, job.jobId, samplInfo)), name = "JobManagerAgent")
+            newJobManager ! new _JobManagerSimulationInitiate(job.tasks)
             jobManagerList = newJobManager :: jobManagerList
         }
     }

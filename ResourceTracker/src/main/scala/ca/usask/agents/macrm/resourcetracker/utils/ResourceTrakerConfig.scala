@@ -13,7 +13,7 @@ object ResourceTrakerConfig {
         Logger.Log("Finished reading configuration file")
     }
 
-    def getQueueAgentAddress() = "akka.tcp://ClusterManagerAgent@" +
+    def getClusterManagerAddress() = "akka.tcp://ClusterManagerAgent@" +
         clusterManagerIPAddress + ":" +
         clusterManagerAgentDefualtPort + "/" +
         "user/ClusterManagerAgent"

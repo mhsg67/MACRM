@@ -44,8 +44,6 @@
 [0m[[0mdebug[0m] [0m	  /home/node3/workspace/MACRM/Common/target/scala-2.11/classes/ca/usask/agents/macrm/common/records/Constraint.class[0m
 [0m[[0mdebug[0m] [0m	ca/usask/agents/macrm/common/records/NodeState.class[0m
 [0m[[0mdebug[0m] [0m	  /home/node3/workspace/MACRM/Common/target/scala-2.11/classes/ca/usask/agents/macrm/common/records/NodeState.class[0m
-[0m[[0mdebug[0m] [0m	ca/usask/agents/macrm/common/agents/_FindResources$.class[0m
-[0m[[0mdebug[0m] [0m	  /home/node3/workspace/MACRM/Common/target/scala-2.11/classes/ca/usask/agents/macrm/common/agents/_FindResources$.class[0m
 [0m[[0mdebug[0m] [0m	ca/usask/agents/macrm/common[0m
 [0m[[0mdebug[0m] [0m	  /home/node3/workspace/MACRM/Common/target/scala-2.11/classes/ca/usask/agents/macrm/common[0m
 [0m[[0mdebug[0m] [0m	ca/usask/agents/macrm/common/agents/DebugingLogger.class[0m
@@ -70,6 +68,8 @@
 [0m[[0mdebug[0m] [0m	  /home/node3/workspace/MACRM/Common/target/scala-2.11/classes/ca/usask/agents/macrm/common/agents/_ResourceSamplingResponse.class[0m
 [0m[[0mdebug[0m] [0m	ca/usask/agents/macrm/common/records/NodeState$.class[0m
 [0m[[0mdebug[0m] [0m	  /home/node3/workspace/MACRM/Common/target/scala-2.11/classes/ca/usask/agents/macrm/common/records/NodeState$.class[0m
+[0m[[0mdebug[0m] [0m	ca/usask/agents/macrm/common/agents/_NodeSamplingTimeout.class[0m
+[0m[[0mdebug[0m] [0m	  /home/node3/workspace/MACRM/Common/target/scala-2.11/classes/ca/usask/agents/macrm/common/agents/_NodeSamplingTimeout.class[0m
 [0m[[0mdebug[0m] [0m	ca/usask/agents/macrm/common/records/DECOMMISSIONED$.class[0m
 [0m[[0mdebug[0m] [0m	  /home/node3/workspace/MACRM/Common/target/scala-2.11/classes/ca/usask/agents/macrm/common/records/DECOMMISSIONED$.class[0m
 [0m[[0mdebug[0m] [0m	ca/usask/agents/macrm/common/agents/_ClusterState$.class[0m
@@ -84,6 +84,8 @@
 [0m[[0mdebug[0m] [0m	  /home/node3/workspace/MACRM/Common/target/scala-2.11/classes/ca/usask/agents/macrm/common/records/JobDescription$$anonfun$constraints$1.class[0m
 [0m[[0mdebug[0m] [0m	ca/usask/agents/macrm/common/agents/_JMHeartBeat$.class[0m
 [0m[[0mdebug[0m] [0m	  /home/node3/workspace/MACRM/Common/target/scala-2.11/classes/ca/usask/agents/macrm/common/agents/_JMHeartBeat$.class[0m
+[0m[[0mdebug[0m] [0m	ca/usask/agents/macrm/common/agents/_JobManagerSimulationInitiate$.class[0m
+[0m[[0mdebug[0m] [0m	  /home/node3/workspace/MACRM/Common/target/scala-2.11/classes/ca/usask/agents/macrm/common/agents/_JobManagerSimulationInitiate$.class[0m
 [0m[[0mdebug[0m] [0m	ca/usask/agents/macrm/common/agents/_NodeManagerSimulationInitiate$.class[0m
 [0m[[0mdebug[0m] [0m	  /home/node3/workspace/MACRM/Common/target/scala-2.11/classes/ca/usask/agents/macrm/common/agents/_NodeManagerSimulationInitiate$.class[0m
 [0m[[0mdebug[0m] [0m	ca/usask/agents/macrm/common/records/RUNNING$.class[0m
@@ -118,8 +120,6 @@
 [0m[[0mdebug[0m] [0m	  /home/node3/workspace/MACRM/Common/target/scala-2.11/classes/ca/usask/agents/macrm/common/records/Utilization.class[0m
 [0m[[0mdebug[0m] [0m	ca/usask/agents/macrm/common/agents/_EachUserShareOfCluster$.class[0m
 [0m[[0mdebug[0m] [0m	  /home/node3/workspace/MACRM/Common/target/scala-2.11/classes/ca/usask/agents/macrm/common/agents/_EachUserShareOfCluster$.class[0m
-[0m[[0mdebug[0m] [0m	ca/usask/agents/macrm/common/agents/_FindResources.class[0m
-[0m[[0mdebug[0m] [0m	  /home/node3/workspace/MACRM/Common/target/scala-2.11/classes/ca/usask/agents/macrm/common/agents/_FindResources.class[0m
 [0m[[0mdebug[0m] [0m	ca/usask/agents/macrm/common/agents/_HeartBeat.class[0m
 [0m[[0mdebug[0m] [0m	  /home/node3/workspace/MACRM/Common/target/scala-2.11/classes/ca/usask/agents/macrm/common/agents/_HeartBeat.class[0m
 [0m[[0mdebug[0m] [0m	ca/usask/agents/macrm/common/agents/_JobSubmission.class[0m
@@ -132,6 +132,10 @@
 [0m[[0mdebug[0m] [0m	  /home/node3/workspace/MACRM/Common/target/scala-2.11/classes/ca/usask/agents/macrm/common/records/TaskDescription.class[0m
 [0m[[0mdebug[0m] [0m	ca/usask/agents/macrm/common/records/TaskDescription$.class[0m
 [0m[[0mdebug[0m] [0m	  /home/node3/workspace/MACRM/Common/target/scala-2.11/classes/ca/usask/agents/macrm/common/records/TaskDescription$.class[0m
+[0m[[0mdebug[0m] [0m	ca/usask/agents/macrm/common/agents/_TaskSubmissionFromJM.class[0m
+[0m[[0mdebug[0m] [0m	  /home/node3/workspace/MACRM/Common/target/scala-2.11/classes/ca/usask/agents/macrm/common/agents/_TaskSubmissionFromJM.class[0m
+[0m[[0mdebug[0m] [0m	ca/usask/agents/macrm/common/agents/_TaskSubmissionFromJM$.class[0m
+[0m[[0mdebug[0m] [0m	  /home/node3/workspace/MACRM/Common/target/scala-2.11/classes/ca/usask/agents/macrm/common/agents/_TaskSubmissionFromJM$.class[0m
 [0m[[0mdebug[0m] [0m	ca/usask/agents/macrm/common/records/UNHEALTHY.class[0m
 [0m[[0mdebug[0m] [0m	  /home/node3/workspace/MACRM/Common/target/scala-2.11/classes/ca/usask/agents/macrm/common/records/UNHEALTHY.class[0m
 [0m[[0mdebug[0m] [0m	ca/usask/agents/macrm/common/agents/_TaskSubmission$.class[0m
@@ -144,6 +148,8 @@
 [0m[[0mdebug[0m] [0m	  /home/node3/workspace/MACRM/Common/target/scala-2.11/classes/ca/usask/agents/macrm/common/records/JobReport.class[0m
 [0m[[0mdebug[0m] [0m	ca/usask/agents/macrm/common/records/NodeId$.class[0m
 [0m[[0mdebug[0m] [0m	  /home/node3/workspace/MACRM/Common/target/scala-2.11/classes/ca/usask/agents/macrm/common/records/NodeId$.class[0m
+[0m[[0mdebug[0m] [0m	ca/usask/agents/macrm/common/agents/_NodeSamplingTimeout$.class[0m
+[0m[[0mdebug[0m] [0m	  /home/node3/workspace/MACRM/Common/target/scala-2.11/classes/ca/usask/agents/macrm/common/agents/_NodeSamplingTimeout$.class[0m
 [0m[[0mdebug[0m] [0m	ca/usask/agents/macrm/common/agents/_AllocateContainerFromCM.class[0m
 [0m[[0mdebug[0m] [0m	  /home/node3/workspace/MACRM/Common/target/scala-2.11/classes/ca/usask/agents/macrm/common/agents/_AllocateContainerFromCM.class[0m
 [0m[[0mdebug[0m] [0m	ca/usask/agents/macrm/common/records/NodeId.class[0m
@@ -160,6 +166,8 @@
 [0m[[0mdebug[0m] [0m	  /home/node3/workspace/MACRM/Common/target/scala-2.11/classes/ca/usask/agents/macrm/common/records/GUIDGenerator.class[0m
 [0m[[0mdebug[0m] [0m	ca/usask/agents/macrm/common/agents/_AllocateContainerFromJM.class[0m
 [0m[[0mdebug[0m] [0m	  /home/node3/workspace/MACRM/Common/target/scala-2.11/classes/ca/usask/agents/macrm/common/agents/_AllocateContainerFromJM.class[0m
+[0m[[0mdebug[0m] [0m	ca/usask/agents/macrm/common/agents/_JobManagerSimulationInitiate.class[0m
+[0m[[0mdebug[0m] [0m	  /home/node3/workspace/MACRM/Common/target/scala-2.11/classes/ca/usask/agents/macrm/common/agents/_JobManagerSimulationInitiate.class[0m
 [0m[[0mdebug[0m] [0m	ca/usask/agents/macrm/common/records/TaskDescription$$anonfun$toString$1.class[0m
 [0m[[0mdebug[0m] [0m	  /home/node3/workspace/MACRM/Common/target/scala-2.11/classes/ca/usask/agents/macrm/common/records/TaskDescription$$anonfun$toString$1.class[0m
 [0m[[0mdebug[0m] [0m	ca/usask/agents/macrm/common/agents/_ContainerExecutionFinished$.class[0m

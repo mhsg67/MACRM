@@ -11,7 +11,7 @@ class ResourceTrackerAgent extends Agent {
 
     var hasSubmittedFirstClusterState = false
 
-    val clusterManagerAgent = context.actorSelection(ResourceTrakerConfig.getQueueAgentAddress())
+    val clusterManagerAgent = context.actorSelection(ResourceTrakerConfig.getClusterManagerAddress())
     val clusterDatabaseReaderAgent = context.actorOf(Props(new ClusterDatabaseReaderAgent(self)), name = "ClusterDatabaseReaderAgent")
     val clusterDatabaseWriterAgent = context.actorOf(Props(new ClusterDatabaseWriterAgent(self)), name = "ClusterDatabaseWriterAgent")
 

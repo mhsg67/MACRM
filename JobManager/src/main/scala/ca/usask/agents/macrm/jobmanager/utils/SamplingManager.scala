@@ -3,7 +3,7 @@ package ca.usask.agents.macrm.jobmanager.utils
 import ca.usask.agents.macrm.common.records._
 import akka.actor._
 
-class SamplingManager{
+object SamplingManager{
     
     var samplingRate = 2
     var clusterNodes:List[(NodeId,List[Constraint])] = null 

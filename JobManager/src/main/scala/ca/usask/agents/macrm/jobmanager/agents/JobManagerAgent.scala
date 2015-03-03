@@ -10,34 +10,37 @@ import scala.concurrent.duration._
 
 class JobManagerAgent(val userId: Int,
                       val jobId: Long,
-                      val samplingInformation: SamplingInformation,
-                      val jobDescription: JobDescription) extends Agent {
+                      val samplingInformation: SamplingInformation) extends Agent {
 
-    var hasSentFirstHeartBeat = false
-    val samplingManager = new SamplingManager()
+    var currentWaveOfTasks = 0
+    var waveToTasks = Map[Int, List[(Boolean, TaskDescription)]]()
     val resourceTracker = context.actorSelection(JobManagerConfig.getResourceTrackerAddress())
-
-    //TODO: postpone it after first sampling try
-    import context.dispatcher
-    override def preStart() = {
-        context.system.scheduler.scheduleOnce(JobManagerConfig.heartBeatStartDelay, self, "heartBeatEvent")
-    }
+    val clusterManager = context.actorSelection(JobManagerConfig.getClusterManagerAddress())
 
     def receive = {
-        case "initiateEvent"               => Event_initiate()
-        case "heartBeatEvent"              => Event_heartBeat()
-        case message: _TaskSubmission      => Handle_TaskSubmission(message)
-        case message: _FindResources       => Handle_FindResources(message)
-        case message: _JMHeartBeatResponse => Handle_JMHeartBeatResponse(message)
-        case _                             => Handle_UnknownMessage
+        case "initiateEvent"                        => Event_initiate()
+        case "heartBeatEvent"                       => Event_heartBeat()
+        case message: _TaskSubmission               => Handle_TaskSubmission(message)
+        case message: _JMHeartBeatResponse          => Handle_JMHeartBeatResponse(message)
+        case message: _NodeSamplingTimeout          => Handle_NodeSamplingTimeout(message)
+        case message: _JobManagerSimulationInitiate => Event_JobManagerSimulationInitiate(message)
+        case _                                      => Handle_UnknownMessage
     }
 
     def Event_initiate() = {
-        Logger.Log("JobManagerAgent Initialization")
-        jobDescription.tasks = jobDescription.tasks.map(x => new TaskDescription(self, jobId, x.index, x.duration, x.resource, x.relativeSubmissionTime, x.constraints, userId))
+        Logger.Log("JobManagerAgent<ID:" + jobId + "> Initialization")
 
-        collection.SortedSet(jobDescription.tasks.map(x => x.relativeSubmissionTime.getMillis): _*).foreach { x =>
-            val tasksWithSimilarSubmissionTime = jobDescription.tasks.filter(y => y.relativeSubmissionTime.getMillis == x)
+        SamplingManager.loadSamplingInformation(samplingInformation)
+    }
+
+    import context.dispatcher
+    def Event_JobManagerSimulationInitiate(message: _JobManagerSimulationInitiate) = {
+        Logger.Log("JobManagerAgent<ID:" + jobId + "> Initialization")
+
+        SamplingManager.loadSamplingInformation(samplingInformation)
+
+        collection.SortedSet(message.taskDescriptions.map(x => x.relativeSubmissionTime.getMillis): _*).foreach { x =>
+            val tasksWithSimilarSubmissionTime = message.taskDescriptions.filter(y => y.relativeSubmissionTime.getMillis == x)
             context.system.scheduler.scheduleOnce(FiniteDuration(x, MILLISECONDS), self, new _TaskSubmission(tasksWithSimilarSubmissionTime))
         }
     }
@@ -47,18 +50,39 @@ class JobManagerAgent(val userId: Int,
         context.system.scheduler.scheduleOnce(JobManagerConfig.heartBeatInterval, self, "heartBeatEvent")
     }
 
-    //TODO:implement it
     def Handle_TaskSubmission(message: _TaskSubmission) = {
-        
+        currentWaveOfTasks += 1
+        if (currentWaveOfTasks == 1) context.system.scheduler.scheduleOnce(JobManagerConfig.heartBeatStartDelay, self, "heartBeatEvent")
+        addNewSubmittedTasksIntoWaveToTaks(currentWaveOfTasks, message.taskDescriptions)
+
+        val samplingList = SamplingManager.getSamplingNode(message.taskDescriptions, false)
+        samplingList.foreach(x => getActorRefFromNodeId(x._1) ! new _ResourceSamplingInquiry(self, DateTime.now(), x._2))
+        context.system.scheduler.scheduleOnce(JobManagerConfig.samplingTimeout, self, new _NodeSamplingTimeout(currentWaveOfTasks, 0))
+    }
+
+    def Handle_NodeSamplingTimeout(message: _NodeSamplingTimeout) = {
+        val unscheduledTasks = waveToTasks.get(message.forWave).get.filter(x => x._1 == false).map(y => y._2)
+        if (unscheduledTasks.length > 0)
+            if (message.retry < JobManagerConfig.numberOfAllowedSamplingRetry) {
+                val samplingList = SamplingManager.getSamplingNode(unscheduledTasks, true)
+                samplingList.foreach(x => getActorRefFromNodeId(x._1) ! new _ResourceSamplingInquiry(self, DateTime.now(), x._2))
+                context.system.scheduler.scheduleOnce(JobManagerConfig.samplingTimeout, self, new _NodeSamplingTimeout(currentWaveOfTasks, message.retry + 1))
+            }
+            else {
+                clusterManager ! new _TaskSubmissionFromJM(self, DateTime.now(), unscheduledTasks)
+            }
+    }
+
+    def addNewSubmittedTasksIntoWaveToTaks(wave: Int, tasks: List[TaskDescription]) = {
+        val tempTasks = tasks.map(x => new TaskDescription(self, jobId, x.index, x.duration, x.resource, x.relativeSubmissionTime, x.constraints, userId))
+        waveToTasks.update(wave, tempTasks.map(x => (false, x)))
     }
 
     //TODO: change to refelect the number of retry and if
     //some of the task failed show their constraints
     def create_JMHeartBeat() = new _JMHeartBeat(self, DateTime.now(), new JobReport(userId, jobId))
 
-    def Handle_FindResources(message: _FindResources) = createSamplingList(message.tasksDescriptions, false).foreach(x => (getActorRefFromNodeId(x._1) ! _ResourceSamplingInquiry(self, DateTime.now(), x._2)))
-
-    def createSamplingList(tasks: List[TaskDescription], retry: Boolean): List[(NodeId, Resource)] = samplingManager.getSamplingNode(tasks, retry)
+    def createSamplingList(tasks: List[TaskDescription], retry: Boolean): List[(NodeId, Resource)] = SamplingManager.getSamplingNode(tasks, retry)
 
     def getActorRefFromNodeId(node: NodeId): ActorSelection = context.actorSelection(createNodeManagerAddressString(node.host, node.port))
 
@@ -67,6 +91,6 @@ class JobManagerAgent(val userId: Int,
         port.toString() + "/" +
         "user/NodeManagerAgent"
 
-    def Handle_JMHeartBeatResponse(message: _JMHeartBeatResponse) = samplingManager.loadNewSamplingRate(message._samplingRate)
+    def Handle_JMHeartBeatResponse(message: _JMHeartBeatResponse) = SamplingManager.loadNewSamplingRate(message._samplingRate)
 
 }

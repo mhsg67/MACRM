@@ -25,7 +25,7 @@ class ClusterManagerAgent extends Agent {
         case "changeToDistributedMode"          => Handle_ChangeToDistributedMode()
         case "finishedCentralizeScheduling"     => Handle_FinishedCentralizeScheduling(sender)
         case message: _ClusterState             => Handle_ClusterState(message)
-        case message: _TaskSubmission           => Handle_TaskSubmission(message)
+        case message: _TaskSubmissionFromJM     => Handle_TaskSubmissionFromJM(message)
         case message: _ServerWithEmptyResources => Handle_ServerWithEmptyResources(message)
         case message: _EachUserShareOfCluster   => Handle_EachUserShareOfCluster(message)
         case message: _ServerStatusUpdate       => Handle_ServerStatusUpdate(message)
@@ -58,7 +58,10 @@ class ClusterManagerAgent extends Agent {
 
     def Handle_EachUserShareOfCluster(message: _EachUserShareOfCluster) = queueAgent ! message
 
-    def Handle_TaskSubmission(message: _TaskSubmission) = queueAgent ! message
+    def Handle_TaskSubmissionFromJM(message: _TaskSubmissionFromJM) = {
+        val tasks = message._taskDescriptions.map(x => new TaskDescription(message._source, x.jobId, x.index, x.duration, x.resource, x.relativeSubmissionTime, x.constraints, x.userId))
+        queueAgent ! new _TaskSubmission(tasks)
+    }
 
     //TODO: in case of centralize scheduling you should use this 
     //information for changing RackAgents and sampling rate of 

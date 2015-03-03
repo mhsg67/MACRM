@@ -1,25 +1,3 @@
-clean
-compile
-exit
-package
-compile
-package
-exit
-clean
-compile
-package
-tracking/run
-show discoveredMainClasses
-clean
-compile
-package
-tracking/run
-show discoveredMainClasses
-clean
-compile
-package
-show discoveredMainClasses
-run tracking/'
 run tracking/
 run tracking/Main
 tracking/ run 
@@ -498,3 +476,25 @@ exit
 clean 
 compile
 eclipse
+exit
+compile
+clean
+compile
+eclipse
+compile
+eclipse
+compile
+clean
+compile
+clean
+compile
+eclipse
+exit
+clean
+compile
+clean
+compile
+clean
+compile
+eclipse
+exit

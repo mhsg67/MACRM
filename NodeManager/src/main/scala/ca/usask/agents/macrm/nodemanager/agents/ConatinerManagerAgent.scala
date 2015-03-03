@@ -11,7 +11,6 @@ import akka.pattern._
 import akka.actor._
 import akka.actor.Status._
 
-
 class ContainerManagerAgent(val nodeManager: ActorRef, val serverState: ActorRef) extends Agent {
 
     var isSimulation = false
@@ -27,7 +26,7 @@ class ContainerManagerAgent(val nodeManager: ActorRef, val serverState: ActorRef
 
     def receive = {
         case "initiateEvent"                        => Event_initiate
-        case "simulationInitiateEvent"                 => Event_simulationInitiate
+        case "simulationInitiateEvent"              => Event_simulationInitiate
         case "checkContainersEvent"                 => Event_checkContainers
         case "resourceSamplingResponseTimeoutEvent" => Event_resourceSamplingResponseTimeout
         case message: _ResourceSamplingInquiry      => Handle_ResourceSamplingInquiry(message)
@@ -39,9 +38,9 @@ class ContainerManagerAgent(val nodeManager: ActorRef, val serverState: ActorRef
     }
 
     def Event_initiate = {
-        Logger.Log("ContainerManagerAgent Initialization")        
+        Logger.Log("ContainerManagerAgent Initialization")
     }
-    
+
     def Event_simulationInitiate = {
         Logger.Log("ContainerManagerAgent Initialization")
         isSimulation = true
@@ -106,7 +105,7 @@ class ContainerManagerAgent(val nodeManager: ActorRef, val serverState: ActorRef
     def Handle_AllocateContainerFromCM(message: _AllocateContainerFromCM) = {
         if (resourceSmaplingInquiryList.length > 0)
             ignoreNextResourceMessage = true
-            
+
         println("YES1")
         if (message._jobDescriptions != null)
             if (startNewJobManagers(message._jobDescriptions) < message._jobDescriptions.length)
@@ -135,8 +134,10 @@ class ContainerManagerAgent(val nodeManager: ActorRef, val serverState: ActorRef
     }
 
     def createJobManagerActor(job: JobDescription, samplInfo: SamplingInformation) = {
-        if(isSimulation){
-           // val newJobManger = context.actorOf(Props(new ServerStateAgent(self)), name = "ServerStateAgent"
+        if (isSimulation) {
+            val newJobManager = context.actorOf(Props(new JobManagerAgent(job.userId, job.jobId, samplInfo, job)), name = "JobManagerAgent")
+            newJobManager ! "initiateEvent"
+            jobManagerList = newJobManager :: jobManagerList
         }
     }
 

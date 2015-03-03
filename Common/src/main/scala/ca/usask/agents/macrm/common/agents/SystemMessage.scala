@@ -14,14 +14,14 @@ trait BasicMessage
  */
 case class _Resource(val _resource: Resource) extends BasicMessage
 
-case class _ContainerExecutionFinished(val containerId:Long)
+case class _ContainerExecutionFinished(val containerId: Long)
 
-case class _AllocateContainer(val userId: Int, val jobId: Long, val taskIndex: Int, val size: Resource, val duration: Duration = null, val isHeartBeatRespond:Boolean = false)
+case class _AllocateContainer(val userId: Int, val jobId: Long, val taskIndex: Int, val size: Resource, val duration: Duration = null, val isHeartBeatRespond: Boolean = false)
 
 case class _FindResources(val tasksDescriptions: List[TaskDescription]) extends BasicMessage
 
 case class _JobSubmission(val jobDescription: JobDescription)
 
-case class _TaskSubmission(val taskDescription: TaskDescription) extends BasicMessage
+case class _TaskSubmission(val taskDescriptions: List[TaskDescription]) extends BasicMessage
 
 case class _NodeManagerSimulationInitiate(val resource: Resource, val capabilities: List[Constraint])

@@ -58,7 +58,7 @@ class QueueAgent extends Agent {
 
     def Handle_JobSubmission(message: _JobSubmission) = schedulingQueue.EnqueueJob(message.jobDescription)
 
-    def Handle_TaskSubmission(message: _TaskSubmission) = schedulingQueue.EnqueueTask(message.taskDescription)
+    def Handle_TaskSubmission(message: _TaskSubmission) = message.taskDescriptions.foreach(x => schedulingQueue.EnqueueTask(x))
 
     def scheduleTask(task: TaskDescription, message: _ServerWithEmptyResources) = message._report.nodeId.agent ! new _AllocateContainerFromCM(self, DateTime.now(), List(task), null)
 

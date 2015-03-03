@@ -17,7 +17,7 @@ class NodeMonitorAgent(val nodeManager: ActorRef, val serverState: ActorRef) ext
         case "initiateEvent"     => Event_initiate()
         case "heartBeatEvent"    => serverState ! "heartBeatEvent"
         case message: _HeartBeat => Handle_heartBeat(message)
-        case _                   => Handle_UnknownMessage
+        case _                   => Handle_UnknownMessage("NodeMonitorAgent")
     }
 
     def Event_initiate() = {

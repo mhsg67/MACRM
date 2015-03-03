@@ -10,8 +10,11 @@ abstract class Agent extends Actor with ActorLogging {
         log.debug(self.toString() + ": Starting")
     }
     
-    def Handle_UnknownMessage = {
-        log.debug(self.toString() + ": Unknown message")
+    def Handle_UnknownMessage = {        
         log.error(self.toString() + ": Unknown message")
     }   
+    
+    def Handle_UnknownMessage(mySelf : String) = {        
+        log.error(mySelf + ": Unknown message")
+    }
 }

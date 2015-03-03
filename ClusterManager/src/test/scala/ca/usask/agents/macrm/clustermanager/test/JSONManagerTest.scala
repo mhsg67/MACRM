@@ -17,12 +17,21 @@ class JSONManagerTest extends UnitSpec{
         result.right.get.constraints should be (List())
         result.right.get.tasks(0) shouldBe a [TaskDescription]
         result.right.get.tasks(0).index should be (0)
-        result.right.get.tasks(0).duration should be (new Duration(100))
-        result.right.get.tasks(0).relativeSubmissionTime should be (new Duration(2))
+        result.right.get.tasks(0).duration should be (new Duration(0))
+        result.right.get.tasks(0).relativeSubmissionTime should be (new Duration(0))
         result.right.get.tasks(0).resource shouldBe a [Resource]
-        result.right.get.tasks(0).resource.memory should be (250)
+        result.right.get.tasks(0).resource.memory should be (1000)
         result.right.get.tasks(0).resource.virtualCore should be (1)
         result.right.get.tasks(0).constraints should be (List())
+        
+        result.right.get.tasks(1) shouldBe a [TaskDescription]
+        result.right.get.tasks(1).index should be (0)
+        result.right.get.tasks(1).duration should be (new Duration(100))
+        result.right.get.tasks(1).relativeSubmissionTime should be (new Duration(2))
+        result.right.get.tasks(1).resource shouldBe a [Resource]
+        result.right.get.tasks(1).resource.memory should be (250)
+        result.right.get.tasks(1).resource.virtualCore should be (1)
+        result.right.get.tasks(1).constraints should be (List())
     }
     
     "getJobDescription" should "return JobDescription with constraints" in {  
@@ -31,12 +40,12 @@ class JSONManagerTest extends UnitSpec{
         
         result should be ('right)
         result.right.get.constraints.length should be (6)
-        result.right.get.tasks(0).constraints.length should be (3)
-        result.right.get.tasks(0).constraints(0) shouldBe a [Constraint]
-        result.right.get.tasks(0).constraints(0).name should be ("1")
-        result.right.get.tasks(0).constraints(0).operator should be (0)
-        result.right.get.tasks(0).constraints(0).value should be (1)
-        result.right.get.tasks(1).constraints.length should be (2)
-        result.right.get.tasks(2).constraints.length should be (1)        
+        result.right.get.tasks(1).constraints.length should be (3)
+        result.right.get.tasks(1).constraints(0) shouldBe a [Constraint]
+        result.right.get.tasks(1).constraints(0).name should be ("1")
+        result.right.get.tasks(1).constraints(0).operator should be (0)
+        result.right.get.tasks(1).constraints(0).value should be (1)
+        result.right.get.tasks(2).constraints.length should be (2)
+        result.right.get.tasks(3).constraints.length should be (1)        
     }
 }

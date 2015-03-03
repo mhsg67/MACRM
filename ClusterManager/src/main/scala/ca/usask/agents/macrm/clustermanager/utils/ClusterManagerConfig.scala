@@ -25,4 +25,12 @@ object ClusterManagerConfig {
      * The default system queue is FIFO Queue
      */
     def QueueType = "FIFOQueue"
+    
+    /**
+     * Container size for a job manager
+     * 1000 memory = 1GB memory
+     * 1 virtual core
+     */
+     val jobManagerContainerMemorySize = 1000 
+     val jobManagerContainerVirtualCoreSize = 1
 }

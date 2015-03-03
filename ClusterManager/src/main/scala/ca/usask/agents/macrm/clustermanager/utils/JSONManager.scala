@@ -53,6 +53,7 @@ object JSONManager {
     def InputJobDescriptionToJobDescription(x: InputJobDescription) = {
         val constraints = x.CS.groupBy(y => y.INX)
         val tasks = x.TS.map(y => new TaskDescription(null, x.JI, y.INX, new Duration(y.DUR), new Resource(y.MEM, y.CPU), new Duration(y.RST), constraints.getOrElse(y.INX, List()).map(z => new Constraint(z.N, z.OP, z.V))))
-        new JobDescription(x.JI, x.UI, x.TS.length, tasks)
+        val jobManagerContainerSpecification = new TaskDescription(null, x.JI, 0, new Duration(0), new Resource(ClusterManagerConfig.jobManagerContainerMemorySize, ClusterManagerConfig.jobManagerContainerVirtualCoreSize), new Duration(0), List())
+        new JobDescription(x.JI, x.UI, x.TS.length, jobManagerContainerSpecification :: tasks)
     }
 }

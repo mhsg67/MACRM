@@ -5,8 +5,11 @@ import ca.usask.agents.macrm.common.records._
 import ca.usask.agents.macrm.common.agents._
 import org.joda.time._
 import akka.actor._
+import java.util.Formatter.DateTime
 
 class ResourceTrackerAgent extends Agent {
+
+    var hasSubmittedFirstClusterState = false
 
     val clusterManagerAgent = context.actorSelection(ResourceTrakerConfig.getQueueAgentAddress())
     val clusterDatabaseReaderAgent = context.actorOf(Props(new ClusterDatabaseReaderAgent(self)), name = "ClusterDatabaseReaderAgent")
@@ -17,7 +20,8 @@ class ResourceTrackerAgent extends Agent {
         case "finishedCentralizeScheduling" => Handle_FinishedCentralizeScheduling()
         case message: _HeartBeat            => Handle_HeartBeat(message)
         case message: _JMHeartBeat          => Handle_JMHeartBeat(message)
-        case _                              => Handle_UnknownMessage
+        case message: _ClusterState         => Handle_ClusterState(message)
+        case _                              => Handle_UnknownMessage("ResourceTrackerAgent")
     }
 
     def Event_initiate() = {
@@ -27,14 +31,18 @@ class ResourceTrackerAgent extends Agent {
         clusterDatabaseReaderAgent ! "initiateEvent"
     }
 
+    def Handle_ClusterState(message: _ClusterState) = {
+        hasSubmittedFirstClusterState = true
+        clusterManagerAgent ! message
+    }
+
     def Handle_JMHeartBeat(message: _JMHeartBeat) = {
-        //clusterDatabaseWriterAgent ! message
         clusterDatabaseReaderAgent ! message
     }
 
     def Handle_HeartBeat(message: _HeartBeat) = {
-        clusterDatabaseWriterAgent ! message
-        if (doesServerHaveResourceForAJobManager(message._report))
+        clusterDatabaseWriterAgent ! message        
+        if (doesServerHaveResourceForAJobManager(message._report) && hasSubmittedFirstClusterState)
             clusterManagerAgent ! new _ServerWithEmptyResources(self, DateTime.now(), addIPandPortToNodeReport(message._report, message._source))
     }
 

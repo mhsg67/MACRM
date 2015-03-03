@@ -6,6 +6,7 @@ import ca.usask.agents.macrm.common.agents._
 import com.typesafe.config.ConfigFactory
 import org.joda.time.DateTime
 import akka.actor._
+import java.util.Formatter.DateTime
 
 /**
  * TODO: For adaption part which switch to central decision making
@@ -24,7 +25,7 @@ class QueueAgent extends Agent {
         case message: _EachUserShareOfCluster   => Handle_EachUserShareOfCluster(message)
         case message: _JobSubmission            => Handle_JobSubmission(message)
         case message: _TaskSubmission           => Handle_TaskSubmission(message)
-        case _                                  => Handle_UnknownMessage
+        case _                                  => Handle_UnknownMessage("QueueAgent")
     }
 
     def Event_initiate() = {
@@ -59,12 +60,12 @@ class QueueAgent extends Agent {
 
     def Handle_TaskSubmission(message: _TaskSubmission) = schedulingQueue.EnqueueTask(message.taskDescription)
 
-    def scheduleTask(task: TaskDescription, message: _ServerWithEmptyResources) = message._report.nodeId.agent ! new _AllocateContainerForTask(self, DateTime.now, List(task))
+    def scheduleTask(task: TaskDescription, message: _ServerWithEmptyResources) = message._report.nodeId.agent ! new _AllocateContainerFromCM(self, DateTime.now(), List(task), null)
 
-    def schedulerJob(job: JobDescription, message: _ServerWithEmptyResources, samplingInformation: SamplingInformation) = message._report.nodeId.agent ! new _AllocateContainerForJobManager(self, DateTime.now(), job, samplingInformation)
+    def schedulerJob(job: JobDescription, message: _ServerWithEmptyResources, samplingInformation: SamplingInformation) = message._report.nodeId.agent ! new _AllocateContainerFromCM(self, DateTime.now(), null, List((job, samplingInformation)))
 
-    def Handle_ClusterState(message:_ClusterState) = clusterStructure.updateClusterStructure(message._newSamplingRate, message._removedServers, message._addedServers, message._rareResources)
-    
+    def Handle_ClusterState(message: _ClusterState) = clusterStructure.updateClusterStructure(message._newSamplingRate, message._removedServers, message._addedServers, message._rareResources)
+
     /*
      * TODO: Implement following functions
      */

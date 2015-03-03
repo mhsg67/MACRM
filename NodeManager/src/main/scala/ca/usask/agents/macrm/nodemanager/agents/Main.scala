@@ -1,5 +1,7 @@
 package ca.usask.agents.macrm.nodemanager.agents
 
+import ca.usask.agents.macrm.common.records._
+import ca.usask.agents.macrm.common.agents._
 import akka.actor._
 import ca.usask.agents.macrm.nodemanager.utils._
 import com.typesafe.config.ConfigFactory
@@ -15,7 +17,8 @@ object main extends App {
         val system = ActorSystem.create("NodeManagerAgent", ConfigFactory.load().getConfig("NodeManagerAgent"))
         val nodeManager = system.actorOf(Props[NodeManagerAgent], name = "NodeManagerAgent")
 
-        nodeManager ! "initiateEvent"
+        //nodeManager ! "initiateEvent"
+        nodeManager ! new _NodeManagerSimulationInitiate(new Resource(4000,4), List())
     }
     catch {
         case e: Exception => Logger.Error(e.toString())

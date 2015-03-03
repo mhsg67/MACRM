@@ -4,7 +4,7 @@
 		module="nodemanager_2.11"
 		revision="1.0"
 		status="integration"
-		publication="20150227212235"
+		publication="20150302212603"
 	>
 		<description>
 		NodeManager
@@ -35,6 +35,7 @@
 		<dependency org="org.scala-lang" name="scala-compiler" rev="2.11.4" conf="scala-tool->default,optional(default)"/>
 		<dependency org="org.scala-lang" name="scala-library" rev="2.11.4" conf="scala-tool->default,optional(default);compile->default(compile)"/>
 		<dependency org="common" name="common_2.11" rev="1.0" conf="compile->default(compile)"/>
+		<dependency org="jobmanager" name="jobmanager_2.11" rev="1.0" conf="compile->default(compile)"/>
 		<dependency org="com.typesafe.akka" name="akka-actor_2.11" rev="2.3.7" conf="compile->default(compile)"/>
 		<dependency org="com.typesafe.akka" name="akka-remote_2.11" rev="2.3.7" conf="compile->default(compile)"/>
 		<dependency org="com.typesafe" name="config" rev="1.2.1" conf="compile->default(compile)"/>

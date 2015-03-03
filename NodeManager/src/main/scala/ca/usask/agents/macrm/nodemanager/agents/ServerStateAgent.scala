@@ -9,11 +9,10 @@ import akka.actor._
 
 class ServerStateAgent(val nodeManager: ActorRef) extends Agent {
 
-    var recievedHeartBeatRespond = false
+    var receivedHeartBeatRespond = false
     var lastSubmissionOfHeartBeat = DateTime.now()
     var containerManager: ActorRef = null
-
-    val serverState = ServerState.apply()
+    var serverState: ServerState = null
 
     def receive = {
         case "initiateEvent"                         => Event_initiate
@@ -23,21 +22,26 @@ class ServerStateAgent(val nodeManager: ActorRef) extends Agent {
         case message: _AllocateContainer             => Handle_AllocateContainer(message, sender())
         case message: _NodeManagerSimulationInitiate => Event_NodeManagerSimulationInitiate(message)
         case message: _ContainerExecutionFinished    => Handle_ContainerExecutionFinished(message)
+        case _                                       => Handle_UnknownMessage("ServerStateAgent")
     }
 
     def Event_initiate = {
         Logger.Log("ServerStateAgent Initialization")
+
+        serverState = ServerState(false)
     }
 
     def Event_NodeManagerSimulationInitiate(message: _NodeManagerSimulationInitiate) = {
         Logger.Log("ServerStateAgent Initialization")
 
+        serverState = ServerState(true)
         serverState.initializeSimulationServer(message.resource, message.capabilities)
     }
 
     def Handle_heartBeat(_sender: ActorRef) = {
         _sender ! create_HeartBeat(createNodeReport())
         lastSubmissionOfHeartBeat = DateTime.now()
+        receivedHeartBeatRespond = false
     }
 
     def Handle_checkAvailableResources(sender: ActorRef) =
@@ -47,7 +51,9 @@ class ServerStateAgent(val nodeManager: ActorRef) extends Agent {
             sender ! new _Resource(new Resource(0, 0))
 
     def shouldServerNowOrWaitForHeartBeatResponse(): Boolean = {
-        if (DateTime.now().getMillis() - lastSubmissionOfHeartBeat.getMillis() < NodeManagerConfig.stopServingJobManagerRequestAfterHeartBeat)
+        if (receivedHeartBeatRespond == true)
+            true
+        else if (DateTime.now().getMillis() - lastSubmissionOfHeartBeat.getMillis() < NodeManagerConfig.stopServingJobManagerRequestAfterHeartBeat)
             false
         else if (DateTime.now().getMillis() - lastSubmissionOfHeartBeat.getMillis() > NodeManagerConfig.stopServingJobManagerRequestBeforeHeartBeat)
             false
@@ -57,16 +63,26 @@ class ServerStateAgent(val nodeManager: ActorRef) extends Agent {
 
     import context.dispatcher
     def Handle_AllocateContainer(message: _AllocateContainer, sender: ActorRef) = {
+        println("YES3")
+        receivedHeartBeatRespond = message.isHeartBeatRespond
         containerManager = sender
-        serverState.createContainer(message.userId, message.jobId, message.taskIndex, message.size) match {
-            case None    => //TODO: send error to container manager = sender
-            case Some(x) => context.system.scheduler.scheduleOnce(FiniteDuration(message.duration.getMillis, MILLISECONDS), self, new _ContainerExecutionFinished(x))
-            //TODO: send success message to container manager
+
+        try {
+            serverState.createContainer(message.userId, message.jobId, message.taskIndex, message.size) match {
+                case None => sender ! "NACK"
+                case Some(x) =>
+                    if (message.taskIndex > 0)
+                        context.system.scheduler.scheduleOnce(FiniteDuration(message.duration.getMillis, MILLISECONDS), self, new _ContainerExecutionFinished(x))
+                    sender ! "ACK"
+            }
+        }
+        catch {
+            case e: Exception => sender ! akka.actor.Status.Failure(e)
         }
     }
 
-    def Handle_ContainerExecutionFinished(message: _ContainerExecutionFinished) = containerManager ! message 
-        
+    def Handle_ContainerExecutionFinished(message: _ContainerExecutionFinished) = serverState.killContainer(message.containerId)
+
     def createNodeReport(): NodeReport = serverState.getServerStatus(nodeManager)
 
     def create_HeartBeat(_nodeReport: NodeReport) = new _HeartBeat(self, DateTime.now(), _nodeReport)

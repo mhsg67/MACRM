@@ -8,8 +8,6 @@ import org.joda.time._
  */
 object NodeManagerConfig {
 
-    var isSimulation = true
-
     def readConfigurationFile() = {
         Logger.Log("Start reading configuration file")
         Logger.Log("Finished reading configuration file")

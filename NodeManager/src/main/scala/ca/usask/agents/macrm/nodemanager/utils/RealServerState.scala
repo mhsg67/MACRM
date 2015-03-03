@@ -20,4 +20,6 @@ object RealServerState extends ServerState {
     def getServerResource(): Resource = null
 
     def createContainer(userId: Int, jobId: Long, taskIndex: Int, size: Resource): Option[Int] = None
+
+    def killContainer(containerId: Long): Option[Long] = None
 }

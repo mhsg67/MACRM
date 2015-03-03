@@ -23,11 +23,13 @@ trait ServerState {
 
     def createContainer(userId: Int, jobId: Long, taskIndex: Int, size: Resource): Option[Int]
 
+    def killContainer(containerId: Long): Option[Long]
+
 }
 
 /**
  * This is just class factory to create either of above classes depends on simulation or real case
  */
 object ServerState {
-    def apply(): ServerState = if (NodeManagerConfig.isSimulation) SimulationServerState else RealServerState
+    def apply(isSimulation: Boolean): ServerState = if (isSimulation) SimulationServerState else RealServerState
 }

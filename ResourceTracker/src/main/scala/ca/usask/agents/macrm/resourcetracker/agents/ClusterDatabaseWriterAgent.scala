@@ -11,7 +11,7 @@ class ClusterDatabaseWriterAgent(val resourceTrackerAgent: ActorRef) extends Age
     def receive = {
         case "initiateEvent"     => Event_initiate()
         case message: _HeartBeat => Handle_HeartBeat(message)
-        case _                   => Handle_UnknownMessage
+        case _                   => Handle_UnknownMessage("ClusterDatabaseWriterAgent")
     }
 
     def Event_initiate() = {

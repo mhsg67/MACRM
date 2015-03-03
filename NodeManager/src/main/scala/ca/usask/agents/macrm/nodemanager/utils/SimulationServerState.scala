@@ -10,15 +10,15 @@ import org.joda.time.DateTime
 object SimulationServerState extends ServerState {
 
     var nextContainerId = 0
-    var serverResource: Resource = null
-    var serverCapabilities: List[Constraint] = null
-    var serverContainers: List[Container] = null
+    var serverResource: Resource = new Resource(0,0)
+    var serverCapabilities: List[Constraint] = List()
+    var serverContainers: List[Container] = List()
     var serverNodeState = NodeState("RUNNING")
 
     def initializeServer(): Boolean = true
 
     def initializeSimulationServer(resource: Resource, capability: List[Constraint]) = {
-        serverResource = resource
+        serverResource = resource        
         serverCapabilities = capability
         true
     }
@@ -37,10 +37,19 @@ object SimulationServerState extends ServerState {
         if ((serverResource - serverContainers.foldLeft(new Resource(0, 0))((x, y) => y.resource + x)) < size)
             None
         else {
+            println("YES4")
             serverContainers = new Container(nextContainerId, userId, jobId, taskIndex, size) :: serverContainers
             nextContainerId += 1
             Some(nextContainerId - 1)
         }
+    }
+
+    def killContainer(containerId: Long): Option[Long] = {
+        if (serverContainers.exists(x => x.containerId == containerId)) {
+            serverContainers = serverContainers.filterNot(x => x.containerId == containerId)
+            Some(containerId)
+        }
+        else None
     }
 
 }

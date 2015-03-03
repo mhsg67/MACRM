@@ -14,7 +14,7 @@ object main extends App {
         val system = ActorSystem.create("ClusterManagerAgent", ConfigFactory.load().getConfig("ClusterManagerAgent"))
         val clusterManagerAgent = system.actorOf(Props[ClusterManagerAgent], name = "ClusterManagerAgent")
         
-        clusterManagerAgent ! "initiateEvent"        
+        clusterManagerAgent ! "initiateEvent"   
     }
     catch {
         case e: Exception => Logger.Error(e.toString())

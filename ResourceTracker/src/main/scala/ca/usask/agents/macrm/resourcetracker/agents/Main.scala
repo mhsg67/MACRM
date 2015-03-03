@@ -15,6 +15,7 @@ object main extends App {
         val resourceTracker = system.actorOf(Props[ResourceTrackerAgent], name = "ResourceTrackerAgent")
 
         resourceTracker ! "initiateEvent"
+        
     }
     catch {
         case e: Exception => Logger.Error(e.toString())

@@ -29,7 +29,7 @@ class ClusterManagerAgent extends Agent {
         case message: _ServerWithEmptyResources => Handle_ServerWithEmptyResources(message)
         case message: _EachUserShareOfCluster   => Handle_EachUserShareOfCluster(message)
         case message: _ServerStatusUpdate       => Handle_ServerStatusUpdate(message)
-        case _                                  => Handle_UnknownMessage
+        case _                                  => Handle_UnknownMessage("ClusterManagerAgent")
     }
 
     def Event_initiate() = {

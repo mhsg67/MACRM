@@ -35,6 +35,11 @@ object JobManagerConfig {
         trackerDefualtPort + "/" +
         "user/ResourceTrackerAgent"
 
+    def createNodeManagerAddressString(host: String, port: Int) = "akka.tcp://NodeManagerAgent@" +
+        host + ":" +
+        port.toString() + "/" +
+        "user/NodeManagerAgent"
+
     /**
      * To access ClusterManager actor
      */

@@ -18,16 +18,16 @@ class NodeManagerAgent extends Agent {
         case "initiateEvent"                         => Event_initiate()
         case message: _NodeManagerSimulationInitiate => Event_NodeManagerSimulationInitiate(message)
         case message: _HeartBeat                     => resourceTracker ! new _HeartBeat(self, DateTime.now(), message._report)
-        case message: _ResourceSamplingInquiry       => containerManager ! message
-        case message: _ResourceSamplingCancel        => containerManager ! message
+        case message: _ResourceSamplingInquiry       => containerManager ! new _ResourceSamplingInquiry(sender(), message._time, message._minRequiredResource, message._jobId)
+        case message: _ResourceSamplingCancel        => containerManager ! new _ResourceSamplingCancel(sender(), message._time, message._jobId)
         case message: _AllocateContainerFromCM       => containerManager ! message
         case message: _AllocateContainerFromJM       => containerManager ! message
         case _                                       => Handle_UnknownMessage("NodeManagerAgent")
     }
 
     def Event_initiate() = {
-        Logger.Log("NodeManagerAgent Initialization Start")        
-        
+        Logger.Log("NodeManagerAgent Initialization Start")
+
         //TODO: Should be blocking messaging
         serverState ! "initiateEvent"
         nodeMonitor ! "initiateEvent"

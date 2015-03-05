@@ -5,10 +5,10 @@ import ca.usask.agents.macrm.common.records._
 class ClusterDatastructure {
 
     var samplingRate = 2
-    var clusterNodes = List[(NodeId,List[Constraint])]()
+    var clusterNodes = List[(NodeId, List[Constraint])]()
     var rareResource = List[Constraint]()
 
-    def updateClusterStructure(newSamplingRate: Int = -1, removedServers: List[NodeId] = null, addedServers: List[(NodeId,List[Constraint])] = null, rareResourcesUpdate: List[(Boolean, Constraint)] = null) = {
+    def updateClusterStructure(newSamplingRate: Int = -1, removedServers: List[NodeId] = null, addedServers: List[(NodeId, List[Constraint])] = null, rareResourcesUpdate: List[(Boolean, Constraint)] = null) = {
         if (newSamplingRate != -1) samplingRate = newSamplingRate
         if (removedServers != null) clusterNodes = clusterNodes.filterNot(x => removedServers.exists(y => y == x._1))
         if (addedServers != null) {
@@ -24,21 +24,21 @@ class ClusterDatastructure {
     }
 
     def getCurrentSamplingInformation(constraints: List[Constraint]): SamplingInformation = {
-        var tempClusterNodes = clusterNodes.map(x => (x._1, getMatchCapablitiesOfNode(x._2, constraints)))
-        tempClusterNodes = tempClusterNodes.filterNot(x => x._2 == List())
-        new SamplingInformation(samplingRate, tempClusterNodes)
-    }    
+        val (nodeWithConstraints, nodeWithoutConstraints) =
+            clusterNodes.map(x => (x._1, getMatchCapablitiesOfNode(x._2, constraints))).filterNot(x => x._2 == List()).partition(x => x._2 == null)
+        new SamplingInformation(samplingRate, nodeWithConstraints, nodeWithoutConstraints.map(x => x._1))
+    }
 
     def getMatchCapablitiesOfNode(nodeCapabilities: List[Constraint], jobConstraints: List[Constraint]) = {
         val result = nodeCapabilities.filter(x => doesCapabilityMatchConstraints(x, jobConstraints))
         result match {
-            case List() => if(doesHaveRareResources(nodeCapabilities)) List() else null
+            case List() => if (doesHaveRareResources(nodeCapabilities)) List() else null
             case _      => result
         }
     }
-    
-    def doesHaveRareResources(nodeCapabilities:List[Constraint]):Boolean = 
-        rareResource.foldRight(false)((x,y) => doesCapabilityMatchConstraints(x,nodeCapabilities) || y)
+
+    def doesHaveRareResources(nodeCapabilities: List[Constraint]): Boolean =
+        rareResource.foldRight(false)((x, y) => doesCapabilityMatchConstraints(x, nodeCapabilities) || y)
 
     def doesCapabilityMatchConstraints(capability: Constraint, jobConstraints: List[Constraint]) = {
         val temp = jobConstraints.filter(x => x.name == capability.name)

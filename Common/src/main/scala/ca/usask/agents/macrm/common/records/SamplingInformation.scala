@@ -11,5 +11,6 @@ import java.io.Serializable
  */
 @SerialVersionUID(100L)
 class SamplingInformation(val samplingRate:Int,
-                          val clusterNodes: List[(NodeId, List[Constraint])])
+                          val clusterNodesWithConstraint: List[(NodeId, List[Constraint])],
+                          val clusterNodeWithoutConstraint:List[NodeId])
     extends Serializable 

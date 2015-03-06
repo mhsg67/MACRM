@@ -4,6 +4,8 @@
 [0m[[0mdebug[0m] [0m	  /home/node3/workspace/MACRM/JobManager/target/scala-2.11/classes/ca/usask/agents/macrm/jobmanager/agents/JobManagerAgent$$anonfun$receive$1.class[0m
 [0m[[0mdebug[0m] [0m	ca/usask/agents/macrm/jobmanager/utils/SamplingManager$$anonfun$13.class[0m
 [0m[[0mdebug[0m] [0m	  /home/node3/workspace/MACRM/JobManager/target/scala-2.11/classes/ca/usask/agents/macrm/jobmanager/utils/SamplingManager$$anonfun$13.class[0m
+[0m[[0mdebug[0m] [0m	ca/usask/agents/macrm/jobmanager/agents/JobManagerAgent$$anonfun$4$$anonfun$apply$1.class[0m
+[0m[[0mdebug[0m] [0m	  /home/node3/workspace/MACRM/JobManager/target/scala-2.11/classes/ca/usask/agents/macrm/jobmanager/agents/JobManagerAgent$$anonfun$4$$anonfun$apply$1.class[0m
 [0m[[0mdebug[0m] [0m	ca/usask/agents/macrm[0m
 [0m[[0mdebug[0m] [0m	  /home/node3/workspace/MACRM/JobManager/target/scala-2.11/classes/ca/usask/agents/macrm[0m
 [0m[[0mdebug[0m] [0m	ca/usask/agents/macrm/jobmanager/utils/SamplingManager$$anonfun$14.class[0m
@@ -16,6 +18,8 @@
 [0m[[0mdebug[0m] [0m	  /home/node3/workspace/MACRM/JobManager/target/scala-2.11/classes/ca/usask/agents/macrm/jobmanager/utils/SamplingManager$$anonfun$9.class[0m
 [0m[[0mdebug[0m] [0m	ca/usask/agents/macrm/jobmanager/utils/SamplingManager$$anonfun$findSamplingListForTasksWithConstraint$4$$anonfun$apply$5.class[0m
 [0m[[0mdebug[0m] [0m	  /home/node3/workspace/MACRM/JobManager/target/scala-2.11/classes/ca/usask/agents/macrm/jobmanager/utils/SamplingManager$$anonfun$findSamplingListForTasksWithConstraint$4$$anonfun$apply$5.class[0m
+[0m[[0mdebug[0m] [0m	ca/usask/agents/macrm/jobmanager/agents/JobManagerAgent$$anonfun$5.class[0m
+[0m[[0mdebug[0m] [0m	  /home/node3/workspace/MACRM/JobManager/target/scala-2.11/classes/ca/usask/agents/macrm/jobmanager/agents/JobManagerAgent$$anonfun$5.class[0m
 [0m[[0mdebug[0m] [0m	ca/usask/agents/macrm/jobmanager/utils/SamplingManager$$anonfun$findSamplingListForTasksWithConstraint$1$$anonfun$apply$1.class[0m
 [0m[[0mdebug[0m] [0m	  /home/node3/workspace/MACRM/JobManager/target/scala-2.11/classes/ca/usask/agents/macrm/jobmanager/utils/SamplingManager$$anonfun$findSamplingListForTasksWithConstraint$1$$anonfun$apply$1.class[0m
 [0m[[0mdebug[0m] [0m	ca/usask/agents/macrm/jobmanager/utils/SamplingManager$$anonfun$findSamplingListForTasksWithConstraint$3$$anonfun$apply$3.class[0m
@@ -26,6 +30,8 @@
 [0m[[0mdebug[0m] [0m	  /home/node3/workspace/MACRM/JobManager/target/scala-2.11/classes/ca/usask/agents/macrm/jobmanager/utils/SamplingManager$$anonfun$addNewSubmittedTasksIntoWaveToTaks$1.class[0m
 [0m[[0mdebug[0m] [0m	ca/usask/agents/macrm/jobmanager/utils/SamplingManager.class[0m
 [0m[[0mdebug[0m] [0m	  /home/node3/workspace/MACRM/JobManager/target/scala-2.11/classes/ca/usask/agents/macrm/jobmanager/utils/SamplingManager.class[0m
+[0m[[0mdebug[0m] [0m	ca/usask/agents/macrm/jobmanager/agents/JobManagerAgent$$anonfun$3.class[0m
+[0m[[0mdebug[0m] [0m	  /home/node3/workspace/MACRM/JobManager/target/scala-2.11/classes/ca/usask/agents/macrm/jobmanager/agents/JobManagerAgent$$anonfun$3.class[0m
 [0m[[0mdebug[0m] [0m	ca/usask/agents/macrm/jobmanager/agents/JobManagerAgent$$anonfun$Event_JobManagerSimulationInitiate$2.class[0m
 [0m[[0mdebug[0m] [0m	  /home/node3/workspace/MACRM/JobManager/target/scala-2.11/classes/ca/usask/agents/macrm/jobmanager/agents/JobManagerAgent$$anonfun$Event_JobManagerSimulationInitiate$2.class[0m
 [0m[[0mdebug[0m] [0m	ca/usask/agents/macrm/jobmanager/utils/SamplingManager$$anonfun$3.class[0m
@@ -70,6 +76,8 @@
 [0m[[0mdebug[0m] [0m	  /home/node3/workspace/MACRM/JobManager/target/scala-2.11/classes/ca/usask/agents/macrm/jobmanager/agents/JobManagerAgent$$anonfun$Event_JobManagerSimulationInitiate$2$$anonfun$2.class[0m
 [0m[[0mdebug[0m] [0m	ca/usask/agents/macrm/jobmanager/utils/SamplingManager$$anonfun$5.class[0m
 [0m[[0mdebug[0m] [0m	  /home/node3/workspace/MACRM/JobManager/target/scala-2.11/classes/ca/usask/agents/macrm/jobmanager/utils/SamplingManager$$anonfun$5.class[0m
+[0m[[0mdebug[0m] [0m	ca/usask/agents/macrm/jobmanager/agents/JobManagerAgent$$anonfun$4.class[0m
+[0m[[0mdebug[0m] [0m	  /home/node3/workspace/MACRM/JobManager/target/scala-2.11/classes/ca/usask/agents/macrm/jobmanager/agents/JobManagerAgent$$anonfun$4.class[0m
 [0m[[0mdebug[0m] [0m	ca/usask/agents/macrm/jobmanager/utils/SamplingManager$$anonfun$1$$anonfun$apply$mcZI$sp$1.class[0m
 [0m[[0mdebug[0m] [0m	  /home/node3/workspace/MACRM/JobManager/target/scala-2.11/classes/ca/usask/agents/macrm/jobmanager/utils/SamplingManager$$anonfun$1$$anonfun$apply$mcZI$sp$1.class[0m
 [0m[[0mdebug[0m] [0m	ca/usask/agents/macrm/jobmanager/utils/SamplingManager$$anonfun$2.class[0m
@@ -92,6 +100,8 @@
 [0m[[0mdebug[0m] [0m	  /home/node3/workspace/MACRM/JobManager/target/scala-2.11/classes/ca/usask/agents/macrm/jobmanager[0m
 [0m[[0mdebug[0m] [0m	ca/usask/agents/macrm/jobmanager/agents/main$delayedInit$body.class[0m
 [0m[[0mdebug[0m] [0m	  /home/node3/workspace/MACRM/JobManager/target/scala-2.11/classes/ca/usask/agents/macrm/jobmanager/agents/main$delayedInit$body.class[0m
+[0m[[0mdebug[0m] [0m	ca/usask/agents/macrm/jobmanager/agents/JobManagerAgent$$anonfun$updateWaveToHighestSamplingRateToConstraints$1.class[0m
+[0m[[0mdebug[0m] [0m	  /home/node3/workspace/MACRM/JobManager/target/scala-2.11/classes/ca/usask/agents/macrm/jobmanager/agents/JobManagerAgent$$anonfun$updateWaveToHighestSamplingRateToConstraints$1.class[0m
 [0m[[0mdebug[0m] [0m	ca/usask/agents/macrm/jobmanager/utils/SamplingManager$$anonfun$5$$anonfun$apply$2.class[0m
 [0m[[0mdebug[0m] [0m	  /home/node3/workspace/MACRM/JobManager/target/scala-2.11/classes/ca/usask/agents/macrm/jobmanager/utils/SamplingManager$$anonfun$5$$anonfun$apply$2.class[0m
 [0m[[0mdebug[0m] [0m	ca/usask/agents/macrm/jobmanager/utils/SamplingManager$$anonfun$doesAllCapablitiesMatchAllConstraints$1.class[0m

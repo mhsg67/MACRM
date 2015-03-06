@@ -1,4 +1,3 @@
-compile
 eclipse
 tracking/run
 node/run
@@ -498,3 +497,4 @@ compile
 clean
 compile
 eclipse
+compile

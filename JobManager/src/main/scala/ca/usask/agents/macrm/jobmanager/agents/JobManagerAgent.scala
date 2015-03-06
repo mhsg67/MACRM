@@ -53,6 +53,7 @@ class JobManagerAgent(val userId: Int,
     }
 
     def Event_heartBeat() = {
+        //TODO: manager sending heart beat by fetching datat from waveToHighestSamplingRateWithTaskIndexWithConstraints and remove rows after submiting heartbeat
         resourceTracker ! create_JMHeartBeat()
         //context.system.scheduler.scheduleOnce(JobManagerConfig.heartBeatInterval, self, "heartBeatEvent")
     }

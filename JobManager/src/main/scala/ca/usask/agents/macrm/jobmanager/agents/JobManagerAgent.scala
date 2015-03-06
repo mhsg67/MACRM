@@ -13,6 +13,7 @@ class JobManagerAgent(val userId: Int,
                       val samplingInformation: SamplingInformation) extends Agent {
 
     import context.dispatcher
+    var waveToHighestSamplingRateWithTaskIndexWithConstraints = Map[Int, List[(Int, Int, List[Constraint])]]()
     var currentWaveOfTasks = 0
     val resourceTracker = context.actorSelection(JobManagerConfig.getResourceTrackerAddress())
     val clusterManager = context.actorSelection(JobManagerConfig.getClusterManagerAddress())
@@ -53,7 +54,7 @@ class JobManagerAgent(val userId: Int,
 
     def Event_heartBeat() = {
         resourceTracker ! create_JMHeartBeat()
-        context.system.scheduler.scheduleOnce(JobManagerConfig.heartBeatInterval, self, "heartBeatEvent")
+        //context.system.scheduler.scheduleOnce(JobManagerConfig.heartBeatInterval, self, "heartBeatEvent")
     }
 
     def Handle_ResourceSamplingResponse(message: _ResourceSamplingResponse, sender: ActorRef) =
@@ -63,8 +64,10 @@ class JobManagerAgent(val userId: Int,
         }
 
     def Handle_TaskSubmission(message: _TaskSubmission) = {
+        /**NOTE: I have decided to submit heartbeat after each wave of tasks to let RT know about sampling rates**/
+        context.system.scheduler.scheduleOnce(JobManagerConfig.heartBeatStartDelay, self, "heartBeatEvent")
+
         currentWaveOfTasks += 1
-        if (currentWaveOfTasks == 1) context.system.scheduler.scheduleOnce(JobManagerConfig.heartBeatStartDelay, self, "heartBeatEvent")
         SamplingManager.addNewSubmittedTasksIntoWaveToTaks(currentWaveOfTasks, message.taskDescriptions)
 
         val samplingList = SamplingManager.getSamplingNode(message.taskDescriptions, 0)
@@ -74,7 +77,8 @@ class JobManagerAgent(val userId: Int,
 
     def Handle_NodeSamplingTimeout(message: _NodeSamplingTimeout) = {
         val unscheduledTasks = SamplingManager.getUnscheduledTaskOfWave(message.forWave)
-        if (unscheduledTasks.length > 0)
+        if (unscheduledTasks.length > 0) {
+            updateWaveToHighestSamplingRateToConstraints(message.forWave, message.retry, unscheduledTasks)
             if (message.retry < JobManagerConfig.numberOfAllowedSamplingRetry) {
                 val samplingList = SamplingManager.getSamplingNode(unscheduledTasks, message.retry + 1)
                 samplingList.foreach(x => getActorRefFromNodeId(x._1) ! new _ResourceSamplingInquiry(self, DateTime.now(), x._2, jobId))
@@ -83,6 +87,20 @@ class JobManagerAgent(val userId: Int,
             else {
                 clusterManager ! new _TaskSubmissionFromJM(self, DateTime.now(), unscheduledTasks)
             }
+        }
+    }
+
+    def updateWaveToHighestSamplingRateToConstraints(wave: Int, retry: Int, unscheduledTasks: List[TaskDescription]) = {
+        val unscheduledTasksIndexAndConstraints = unscheduledTasks.map(x => (x.index, x.constraints))
+        waveToHighestSamplingRateWithTaskIndexWithConstraints.get(wave) match {
+            case None =>
+                waveToHighestSamplingRateWithTaskIndexWithConstraints.update(wave, unscheduledTasksIndexAndConstraints.map(y => (retry * SamplingManager.samplingRate, y._1, y._2)))
+            case Some(x) => {
+                val oldPart = x.filterNot(p => unscheduledTasksIndexAndConstraints.exists(q => q._1 == p._2))
+                val newPart = unscheduledTasksIndexAndConstraints.map(x => (retry * SamplingManager.samplingRate, x._1, x._2))
+                waveToHighestSamplingRateWithTaskIndexWithConstraints.update(wave, oldPart ++ newPart)
+            }
+        }
     }
 
     def Handle_JMHeartBeatResponse(message: _JMHeartBeatResponse) = SamplingManager.loadNewSamplingRate(message._samplingRate)

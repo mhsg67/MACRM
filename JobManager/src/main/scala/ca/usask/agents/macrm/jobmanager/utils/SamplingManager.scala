@@ -6,7 +6,7 @@ import akka.actor._
 import scala.util.Random
 
 object SamplingManager {
-
+    
     var samplingRate = 2
     var clusterNodesWithConstraint: List[(NodeId, List[Constraint])] = null
     var clusterNodesWithoutConstraint: List[NodeId] = null

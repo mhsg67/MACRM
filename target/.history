@@ -1,9 +1,4 @@
 compile
-node/run
-compile
-node/run
-clean
-compile
 show discoveredMainClasses
 eclipse
 node/run
@@ -494,6 +489,11 @@ compile
 clean
 compile
 eclipse
+compile
+clean
+compile
+eclipse
+exit
 compile
 clean
 compile

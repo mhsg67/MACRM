@@ -8,12 +8,12 @@ import org.joda.time._
 import akka.actor._
 import scala.concurrent.duration._
 
-class JobManagerAgent(val userId: Int,
+class JobManagerAgentAdvance(val userId: Int,
                       val jobId: Long,
                       val samplingInformation: SamplingInformation) extends Agent {
 
     import context.dispatcher
-    //var waveToHighestSamplingRateWithTaskIndexWithConstraints = Map[Int, List[(Int, Int, List[Constraint])]]()
+    var waveToHighestSamplingRateWithTaskIndexWithConstraints = Map[Int, List[(Int, Int, List[Constraint])]]()
     var currentWaveOfTasks = 0
     val resourceTracker = context.actorSelection(JobManagerConfig.getResourceTrackerAddress())
     val clusterManager = context.actorSelection(JobManagerConfig.getClusterManagerAddress())
@@ -79,7 +79,7 @@ class JobManagerAgent(val userId: Int,
     def Handle_NodeSamplingTimeout(message: _NodeSamplingTimeout) = {
         val unscheduledTasks = SamplingManager.getUnscheduledTaskOfWave(message.forWave)
         if (unscheduledTasks.length > 0) {
-            //updateWaveToHighestSamplingRateToConstraints(message.forWave, message.retry, unscheduledTasks)
+            updateWaveToHighestSamplingRateToConstraints(message.forWave, message.retry, unscheduledTasks)
             if (message.retry < JobManagerConfig.numberOfAllowedSamplingRetry) {
                 val samplingList = SamplingManager.getSamplingNode(unscheduledTasks, message.retry + 1)
                 samplingList.foreach(x => getActorRefFromNodeId(x._1) ! new _ResourceSamplingInquiry(self, DateTime.now(), x._2, jobId))
@@ -91,6 +91,18 @@ class JobManagerAgent(val userId: Int,
         }
     }
 
+    def updateWaveToHighestSamplingRateToConstraints(wave: Int, retry: Int, unscheduledTasks: List[TaskDescription]) = {
+        val unscheduledTasksIndexAndConstraints = unscheduledTasks.map(x => (x.index, x.constraints))
+        waveToHighestSamplingRateWithTaskIndexWithConstraints.get(wave) match {
+            case None =>
+                waveToHighestSamplingRateWithTaskIndexWithConstraints.update(wave, unscheduledTasksIndexAndConstraints.map(y => (retry * SamplingManager.samplingRate, y._1, y._2)))
+            case Some(x) => {
+                val oldPart = x.filterNot(p => unscheduledTasksIndexAndConstraints.exists(q => q._1 == p._2))
+                val newPart = unscheduledTasksIndexAndConstraints.map(x => (retry * SamplingManager.samplingRate, x._1, x._2))
+                waveToHighestSamplingRateWithTaskIndexWithConstraints.update(wave, oldPart ++ newPart)
+            }
+        }
+    }
 
     def Handle_JMHeartBeatResponse(message: _JMHeartBeatResponse) = SamplingManager.loadNewSamplingRate(message._samplingRate)
 

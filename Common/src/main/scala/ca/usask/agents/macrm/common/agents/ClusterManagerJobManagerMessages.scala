@@ -11,3 +11,8 @@ import akka.actor._
  */
 case class _TaskSubmissionFromJM(_source: ActorRef, _time: DateTime, _taskDescriptions: List[TaskDescription])
     extends BasicMessage
+    
+/**
+ * From JobManager to ClusterManager to inform it about completion of job
+ */
+case class _JobFinished(_source:ActorRef, _time:DateTime, _jobId:Long)

@@ -17,6 +17,7 @@ class UserInterfaceAgent(val queueAgent: ActorRef) extends Agent with Consumer {
     def receive = {
         case "initiateEvent"       => Event_initiate()
         case "TestStart"           => Test_Handle_UserMessage()
+        case message: _JobFinished => Handle_JobFinished(message)
         case message: CamelMessage => Handle_UserMessage(message, sender())
         case _                     => Handle_UnknownMessage("UserInterfaceAgent")
     }
@@ -47,5 +48,9 @@ class UserInterfaceAgent(val queueAgent: ActorRef) extends Agent with Consumer {
                 queueAgent ! new _JobSubmission(x)
             }
         }
+    }
+    
+    def Handle_JobFinished(message:_JobFinished) = {
+        println("Job " + message._jobId + " finished")
     }
 }

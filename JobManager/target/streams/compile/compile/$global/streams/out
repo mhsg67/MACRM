@@ -1,15 +1,92 @@
 [0m[[0mdebug[0m] [0m[0m
 [0m[[0mdebug[0m] [0mInitial source changes: [0m
 [0m[[0mdebug[0m] [0m	removed:Set()[0m
-[0m[[0mdebug[0m] [0m	added: Set()[0m
+[0m[[0mdebug[0m] [0m	added: Set(/home/node3/workspace/MACRM/JobManager/src/main/scala/ca/usask/agents/macrm/jobmanager/utils/SamplingManager.scala, /home/node3/workspace/MACRM/JobManager/src/main/scala/ca/usask/agents/macrm/jobmanager/utils/Logger.scala, /home/node3/workspace/MACRM/JobManager/src/main/scala/ca/usask/agents/macrm/jobmanager/utils/SamplingManagerAdvance.scala, /home/node3/workspace/MACRM/JobManager/src/main/scala/ca/usask/agents/macrm/jobmanager/agents/JobManagerAgentAdvance.scala, /home/node3/workspace/MACRM/JobManager/src/main/scala/ca/usask/agents/macrm/jobmanager/utils/JobManagerConfig.scala, /home/node3/workspace/MACRM/JobManager/src/main/scala/ca/usask/agents/macrm/jobmanager/agents/JobManagerAgent.scala, /home/node3/workspace/MACRM/JobManager/src/main/scala/ca/usask/agents/macrm/jobmanager/agents/Main.scala)[0m
 [0m[[0mdebug[0m] [0m	modified: Set()[0m
 [0m[[0mdebug[0m] [0mRemoved products: Set()[0m
 [0m[[0mdebug[0m] [0mExternal API changes: API Changes: Set()[0m
 [0m[[0mdebug[0m] [0mModified binary dependencies: Set()[0m
-[0m[[0mdebug[0m] [0mInitial directly invalidated sources: Set()[0m
+[0m[[0mdebug[0m] [0mInitial directly invalidated sources: Set(/home/node3/workspace/MACRM/JobManager/src/main/scala/ca/usask/agents/macrm/jobmanager/utils/SamplingManager.scala, /home/node3/workspace/MACRM/JobManager/src/main/scala/ca/usask/agents/macrm/jobmanager/utils/Logger.scala, /home/node3/workspace/MACRM/JobManager/src/main/scala/ca/usask/agents/macrm/jobmanager/utils/SamplingManagerAdvance.scala, /home/node3/workspace/MACRM/JobManager/src/main/scala/ca/usask/agents/macrm/jobmanager/agents/JobManagerAgentAdvance.scala, /home/node3/workspace/MACRM/JobManager/src/main/scala/ca/usask/agents/macrm/jobmanager/utils/JobManagerConfig.scala, /home/node3/workspace/MACRM/JobManager/src/main/scala/ca/usask/agents/macrm/jobmanager/agents/JobManagerAgent.scala, /home/node3/workspace/MACRM/JobManager/src/main/scala/ca/usask/agents/macrm/jobmanager/agents/Main.scala)[0m
 [0m[[0mdebug[0m] [0m[0m
 [0m[[0mdebug[0m] [0mSources indirectly invalidated by:[0m
 [0m[[0mdebug[0m] [0m	product: Set()[0m
 [0m[[0mdebug[0m] [0m	binary dep: Set()[0m
 [0m[[0mdebug[0m] [0m	external source: Set()[0m
-[0m[[0mdebug[0m] [0mAll initially invalidated sources: Set()[0m
+[0m[[0mdebug[0m] [0mAll initially invalidated sources: Set(/home/node3/workspace/MACRM/JobManager/src/main/scala/ca/usask/agents/macrm/jobmanager/utils/SamplingManager.scala, /home/node3/workspace/MACRM/JobManager/src/main/scala/ca/usask/agents/macrm/jobmanager/utils/Logger.scala, /home/node3/workspace/MACRM/JobManager/src/main/scala/ca/usask/agents/macrm/jobmanager/utils/SamplingManagerAdvance.scala, /home/node3/workspace/MACRM/JobManager/src/main/scala/ca/usask/agents/macrm/jobmanager/agents/JobManagerAgentAdvance.scala, /home/node3/workspace/MACRM/JobManager/src/main/scala/ca/usask/agents/macrm/jobmanager/utils/JobManagerConfig.scala, /home/node3/workspace/MACRM/JobManager/src/main/scala/ca/usask/agents/macrm/jobmanager/agents/JobManagerAgent.scala, /home/node3/workspace/MACRM/JobManager/src/main/scala/ca/usask/agents/macrm/jobmanager/agents/Main.scala)[0m
+[0m[[0mdebug[0m] [0mRecompiling all 7 sources: invalidated sources (7) exceeded 50.0% of all sources[0m
+[0m[[0minfo[0m] [0mCompiling 7 Scala sources to /home/node3/workspace/MACRM/JobManager/target/scala-2.11/classes...[0m
+[0m[[0mdebug[0m] [0mGetting compiler-interface from component compiler for Scala 2.11.4[0m
+[0m[[0mdebug[0m] [0mGetting compiler-interface from component compiler for Scala 2.11.4[0m
+[0m[[0mdebug[0m] [0mRunning cached compiler 2d88cbfd, interfacing (CompilerInterface) with Scala compiler version 2.11.4[0m
+[0m[[0mdebug[0m] [0mCalling Scala compiler with arguments  (CompilerInterface):[0m
+[0m[[0mdebug[0m] [0m	-bootclasspath[0m
+[0m[[0mdebug[0m] [0m	/usr/local/java/jdk1.7.0_65/jre/lib/resources.jar:/usr/local/java/jdk1.7.0_65/jre/lib/rt.jar:/usr/local/java/jdk1.7.0_65/jre/lib/sunrsasign.jar:/usr/local/java/jdk1.7.0_65/jre/lib/jsse.jar:/usr/local/java/jdk1.7.0_65/jre/lib/jce.jar:/usr/local/java/jdk1.7.0_65/jre/lib/charsets.jar:/usr/local/java/jdk1.7.0_65/jre/lib/jfr.jar:/usr/local/java/jdk1.7.0_65/jre/classes:/home/node3/.ivy2/cache/org.scala-lang/scala-library/jars/scala-library-2.11.4.jar[0m
+[0m[[0mdebug[0m] [0m	-classpath[0m
+[0m[[0mdebug[0m] [0m	/home/node3/workspace/MACRM/JobManager/target/scala-2.11/classes:/home/node3/workspace/MACRM/Common/target/scala-2.11/common_2.11-1.0.jar:/home/node3/.ivy2/cache/com.typesafe.akka/akka-actor_2.11/jars/akka-actor_2.11-2.3.7.jar:/home/node3/.ivy2/cache/com.typesafe/config/bundles/config-1.2.1.jar:/home/node3/.ivy2/cache/joda-time/joda-time/jars/joda-time-2.5.jar:/home/node3/.ivy2/cache/org.joda/joda-convert/jars/joda-convert-1.2.jar:/home/node3/.ivy2/cache/com.typesafe.akka/akka-remote_2.11/jars/akka-remote_2.11-2.3.7.jar:/home/node3/.ivy2/cache/io.netty/netty/bundles/netty-3.8.0.Final.jar:/home/node3/.ivy2/cache/com.google.protobuf/protobuf-java/bundles/protobuf-java-2.5.0.jar:/home/node3/.ivy2/cache/org.uncommons.maths/uncommons-maths/jars/uncommons-maths-1.2.2a.jar[0m
+[0m[[33mwarn[0m] [0mthere were two feature warnings; re-run with -feature for details[0m
+[0m[[33mwarn[0m] [0mone warning found[0m
+[0m[[0mdebug[0m] [0mScala compilation took 17.288485771 s[0m
+[0m[[0mdebug[0m] [0mInvalidating /home/node3/workspace/MACRM/JobManager/src/main/scala/ca/usask/agents/macrm/jobmanager/utils/SamplingManager.scala...[0m
+[0m[[0mdebug[0m] [0mInvalidating (transitively) by inheritance from /home/node3/workspace/MACRM/JobManager/src/main/scala/ca/usask/agents/macrm/jobmanager/utils/SamplingManager.scala...[0m
+[0m[[0mdebug[0m] [0mInitial set of included nodes: Set(/home/node3/workspace/MACRM/JobManager/src/main/scala/ca/usask/agents/macrm/jobmanager/utils/SamplingManager.scala)[0m
+[0m[[0mdebug[0m] [0mInvalidated by transitive inheritance dependency: Set(/home/node3/workspace/MACRM/JobManager/src/main/scala/ca/usask/agents/macrm/jobmanager/utils/SamplingManager.scala)[0m
+[0m[[0mdebug[0m] [0mThe /home/node3/workspace/MACRM/JobManager/src/main/scala/ca/usask/agents/macrm/jobmanager/utils/SamplingManager.scala source file has the following regular definitions changed:[0m
+[0m[[0mdebug[0m] [0m	addNewSubmittedTasksIntoWaveToTaks, notify, SamplingManager, wait, $asInstanceOf, completedWave, equals, whichTaskShouldSubmittedToThisNode, samplingRate, asInstanceOf, synchronized, removeFromUnscheduledTasks, $isInstanceOf, getUnscheduledTaskOfWave, getBigestTasksThatCanFitThisResource, notifyAll, isInstanceOf, clusterNodes, <init>, removeUnscheduledTasksOfWave, ==, clone, getUnscheduledTasks, getSamplingNode, waveToTasks, toString, !=, getClass, ne, loadNewSamplingRate, eq, loadSamplingInformation, ##, finalize, hashCode.[0m
+[0m[[0mdebug[0m] [0mAll member reference dependencies will be considered within this context.[0m
+[0m[[0mdebug[0m] [0mThe following modified names cause invalidation of /home/node3/workspace/MACRM/JobManager/src/main/scala/ca/usask/agents/macrm/jobmanager/agents/JobManagerAgent.scala: Set(addNewSubmittedTasksIntoWaveToTaks, SamplingManager, whichTaskShouldSubmittedToThisNode, samplingRate, asInstanceOf, getUnscheduledTaskOfWave, isInstanceOf, <init>, ==, getSamplingNode, toString, loadNewSamplingRate, loadSamplingInformation)[0m
+[0m[[0mdebug[0m] [0mInvalidating /home/node3/workspace/MACRM/JobManager/src/main/scala/ca/usask/agents/macrm/jobmanager/agents/JobManagerAgentAdvance.scala...[0m
+[0m[[0mdebug[0m] [0mInvalidating (transitively) by inheritance from /home/node3/workspace/MACRM/JobManager/src/main/scala/ca/usask/agents/macrm/jobmanager/agents/JobManagerAgentAdvance.scala...[0m
+[0m[[0mdebug[0m] [0mInitial set of included nodes: Set(/home/node3/workspace/MACRM/JobManager/src/main/scala/ca/usask/agents/macrm/jobmanager/agents/JobManagerAgentAdvance.scala)[0m
+[0m[[0mdebug[0m] [0mInvalidated by transitive inheritance dependency: Set(/home/node3/workspace/MACRM/JobManager/src/main/scala/ca/usask/agents/macrm/jobmanager/agents/JobManagerAgentAdvance.scala)[0m
+[0m[[0mdebug[0m] [0mThe /home/node3/workspace/MACRM/JobManager/src/main/scala/ca/usask/agents/macrm/jobmanager/agents/JobManagerAgentAdvance.scala source file has the following implicit definitions changed:[0m
+[0m[[0mdebug[0m] [0m	self, context.[0m
+[0m[[0mdebug[0m] [0mAll member reference dependencies will be considered within this context.[0m
+[0m[[0mdebug[0m] [0mInvalidating /home/node3/workspace/MACRM/JobManager/src/main/scala/ca/usask/agents/macrm/jobmanager/utils/JobManagerConfig.scala...[0m
+[0m[[0mdebug[0m] [0mInvalidating (transitively) by inheritance from /home/node3/workspace/MACRM/JobManager/src/main/scala/ca/usask/agents/macrm/jobmanager/utils/JobManagerConfig.scala...[0m
+[0m[[0mdebug[0m] [0mInitial set of included nodes: Set(/home/node3/workspace/MACRM/JobManager/src/main/scala/ca/usask/agents/macrm/jobmanager/utils/JobManagerConfig.scala)[0m
+[0m[[0mdebug[0m] [0mInvalidated by transitive inheritance dependency: Set(/home/node3/workspace/MACRM/JobManager/src/main/scala/ca/usask/agents/macrm/jobmanager/utils/JobManagerConfig.scala)[0m
+[0m[[0mdebug[0m] [0mThe /home/node3/workspace/MACRM/JobManager/src/main/scala/ca/usask/agents/macrm/jobmanager/utils/JobManagerConfig.scala source file has the following regular definitions changed:[0m
+[0m[[0mdebug[0m] [0m	notify, trackerIPAddress, readConfigurationFile, wait, $asInstanceOf, equals, asInstanceOf, createNodeManagerAddressString, synchronized, clusterManagerIPAddress, $isInstanceOf, JobManagerConfig, samplingTimeout, notifyAll, isInstanceOf, heartBeatStartDelay, trackerDefualtPort, ==, clone, getClusterManagerAddress, getResourceTrackerAddress, toString, heartBeatInterval, !=, getClass, numberOfAllowedSamplingRetry, ne, eq, clusterManagerAgentDefualtPort, ##, finalize, hashCode.[0m
+[0m[[0mdebug[0m] [0mAll member reference dependencies will be considered within this context.[0m
+[0m[[0mdebug[0m] [0mThe following modified names cause invalidation of /home/node3/workspace/MACRM/JobManager/src/main/scala/ca/usask/agents/macrm/jobmanager/agents/JobManagerAgentAdvance.scala: Set(asInstanceOf, createNodeManagerAddressString, JobManagerConfig, samplingTimeout, isInstanceOf, heartBeatStartDelay, ==, getClusterManagerAddress, getResourceTrackerAddress, numberOfAllowedSamplingRetry)[0m
+[0m[[0mdebug[0m] [0mThe following modified names cause invalidation of /home/node3/workspace/MACRM/JobManager/src/main/scala/ca/usask/agents/macrm/jobmanager/agents/JobManagerAgent.scala: Set(asInstanceOf, createNodeManagerAddressString, JobManagerConfig, samplingTimeout, isInstanceOf, ==, getClusterManagerAddress, getResourceTrackerAddress, toString, numberOfAllowedSamplingRetry)[0m
+[0m[[0mdebug[0m] [0mThe following modified names cause invalidation of /home/node3/workspace/MACRM/JobManager/src/main/scala/ca/usask/agents/macrm/jobmanager/agents/Main.scala: Set(readConfigurationFile, JobManagerConfig, toString)[0m
+[0m[[0mdebug[0m] [0mInvalidating /home/node3/workspace/MACRM/JobManager/src/main/scala/ca/usask/agents/macrm/jobmanager/utils/Logger.scala...[0m
+[0m[[0mdebug[0m] [0mInvalidating (transitively) by inheritance from /home/node3/workspace/MACRM/JobManager/src/main/scala/ca/usask/agents/macrm/jobmanager/utils/Logger.scala...[0m
+[0m[[0mdebug[0m] [0mInitial set of included nodes: Set(/home/node3/workspace/MACRM/JobManager/src/main/scala/ca/usask/agents/macrm/jobmanager/utils/Logger.scala)[0m
+[0m[[0mdebug[0m] [0mInvalidated by transitive inheritance dependency: Set(/home/node3/workspace/MACRM/JobManager/src/main/scala/ca/usask/agents/macrm/jobmanager/utils/Logger.scala)[0m
+[0m[[0mdebug[0m] [0mThe /home/node3/workspace/MACRM/JobManager/src/main/scala/ca/usask/agents/macrm/jobmanager/utils/Logger.scala source file has the following regular definitions changed:[0m
+[0m[[0mdebug[0m] [0m	notify, wait, $asInstanceOf, equals, Error, asInstanceOf, synchronized, Logger, $isInstanceOf, notifyAll, isInstanceOf, Log, ==, clone, toString, !=, getClass, ne, eq, ##, finalize, hashCode.[0m
+[0m[[0mdebug[0m] [0mAll member reference dependencies will be considered within this context.[0m
+[0m[[0mdebug[0m] [0mThe following modified names cause invalidation of /home/node3/workspace/MACRM/JobManager/src/main/scala/ca/usask/agents/macrm/jobmanager/agents/JobManagerAgentAdvance.scala: Set(asInstanceOf, Logger, isInstanceOf, Log, ==)[0m
+[0m[[0mdebug[0m] [0mThe following modified names cause invalidation of /home/node3/workspace/MACRM/JobManager/src/main/scala/ca/usask/agents/macrm/jobmanager/utils/JobManagerConfig.scala: Set(Logger, Log, toString)[0m
+[0m[[0mdebug[0m] [0mThe following modified names cause invalidation of /home/node3/workspace/MACRM/JobManager/src/main/scala/ca/usask/agents/macrm/jobmanager/agents/JobManagerAgent.scala: Set(asInstanceOf, Logger, isInstanceOf, Log, ==, toString)[0m
+[0m[[0mdebug[0m] [0mThe following modified names cause invalidation of /home/node3/workspace/MACRM/JobManager/src/main/scala/ca/usask/agents/macrm/jobmanager/agents/Main.scala: Set(Error, Logger, toString)[0m
+[0m[[0mdebug[0m] [0mInvalidating /home/node3/workspace/MACRM/JobManager/src/main/scala/ca/usask/agents/macrm/jobmanager/agents/JobManagerAgent.scala...[0m
+[0m[[0mdebug[0m] [0mInvalidating (transitively) by inheritance from /home/node3/workspace/MACRM/JobManager/src/main/scala/ca/usask/agents/macrm/jobmanager/agents/JobManagerAgent.scala...[0m
+[0m[[0mdebug[0m] [0mInitial set of included nodes: Set(/home/node3/workspace/MACRM/JobManager/src/main/scala/ca/usask/agents/macrm/jobmanager/agents/JobManagerAgent.scala)[0m
+[0m[[0mdebug[0m] [0mInvalidated by transitive inheritance dependency: Set(/home/node3/workspace/MACRM/JobManager/src/main/scala/ca/usask/agents/macrm/jobmanager/agents/JobManagerAgent.scala)[0m
+[0m[[0mdebug[0m] [0mThe /home/node3/workspace/MACRM/JobManager/src/main/scala/ca/usask/agents/macrm/jobmanager/agents/JobManagerAgent.scala source file has the following implicit definitions changed:[0m
+[0m[[0mdebug[0m] [0m	self, context.[0m
+[0m[[0mdebug[0m] [0mAll member reference dependencies will be considered within this context.[0m
+[0m[[0mdebug[0m] [0mInvalidating /home/node3/workspace/MACRM/JobManager/src/main/scala/ca/usask/agents/macrm/jobmanager/agents/Main.scala...[0m
+[0m[[0mdebug[0m] [0mInvalidating (transitively) by inheritance from /home/node3/workspace/MACRM/JobManager/src/main/scala/ca/usask/agents/macrm/jobmanager/agents/Main.scala...[0m
+[0m[[0mdebug[0m] [0mInitial set of included nodes: Set(/home/node3/workspace/MACRM/JobManager/src/main/scala/ca/usask/agents/macrm/jobmanager/agents/Main.scala)[0m
+[0m[[0mdebug[0m] [0mInvalidated by transitive inheritance dependency: Set(/home/node3/workspace/MACRM/JobManager/src/main/scala/ca/usask/agents/macrm/jobmanager/agents/Main.scala)[0m
+[0m[[0mdebug[0m] [0mThe /home/node3/workspace/MACRM/JobManager/src/main/scala/ca/usask/agents/macrm/jobmanager/agents/Main.scala source file has the following regular definitions changed:[0m
+[0m[[0mdebug[0m] [0m	notify, wait, $asInstanceOf, equals, asInstanceOf, executionStart, synchronized, $isInstanceOf, main, notifyAll, isInstanceOf, ==, clone, toString, args, !=, getClass, ne, eq, delayedInit, ##, finalize, hashCode.[0m
+[0m[[0mdebug[0m] [0mAll member reference dependencies will be considered within this context.[0m
+[0m[[0mdebug[0m] [0mInvalidating /home/node3/workspace/MACRM/JobManager/src/main/scala/ca/usask/agents/macrm/jobmanager/utils/SamplingManagerAdvance.scala...[0m
+[0m[[0mdebug[0m] [0mInvalidating (transitively) by inheritance from /home/node3/workspace/MACRM/JobManager/src/main/scala/ca/usask/agents/macrm/jobmanager/utils/SamplingManagerAdvance.scala...[0m
+[0m[[0mdebug[0m] [0mInitial set of included nodes: Set(/home/node3/workspace/MACRM/JobManager/src/main/scala/ca/usask/agents/macrm/jobmanager/utils/SamplingManagerAdvance.scala)[0m
+[0m[[0mdebug[0m] [0mInvalidated by transitive inheritance dependency: Set(/home/node3/workspace/MACRM/JobManager/src/main/scala/ca/usask/agents/macrm/jobmanager/utils/SamplingManagerAdvance.scala)[0m
+[0m[[0mdebug[0m] [0mThe /home/node3/workspace/MACRM/JobManager/src/main/scala/ca/usask/agents/macrm/jobmanager/utils/SamplingManagerAdvance.scala source file has the following regular definitions changed:[0m
+[0m[[0mdebug[0m] [0m	addNewSubmittedTasksIntoWaveToTaks, notify, clusterNodesWithoutConstraint, wait, $asInstanceOf, completedWave, equals, whichTaskShouldSubmittedToThisNode, samplingRate, doesAllCapablitiesMatchAllConstraints, asInstanceOf, synchronized, $isInstanceOf, getUnscheduledTaskOfWave, findNodesWithProperCapabilities, getBigestTasksThatCanFitThisResource, getBestTaskTachCanFitThisResource, SamplingManagerAdvance, notifyAll, clusterNodesWithConstraint, isInstanceOf, doseCapabilityMatchConstraint, nodeIdToTaskIndex, doesCapablitiesMatchTheConstraint, ==, clone, canFindProperResourcesForTheseConstraints, getUnscheduledTasks, getSamplingNode, waveToTasks, toString, !=, getClass, findSamplingListForTasksWithConstraint, ne, loadNewSamplingRate, eq, loadSamplingInformation, ##, finalize, hashCode.[0m
+[0m[[0mdebug[0m] [0mAll member reference dependencies will be considered within this context.[0m
+[0m[[0mdebug[0m] [0mThe following modified names cause invalidation of /home/node3/workspace/MACRM/JobManager/src/main/scala/ca/usask/agents/macrm/jobmanager/agents/JobManagerAgentAdvance.scala: Set(addNewSubmittedTasksIntoWaveToTaks, whichTaskShouldSubmittedToThisNode, samplingRate, asInstanceOf, getUnscheduledTaskOfWave, SamplingManagerAdvance, isInstanceOf, ==, getSamplingNode, loadNewSamplingRate, loadSamplingInformation)[0m
+[0m[[0mdebug[0m] [0mNew invalidations:[0m
+[0m[[0mdebug[0m] [0m	Set()[0m
+[0m[[0mdebug[0m] [0mInitial set of included nodes: Set()[0m
+[0m[[0mdebug[0m] [0mPreviously invalidated, but (transitively) depend on new invalidations:[0m
+[0m[[0mdebug[0m] [0m	Set()[0m
+[0m[[0mdebug[0m] [0mAll newly invalidated sources after taking into account (previously) recompiled sources:Set()[0m

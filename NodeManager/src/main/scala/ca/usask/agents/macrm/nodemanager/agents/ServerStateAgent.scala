@@ -71,7 +71,7 @@ class ServerStateAgent(val nodeManager: ActorRef) extends Agent {
                 case None => sender ! "NACK"
                 case Some(x) =>
                     if (message.taskIndex > 0)
-                        context.system.scheduler.scheduleOnce(FiniteDuration(message.duration.getMillis, MILLISECONDS), self, new _ContainerExecutionFinished(x))
+                        context.system.scheduler.scheduleOnce(FiniteDuration(message.duration.getMillis, MILLISECONDS), self, new _ContainerExecutionFinished(x,false))
                     sender ! "ACK"
             }
         }

@@ -16,7 +16,7 @@ class NodeManagerAgent(val id: Int = 0) extends Agent {
     var serverState: ServerState = null
     var receivedHeartBeatRespond = false
     var missedHeartBeat = false
-    var jobManagerList = List[(ActorRef, ActorSystem)]()
+    var containerToActorSystem = Map[Long, ActorSystem]()
     var containerToOwnerActor = Map[Long, ActorRef]()
     val resourceTracker = context.actorSelection(NodeManagerConfig.getResourceTrackerAddress)
 
@@ -66,11 +66,18 @@ class NodeManagerAgent(val id: Int = 0) extends Agent {
     }
 
     def Event_ContainerExecutionFinished(message: _ContainerExecutionFinished) = {
+        val jobMangerRef = containerToOwnerActor.get(message.containerId).get
+
         serverState.killContainer(message.containerId) match {
-            case None    => ()
-            case Some(x) => containerToOwnerActor.get(message.containerId).get ! _TasksExecutionFinished(self, DateTime.now(), x)
+            case None => ()
+            case Some(x) =>
+                if (message.isJobManager)
+                    containerToActorSystem.get(message.containerId).get.stop(jobMangerRef)
+                else
+                    jobMangerRef ! _TasksExecutionFinished(self, DateTime.now(), x)
         }
         containerToOwnerActor.remove(message.containerId)
+
     }
 
     def Handle_ResourceSamplingInquiry(sender: ActorRef, message: _ResourceSamplingInquiry) = {
@@ -114,18 +121,19 @@ class NodeManagerAgent(val id: Int = 0) extends Agent {
         serverState.createContainer(job.userId, job.jobId, 0, job.tasks(0).resource) match {
             case None => false
             case Some(x) => {
-                createJobManagerActor(job, samplInfo)
+                createJobManagerActor(job, samplInfo, x)
                 true
             }
         }
     }
 
     import com.typesafe.config.ConfigFactory
-    def createJobManagerActor(job: JobDescription, samplInfo: SamplingInformation) = {
+    def createJobManagerActor(job: JobDescription, samplInfo: SamplingInformation, containerId: Long) = {
         val jobMangerSystem = ActorSystem.create("JobManagerAgent", ConfigFactory.load().getConfig("JobManagerAgent"))
-        val newJobManager = jobMangerSystem.actorOf(Props(new JobManagerAgent(job.userId, job.jobId, samplInfo)), name = "JobManagerAgent")
+        val newJobManager = jobMangerSystem.actorOf(Props(new JobManagerAgent(containerId, self, job.userId, job.jobId, samplInfo)), name = "JobManagerAgent")
         newJobManager ! new _JobManagerSimulationInitiate(job.tasks)
-        jobManagerList = (newJobManager, jobMangerSystem) :: jobManagerList
+        containerToOwnerActor.update(containerId, newJobManager)
+        containerToActorSystem.update(containerId, jobMangerSystem)
     }
 
     def startNewTasks(tasks: List[TaskDescription]): Int = tasks match {
@@ -138,7 +146,7 @@ class NodeManagerAgent(val id: Int = 0) extends Agent {
             case None => false
             case Some(x) => {
                 containerToOwnerActor.update(x, ownerActor)
-                context.system.scheduler.scheduleOnce(FiniteDuration(task.duration.getMillis, MILLISECONDS), self, new _ContainerExecutionFinished(x))
+                context.system.scheduler.scheduleOnce(FiniteDuration(task.duration.getMillis, MILLISECONDS), self, new _ContainerExecutionFinished(x, false))
                 true
             }
         }

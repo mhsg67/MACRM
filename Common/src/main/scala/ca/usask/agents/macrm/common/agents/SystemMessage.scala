@@ -14,7 +14,7 @@ trait BasicMessage
  */
 case class _Resource(val _resource: Resource) extends BasicMessage
 
-case class _ContainerExecutionFinished(val containerId: Long)
+case class _ContainerExecutionFinished(val containerId: Long, val isJobManager:Boolean)
 
 case class _AllocateContainer(val userId: Int, val jobId: Long, val taskIndex: Int, val size: Resource, val duration: Duration = null, val isHeartBeatRespond: Boolean = false)
 

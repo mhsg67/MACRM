@@ -13,13 +13,16 @@ import scala.concurrent.duration._
  * 2. there is no single tasks job
  */
 
-class JobManagerAgent(val userId: Int,
+class JobManagerAgent(val containerId: Long,
+                      val node: ActorRef,
+                      val userId: Int,
                       val jobId: Long,
                       val samplingInformation: SamplingInformation) extends Agent {
 
     import context.dispatcher
     var waveToSamplingRate = Map[Int, Int]()
     var currentWaveOfTasks = 0
+    var remainingTasksToFinish = 0
 
     val samplingManager = new SamplingManager()
     val resourceTracker = context.actorSelection(JobManagerConfig.getResourceTrackerAddress)
@@ -30,7 +33,7 @@ class JobManagerAgent(val userId: Int,
         case message: _TaskSubmission               => Handle_TaskSubmission(message)
         case message: _JMHeartBeatResponse          => Handle_JMHeartBeatResponse(message)
         case message: _NodeSamplingTimeout          => Handle_NodeSamplingTimeout(message)
-        case message:_TasksExecutionFinished => Handle_TasksExecutionFinished(message)
+        case message: _TasksExecutionFinished       => Handle_TasksExecutionFinished(message)
         case message: _JobManagerSimulationInitiate => Event_JobManagerSimulationInitiate(message)
         case _                                      => Handle_UnknownMessage
     }
@@ -40,6 +43,7 @@ class JobManagerAgent(val userId: Int,
         samplingManager.loadSamplingInformation(samplingInformation)
 
         val tempTask = message.taskDescriptions.tail.map(x => TaskDescription(self, jobId, x, userId))
+        remainingTasksToFinish = tempTask.length
         collection.SortedSet(tempTask.map(x => x.relativeSubmissionTime.getMillis): _*).
             foreach { x =>
                 val tasksWithSimilarSubmissionTime = tempTask.filter(y => y.relativeSubmissionTime.getMillis == x)
@@ -53,15 +57,15 @@ class JobManagerAgent(val userId: Int,
             case Some(x) => sender ! new _AllocateContainerFromJM(self, DateTime.now(), x)
         }
     }
-    
-    def Handle_TaskSubmission(message: _TaskSubmission) = {        
+
+    def Handle_TaskSubmission(message: _TaskSubmission) = {
         currentWaveOfTasks += 1
         updateWaveToSamplingRate(currentWaveOfTasks, 0)
         samplingManager.addNewSubmittedTasksIntoWaveToTaks(currentWaveOfTasks, message.taskDescriptions)
         val samplingList = samplingManager.getSamplingNode(message.taskDescriptions, 0)
 
         samplingList.foreach(x => getActorRefFromNodeId(x._1) ! new _ResourceSamplingInquiry(self, DateTime.now(), x._2, jobId))
-        context.system.scheduler.scheduleOnce(JobManagerConfig.samplingTimeout, self, new _NodeSamplingTimeout(currentWaveOfTasks, 1))      
+        context.system.scheduler.scheduleOnce(JobManagerConfig.samplingTimeout, self, new _NodeSamplingTimeout(currentWaveOfTasks, 1))
     }
 
     def Handle_NodeSamplingTimeout(message: _NodeSamplingTimeout) = {
@@ -83,9 +87,13 @@ class JobManagerAgent(val userId: Int,
         else
             sendheartBeat(message.forWave)
     }
-    
-    def Handle_TasksExecutionFinished(message:_TasksExecutionFinished) = {
-        
+
+    def Handle_TasksExecutionFinished(message: _TasksExecutionFinished) = {
+        remainingTasksToFinish -= 1
+        if (remainingTasksToFinish == 0) {
+            node ! new _ContainerExecutionFinished(containerId, true)
+            clusterManager ! new _JobFinished(self, DateTime.now(), jobId)
+        }
     }
 
     def sendheartBeat(waveNumber: Int) = {

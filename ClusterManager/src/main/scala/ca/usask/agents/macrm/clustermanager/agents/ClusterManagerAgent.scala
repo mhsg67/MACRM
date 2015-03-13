@@ -26,6 +26,7 @@ class ClusterManagerAgent extends Agent {
         case "finishedCentralizeScheduling"     => Handle_FinishedCentralizeScheduling(sender)
         case message: _ClusterState             => Handle_ClusterState(message)
         case message: _TaskSubmissionFromJM     => Handle_TaskSubmissionFromJM(sender(),message)
+        case message: _JobFinished => Handle_JobFinished(message)
         case message: _ServerWithEmptyResources => Handle_ServerWithEmptyResources(message)
         case message: _EachUserShareOfCluster   => Handle_EachUserShareOfCluster(message)
         case message: _ServerStatusUpdate       => Handle_ServerStatusUpdate(message)
@@ -44,6 +45,10 @@ class ClusterManagerAgent extends Agent {
 
     def Handle_ServerStatusUpdate(message: _ServerStatusUpdate) = nodeToRackMap(message._report.nodeId.host, message._report.nodeId.port) ! message
 
+    def Handle_JobFinished(message:_JobFinished) = {
+        userInterfaceAgent ! message
+    }
+    
     def Handle_ChangeToCentralizedMode() = {
         queueAgent ! "changeToCentralizedMode"
         //TODO:create scheduling agent and rackAgent

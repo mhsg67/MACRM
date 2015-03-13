@@ -148,7 +148,7 @@ class ContainerManagerAgent(val nodeManager: ActorRef, val serverState: ActorRef
     def createJobManagerActor(job: JobDescription, samplInfo: SamplingInformation) = {
         if (isSimulation) {
             val jobMangerSystem = ActorSystem.create("JobManagerAgent", ConfigFactory.load().getConfig("JobManagerAgent"))
-            val newJobManager = jobMangerSystem.actorOf(Props(new JobManagerAgent(job.userId, job.jobId, samplInfo)), name = "JobManagerAgent")
+            val newJobManager = jobMangerSystem.actorOf(Props(new JobManagerAgentAdvance(job.userId, job.jobId, samplInfo)), name = "JobManagerAgent")
             newJobManager ! new _JobManagerSimulationInitiate(job.tasks)
             jobManagerList = (newJobManager, jobMangerSystem) :: jobManagerList
         }

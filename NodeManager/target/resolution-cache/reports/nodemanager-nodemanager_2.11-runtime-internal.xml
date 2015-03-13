@@ -7,10 +7,10 @@
 		revision="1.0"
 		conf="runtime-internal"
 		confs="compile, runtime, test, provided, optional, compile-internal, runtime-internal, test-internal, plugin, sources, docs, pom, scala-tool"
-		date="20150313155255"/>
+		date="20150313174552"/>
 	<dependencies>
 		<module organisation="jobmanager" name="jobmanager_2.11">
-			<revision name="1.0" status="integration" pubdate="20150313155248" resolver="inter-project" artresolver="inter-project" downloaded="false" searched="false" default="false" conf="default(compile), compile" position="6">
+			<revision name="1.0" status="integration" pubdate="20150313174545" resolver="inter-project" artresolver="inter-project" downloaded="false" searched="false" default="false" conf="default(compile), compile" position="6">
 				<metadata-artifact status="failed" details="" size="0" time="0" searched="false"/>
 				<caller organisation="nodemanager" name="nodemanager_2.11" conf="optional, compile, runtime, runtime-internal" rev="1.0" rev-constraint-default="1.0" rev-constraint-dynamic="1.0" callerrev="1.0"/>
 				<artifacts>
@@ -67,7 +67,7 @@
 			</revision>
 		</module>
 		<module organisation="common" name="common_2.11">
-			<revision name="1.0" status="integration" pubdate="20150313155246" resolver="inter-project" artresolver="inter-project" downloaded="false" searched="false" default="false" conf="default(compile), compile" position="1">
+			<revision name="1.0" status="integration" pubdate="20150313174544" resolver="inter-project" artresolver="inter-project" downloaded="false" searched="false" default="false" conf="default(compile), compile" position="1">
 				<metadata-artifact status="failed" details="" size="0" time="0" searched="false"/>
 				<caller organisation="jobmanager" name="jobmanager_2.11" conf="compile" rev="1.0" rev-constraint-default="1.0" rev-constraint-dynamic="1.0" callerrev="1.0"/>
 				<caller organisation="nodemanager" name="nodemanager_2.11" conf="optional, compile, runtime, runtime-internal" rev="1.0" rev-constraint-default="1.0" rev-constraint-dynamic="1.0" callerrev="1.0"/>

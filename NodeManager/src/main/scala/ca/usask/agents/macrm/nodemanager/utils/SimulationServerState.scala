@@ -33,7 +33,7 @@ class SimulationServerState extends ServerState {
 
     def getServerResource() = serverResource
 
-    def createContainer(userId: Int, jobId: Long, taskIndex: Int, size: Resource): Option[Int] = {
+    def createContainer(userId: Int, jobId: Long, taskIndex: Int, size: Resource): Option[Long] = {
         if ((serverResource - serverContainers.foldLeft(new Resource(0, 0))((x, y) => y.resource + x)) < size)
             None
         else {            
@@ -43,10 +43,11 @@ class SimulationServerState extends ServerState {
         }
     }
 
-    def killContainer(containerId: Long): Option[Long] = {
+    def killContainer(containerId: Long): Option[Int] = {
         if (serverContainers.exists(x => x.containerId == containerId)) {
-            serverContainers = serverContainers.filterNot(x => x.containerId == containerId)
-            Some(containerId)
+            val (finishedContainer, runningContainers) = serverContainers.span (x => x.containerId == containerId)
+                    serverContainers = runningContainers
+            Some(finishedContainer(0).taskIndex)
         }
         else None
     }

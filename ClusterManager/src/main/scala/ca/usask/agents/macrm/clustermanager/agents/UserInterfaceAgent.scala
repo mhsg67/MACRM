@@ -39,7 +39,7 @@ class UserInterfaceAgent(val queueAgent: ActorRef) extends Agent with Consumer {
 
     def Test_Handle_UserMessage() = {
         println("YES-1")
-        val tempString = """{"JI": 1,"UI": 1,"TS":[{"INX":1,"DUR":100,"RST":2,"CPU":1,"MEM":250,"PRI":0,"TSC":1},{"INX":2,"DUR":100,"RST":2,"CPU":1,"MEM":250,"PRI":0,"TSC":1}],"CS": []}"""
+        val tempString = """{"JI": 1,"UI": 1,"TS":[{"INX":1,"DUR":100,"RST":1500,"CPU":1,"MEM":250,"PRI":0,"TSC":1},{"INX":2,"DUR":100,"RST":2,"CPU":1,"MEM":250,"PRI":0,"TSC":1}],"CS": []}"""
 
         JSONManager.getJobDescription(tempString) match {
             case Left(x) => println("Incorrect job submission format: " + x)

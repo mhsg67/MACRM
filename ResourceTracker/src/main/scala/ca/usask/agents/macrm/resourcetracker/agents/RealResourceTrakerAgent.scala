@@ -7,7 +7,7 @@ import org.joda.time._
 import akka.actor._
 import java.util.Formatter.DateTime
 
-class ResourceTrackerAgent extends Agent {
+class RealResourceTrackerAgent extends Agent {
 
     var hasSubmittedFirstClusterState = false
 
@@ -46,6 +46,8 @@ class ResourceTrackerAgent extends Agent {
 
         if (doesServerHaveResourceForAJobManager(message._report) && hasSubmittedFirstClusterState)
             clusterManagerAgent ! new _ServerWithEmptyResources(self, DateTime.now(), addIPandPortToNodeReport(message._report, message._source))
+        else 
+            sender ! "emptyHeartBeatResponse"
     }
 
     def doesServerHaveResourceForAJobManager(_nodeReport: NodeReport) = if (_nodeReport.getFreeResources() > ResourceTrakerConfig.minResourceForJobManager) true else false

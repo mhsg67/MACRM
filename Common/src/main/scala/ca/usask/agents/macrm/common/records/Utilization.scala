@@ -12,4 +12,5 @@ class Utilization(val memoryUtilization: Double = 0.0, val virtualCoreUtilizatio
         case _ => false
     }
 
+    override def toString() = "<memUtil:" + memoryUtilization.toString() + " ,cpuUtil:" + virtualCoreUtilization.toString() + ">"
 }

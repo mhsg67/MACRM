@@ -28,4 +28,10 @@ case class _ResourceSamplingResponse(_source: ActorRef, _time: DateTime, _availa
  * container for provided list of tasks
  */
 case class _AllocateContainerFromJM(_source: ActorRef, _time: DateTime, _taskDescriptions: List[TaskDescription])
+    extends BasicMessage
+
+/**
+ * From NodeManager to JobManager to inform it that the a specific task execution finished
+ */
+case class _TasksExecutionFinished(_source: ActorRef, _time: DateTime, _taskIndex: Int) extends BasicMessage
 

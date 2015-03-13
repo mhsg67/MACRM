@@ -46,7 +46,7 @@ object JobManagerConfig {
      * we start sampling, after 10 millis of that, if we still have
      * unschedule tasks we try to do sampling again
      */
-    val samplingTimeout = 1000 millis
+    val samplingTimeout = 150 millis
 
     /**
      * If the samplingTimout for 2 times and the JobManager could not find

@@ -62,6 +62,6 @@ object ClusterDatabase {
 
     def getCurrentClusterLoad(): Utilization = {
         val (totalResource, usedResource) = nodeIdToNodeStateTable.toList.foldLeft((new Resource(0, 0), new Resource(0, 0)))((x, y) => (x._1 + y._2.totalResource, x._2 + y._2.usedResources))
-        new Utilization(usedResource.memory / totalResource.memory, usedResource.virtualCore / totalResource.virtualCore)
+        new Utilization(usedResource.memory.toDouble / totalResource.memory.toDouble, usedResource.virtualCore.toDouble / totalResource.virtualCore.toDouble)        
     }
 }

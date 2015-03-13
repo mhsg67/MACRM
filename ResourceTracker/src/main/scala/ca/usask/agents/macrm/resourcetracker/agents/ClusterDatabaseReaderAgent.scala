@@ -11,7 +11,6 @@ class ClusterDatabaseReaderAgent(val resourceTrackerAgent: ActorRef) extends Age
 
     var lastClusterUtilizationLevel = new Utilization(0.0, 0.0)
     var currentSamplingRate = 2
-    var numberOfUnsuccessfulSampling = 0
 
     import context.dispatcher
     override def preStart() = {

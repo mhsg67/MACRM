@@ -21,7 +21,6 @@ object ClusterDatabase {
     var capabilityToNodeIdTable = Map[Constraint, List[NodeId]]()
 
     def updateNodeState(nodeId: NodeId, totalResource: Resource, usedResources: Resource, capabilities: List[Constraint], utilization: Utilization, queueState: Int) = {
-        println(usedResources)
         nodeIdToNodeStateTable.update(nodeId, new nodeIdToNodeStateRow(totalResource, usedResources, utilization, queueState, DateTime.now()))
         capabilities.foreach(x => updateCapabilityTable(x, nodeId))
     }
@@ -59,5 +58,10 @@ object ClusterDatabase {
         val result = nodeIdToNodeStateTable.map(x => (x._1, List[Constraint]()))
         capabilityToNodeIdTable.foreach(x => x._2.foreach(y => result.update(y, x._1 :: result.get(y).get)))
         result.toList
+    }
+
+    def getCurrentClusterLoad(): Utilization = {
+        val (totalResource, usedResource) = nodeIdToNodeStateTable.toList.foldLeft((new Resource(0, 0), new Resource(0, 0)))((x, y) => (x._1 + y._2.totalResource, x._2 + y._2.usedResources))
+        new Utilization(usedResource.memory / totalResource.memory, usedResource.virtualCore / totalResource.virtualCore)
     }
 }

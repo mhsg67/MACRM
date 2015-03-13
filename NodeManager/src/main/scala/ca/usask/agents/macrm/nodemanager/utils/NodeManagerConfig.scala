@@ -13,7 +13,7 @@ object NodeManagerConfig {
         Logger.Log("Finished reading configuration file")
     }
 
-    def getResourceTrackerAddress() = "akka.tcp://ResourceTrackerAgent@" +
+    lazy val getResourceTrackerAddress = "akka.tcp://ResourceTrackerAgent@" +
         trackerIPAddress + ":" +
         trackerDefualtPort + "/" +
         "user/ResourceTrackerAgent"
@@ -28,7 +28,7 @@ object NodeManagerConfig {
      * Based on YARN configuration we set heart beat interval
      * to RM to 1000
      */
-    val heartBeatInterval = 1000 millis
+    val heartBeatInterval = 2000 millis
 
     /**
      * Each node start to send heart beat 3000 millisecond
@@ -60,7 +60,7 @@ object NodeManagerConfig {
      * 6 millis = JM decision making
      * 2 millis = send resource allocation request back
      */
-    val waitForJMActionToResourceSamplingResponseTimeout = 10 millis
+    val waitForJMActionToResourceSamplingResponseTimeout = 700 millis
     
     /**
      * Based on heartBeatStartDelay, it should be more than

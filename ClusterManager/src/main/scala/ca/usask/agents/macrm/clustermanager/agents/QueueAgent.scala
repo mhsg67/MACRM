@@ -53,6 +53,9 @@ class QueueAgent extends Agent {
                 else
                     schedulerJob(headOfJobQueue.get, message, null)
             }
+            else{                
+                message._report.nodeId.agent ! "emptyHeartBeatResponse"
+            }
         }
     }
 

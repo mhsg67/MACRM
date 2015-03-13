@@ -169,4 +169,11 @@ object SamplingManagerAdvance {
     }
 
     def getUnscheduledTaskOfWave(waveNumber: Int) = waveToTasks.get(waveNumber).get.filter(x => x._1 == false).map(y => y._2)
+    
+     def addNewSubmittedTasksIntoWaveToTaks(waveNumber: Int, tasks: List[TaskDescription]) = {
+        waveToTasks.update(waveNumber, tasks.map(x => (false, x)))
+    }
+    
+    //TODO:should be implemented
+    def canFindProperResourcesForTheseConstraints(constraints: List[Constraint]): Boolean = true
 }

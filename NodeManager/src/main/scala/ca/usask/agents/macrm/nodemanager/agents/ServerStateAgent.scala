@@ -28,13 +28,13 @@ class ServerStateAgent(val nodeManager: ActorRef) extends Agent {
     def Event_initiate = {
         Logger.Log("ServerStateAgent Initialization")
 
-        serverState = ServerState(false)
+        serverState = ServerState(isSimulation = false)
     }
 
     def Event_NodeManagerSimulationInitiate(message: _NodeManagerSimulationInitiate) = {
         Logger.Log("ServerStateAgent Initialization")
 
-        serverState = ServerState(true)
+        serverState = ServerState(isSimulation = true)
         serverState.initializeSimulationServer(message.resource, message.capabilities)
     }
 
@@ -62,8 +62,7 @@ class ServerStateAgent(val nodeManager: ActorRef) extends Agent {
     }
 
     import context.dispatcher
-    def Handle_AllocateContainer(message: _AllocateContainer, sender: ActorRef) = {
-        println("YES3")
+    def Handle_AllocateContainer(message: _AllocateContainer, sender: ActorRef) = {        
         receivedHeartBeatRespond = message.isHeartBeatRespond
         containerManager = sender
 
@@ -77,7 +76,7 @@ class ServerStateAgent(val nodeManager: ActorRef) extends Agent {
             }
         }
         catch {
-            case e: Exception => sender ! akka.actor.Status.Failure(e)
+            case e: Exception => sender ! "NACK"
         }
     }
 

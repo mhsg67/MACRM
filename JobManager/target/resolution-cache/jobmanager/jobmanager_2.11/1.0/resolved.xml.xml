@@ -4,7 +4,7 @@
 		module="jobmanager_2.11"
 		revision="1.0"
 		status="integration"
-		publication="20150306200326"
+		publication="20150312173107"
 	>
 		<description>
 		JobManager

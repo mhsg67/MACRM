@@ -27,12 +27,11 @@ class UserInterfaceAgent(val queueAgent: ActorRef) extends Agent with Consumer {
         context.system.scheduler.scheduleOnce(2000 millis, self, "TestStart")
     }
 
-    //TODO: add the sender to jobIdToUserRef
     def Handle_UserMessage(message: CamelMessage, sender: ActorRef) = {
         JSONManager.getJobDescription(message.body.toString()) match {
             case Left(x) => sender ! "Incorrect job submission format: " + x
             case Right(x) => {
-                jobIdToUserRef.update(x.jobId, sender)
+                jobIdToUserRef.update(x.jobId, sender)                
                 queueAgent ! new _JobSubmission(x)
             }
         }

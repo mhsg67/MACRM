@@ -7,14 +7,16 @@ import ca.usask.agents.macrm.common.agents._
 import scala.concurrent.duration._
 import scala.collection.mutable._
 import org.joda.time.DateTime
+import akka.util._
 import akka.pattern._
 import akka.actor._
 import akka.actor.Status._
+import scala.concurrent._
 
 class ContainerManagerAgent(val nodeManager: ActorRef, val serverState: ActorRef) extends Agent {
 
     var isSimulation = false
-    var jobManagerList = List[ActorRef]()
+    var jobManagerList = List[(ActorRef, ActorSystem)]()
     var ignoreNextResourceMessage = false
     var ignoreResourceSamplingResponseTimeoutEvent = 0
     var resourceSmaplingInquiryList = Queue[_ResourceSamplingInquiry]()
@@ -55,18 +57,23 @@ class ContainerManagerAgent(val nodeManager: ActorRef, val serverState: ActorRef
     }
 
     def Handle_Resource(message: _Resource): Unit = {
-        if (ignoreNextResourceMessage) {
+        if (ignoreNextResourceMessage) {         
+            println("Branch1")
             ignoreNextResourceMessage = false
             serverState ! "checkAvailableResourcesEvent"
         }
-        else if (message._resource.isNotUsable())
+        else if (message._resource.isNotUsable()){ 
+            println("Branch2")
             resourceSmaplingInquiryList = Queue()
-        else if (resourceSmaplingInquiryList(0)._minRequiredResource > message._resource) {
+        }
+        else if (resourceSmaplingInquiryList(0)._minRequiredResource < message._resource) {  
+            println("Branch3")
             havePendingServing = true
-            nodeManager ! new _ResourceSamplingResponse(self, DateTime.now(), message._resource)
+            nodeManager ! new _ResourceSamplingResponse(resourceSmaplingInquiryList(0)._source, DateTime.now(), message._resource)
             context.system.scheduler.scheduleOnce(NodeManagerConfig.waitForJMActionToResourceSamplingResponseTimeout, self, "resourceSamplingResponseTimeoutEvent")
         }
-        else {
+        else {            
+            println("Branch4")
             resourceSmaplingInquiryList.dequeue()
             if (resourceSmaplingInquiryList.length > 0)
                 Handle_Resource(message)
@@ -74,6 +81,7 @@ class ContainerManagerAgent(val nodeManager: ActorRef, val serverState: ActorRef
     }
 
     def Event_resourceSamplingResponseTimeout = {
+        println("ResourceSamplingTimeout")
         if (ignoreResourceSamplingResponseTimeoutEvent > 0)
             ignoreResourceSamplingResponseTimeoutEvent -= 1
         else {
@@ -84,7 +92,7 @@ class ContainerManagerAgent(val nodeManager: ActorRef, val serverState: ActorRef
         }
     }
 
-    def Handle_ResourceSamplingCancel(message: _ResourceSamplingCancel) = {
+    def Handle_ResourceSamplingCancel(message: _ResourceSamplingCancel) = {        
         if (resourceSmaplingInquiryList.length > 0) {
             if (resourceSmaplingInquiryList(0)._source == message._source) {
                 resourceSmaplingInquiryList = resourceSmaplingInquiryList.filter((x) => x._source == message._source)
@@ -101,13 +109,11 @@ class ContainerManagerAgent(val nodeManager: ActorRef, val serverState: ActorRef
         }
     }
 
-    //TODO: refactor it
     def Handle_AllocateContainerFromCM(message: _AllocateContainerFromCM) = {
         if (resourceSmaplingInquiryList.length > 0)
             ignoreNextResourceMessage = true
 
-        println("YES1")
-        if (message._jobDescriptions != null)
+        if (message._jobDescriptions != null) 
             if (startNewJobManagers(message._jobDescriptions) < message._jobDescriptions.length)
                 nodeManager ! "ridi"
 
@@ -117,31 +123,37 @@ class ContainerManagerAgent(val nodeManager: ActorRef, val serverState: ActorRef
     }
 
     def startNewJobManagers(jobs: List[(JobDescription, SamplingInformation)]): Int = jobs match {
-        case Nil     => 0
-        case x :: xs => if (startAJobManager(x._1, x._2)) startNewJobManagers(xs) + 1 else 0
+        case List() => 0
+        case x :: xs =>
+            if (startAJobManager(x._1, x._2))
+                startNewJobManagers(xs) + 1
+            else
+                startNewJobManagers(xs)
     }
 
     def startAJobManager(job: JobDescription, samplInfo: SamplingInformation): Boolean = {
-        println("YES2")
-        val future = serverState.ask(new _AllocateContainer(job.userId, job.jobId, 0, job.tasks(0).resource, null, true))(2 seconds).mapTo[String]
-        future onSuccess {
+        implicit val timeout = Timeout(2 seconds)
+        val future = serverState ? new _AllocateContainer(job.userId, job.jobId, 0, job.tasks(0).resource, null, true)
+        Await.result(future, timeout.duration).asInstanceOf[String] match {
             case "ACK" => {
                 createJobManagerActor(job, samplInfo)
-                return true
+                true
             }
+            case "NACK" =>     false
         }
-        return false
+
     }
 
+    import com.typesafe.config.ConfigFactory
     def createJobManagerActor(job: JobDescription, samplInfo: SamplingInformation) = {
         if (isSimulation) {
-            val newJobManager = context.actorOf(Props(new JobManagerAgent(job.userId, job.jobId, samplInfo)), name = "JobManagerAgent")
+            val jobMangerSystem = ActorSystem.create("JobManagerAgent", ConfigFactory.load().getConfig("JobManagerAgent"))
+            val newJobManager = jobMangerSystem.actorOf(Props(new JobManagerAgent(job.userId, job.jobId, samplInfo)), name = "JobManagerAgent")
             newJobManager ! new _JobManagerSimulationInitiate(job.tasks)
-            jobManagerList = newJobManager :: jobManagerList
+            jobManagerList = (newJobManager, jobMangerSystem) :: jobManagerList
         }
     }
 
-    //TODO: refactor it
     def Handle_AllocateContainerFromJM(message: _AllocateContainerFromJM) = {
         ignoreResourceSamplingResponseTimeoutEvent += 1
         if (startNewTasks(message._taskDescriptions, false) < message._taskDescriptions.length)

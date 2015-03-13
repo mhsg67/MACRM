@@ -66,7 +66,7 @@ class ClusterManagerAgent extends Agent {
     //TODO: in case of centralize scheduling you should use this 
     //information for changing RackAgents and sampling rate of 
     //schedulerAgents
-    def Handle_ClusterState(message: _ClusterState) = {
+    def Handle_ClusterState(message: _ClusterState) = {     
         queueAgent ! message
     }
 

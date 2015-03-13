@@ -7,7 +7,7 @@ import org.joda.time.DateTime
 /**
  * This class is used for simulation in which there is no real server
  */
-object SimulationServerState extends ServerState {
+class SimulationServerState extends ServerState {
 
     var nextContainerId = 0
     var serverResource: Resource = new Resource(0,0)
@@ -24,7 +24,7 @@ object SimulationServerState extends ServerState {
     }
 
     def getServerStatus(nodeManager: ActorRef) =
-        new NodeReport(NodeId(nodeManager), serverResource, serverCapabilities,
+        new NodeReport(new NodeId(agent = nodeManager), serverResource, serverCapabilities,
             serverContainers, serverUtilization, serverNodeState, 0)
 
     def serverUtilization(): Utilization = new Utilization(0.0, 0.0)
@@ -36,8 +36,7 @@ object SimulationServerState extends ServerState {
     def createContainer(userId: Int, jobId: Long, taskIndex: Int, size: Resource): Option[Int] = {
         if ((serverResource - serverContainers.foldLeft(new Resource(0, 0))((x, y) => y.resource + x)) < size)
             None
-        else {
-            println("YES4")
+        else {            
             serverContainers = new Container(nextContainerId, userId, jobId, taskIndex, size) :: serverContainers
             nextContainerId += 1
             Some(nextContainerId - 1)

@@ -4,7 +4,7 @@
 		module="clustermanager_2.11"
 		revision="1.0"
 		status="integration"
-		publication="20150306200318"
+		publication="20150312173109"
 	>
 		<description>
 		ClusterManager

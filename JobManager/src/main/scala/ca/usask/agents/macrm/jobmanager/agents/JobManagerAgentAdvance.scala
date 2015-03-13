@@ -15,8 +15,8 @@ class JobManagerAgentAdvance(val userId: Int,
     import context.dispatcher
     var waveToHighestSamplingRateWithTaskIndexWithConstraints = Map[Int, List[(Int, Int, List[Constraint])]]()
     var currentWaveOfTasks = 0
-    val resourceTracker = context.actorSelection(JobManagerConfig.getResourceTrackerAddress())
-    val clusterManager = context.actorSelection(JobManagerConfig.getClusterManagerAddress())
+    val resourceTracker = context.actorSelection(JobManagerConfig.getResourceTrackerAddress)
+    val clusterManager = context.actorSelection(JobManagerConfig.getClusterManagerAddress)
 
     def receive = {
         case "initiateEvent"                        => Event_initiate()
@@ -31,13 +31,13 @@ class JobManagerAgentAdvance(val userId: Int,
 
     def Event_initiate() = {
         Logger.Log("JobManagerAgent<ID:" + jobId + "> Initialization")
-        SamplingManager.loadSamplingInformation(samplingInformation)
+        SamplingManagerAdvance.loadSamplingInformation(samplingInformation)
     }
 
     def Event_JobManagerSimulationInitiate(message: _JobManagerSimulationInitiate) = {
         Logger.Log("JobManagerAgent<ID:" + jobId + "> Initialization")
 
-        SamplingManager.loadSamplingInformation(samplingInformation)
+        SamplingManagerAdvance.loadSamplingInformation(samplingInformation)
 
         if (message.taskDescriptions.length > 1) {
             val tempTask = message.taskDescriptions.map(x => TaskDescription(self, jobId, x, userId))
@@ -59,7 +59,7 @@ class JobManagerAgentAdvance(val userId: Int,
     }
 
     def Handle_ResourceSamplingResponse(message: _ResourceSamplingResponse, sender: ActorRef) =
-        SamplingManager.whichTaskShouldSubmittedToThisNode(currentWaveOfTasks, message._availableResource, new NodeId(sender.path.address.host.get, sender.path.address.port.get, sender)) match {
+        SamplingManagerAdvance.whichTaskShouldSubmittedToThisNode(currentWaveOfTasks, message._availableResource, new NodeId(sender.path.address.host.get, sender.path.address.port.get, sender)) match {
             case None    => sender ! new _ResourceSamplingCancel(self, DateTime.now(), jobId)
             case Some(x) => sender ! new _AllocateContainerFromJM(self, DateTime.now(), x)
         }
@@ -69,19 +69,19 @@ class JobManagerAgentAdvance(val userId: Int,
         context.system.scheduler.scheduleOnce(JobManagerConfig.heartBeatStartDelay, self, "heartBeatEvent")
 
         currentWaveOfTasks += 1
-        SamplingManager.addNewSubmittedTasksIntoWaveToTaks(currentWaveOfTasks, message.taskDescriptions)
+        SamplingManagerAdvance.addNewSubmittedTasksIntoWaveToTaks(currentWaveOfTasks, message.taskDescriptions)
 
-        val samplingList = SamplingManager.getSamplingNode(message.taskDescriptions, 0)
+        val samplingList = SamplingManagerAdvance.getSamplingNode(message.taskDescriptions, 0)
         samplingList.foreach(x => getActorRefFromNodeId(x._1) ! new _ResourceSamplingInquiry(self, DateTime.now(), x._2, jobId))
         context.system.scheduler.scheduleOnce(JobManagerConfig.samplingTimeout, self, new _NodeSamplingTimeout(currentWaveOfTasks, 0))
     }
 
     def Handle_NodeSamplingTimeout(message: _NodeSamplingTimeout) = {
-        val unscheduledTasks = SamplingManager.getUnscheduledTaskOfWave(message.forWave)
+        val unscheduledTasks = SamplingManagerAdvance.getUnscheduledTaskOfWave(message.forWave)
         if (unscheduledTasks.length > 0) {
             updateWaveToHighestSamplingRateToConstraints(message.forWave, message.retry, unscheduledTasks)
             if (message.retry < JobManagerConfig.numberOfAllowedSamplingRetry) {
-                val samplingList = SamplingManager.getSamplingNode(unscheduledTasks, message.retry + 1)
+                val samplingList = SamplingManagerAdvance.getSamplingNode(unscheduledTasks, message.retry + 1)
                 samplingList.foreach(x => getActorRefFromNodeId(x._1) ! new _ResourceSamplingInquiry(self, DateTime.now(), x._2, jobId))
                 context.system.scheduler.scheduleOnce(JobManagerConfig.samplingTimeout, self, new _NodeSamplingTimeout(currentWaveOfTasks, message.retry + 1))
             }
@@ -95,20 +95,21 @@ class JobManagerAgentAdvance(val userId: Int,
         val unscheduledTasksIndexAndConstraints = unscheduledTasks.map(x => (x.index, x.constraints))
         waveToHighestSamplingRateWithTaskIndexWithConstraints.get(wave) match {
             case None =>
-                waveToHighestSamplingRateWithTaskIndexWithConstraints.update(wave, unscheduledTasksIndexAndConstraints.map(y => (retry * SamplingManager.samplingRate, y._1, y._2)))
+                waveToHighestSamplingRateWithTaskIndexWithConstraints.update(wave, unscheduledTasksIndexAndConstraints.map(y => (retry * SamplingManagerAdvance.samplingRate, y._1, y._2)))
             case Some(x) => {
                 val oldPart = x.filterNot(p => unscheduledTasksIndexAndConstraints.exists(q => q._1 == p._2))
-                val newPart = unscheduledTasksIndexAndConstraints.map(x => (retry * SamplingManager.samplingRate, x._1, x._2))
+                val newPart = unscheduledTasksIndexAndConstraints.map(x => (retry * SamplingManagerAdvance.samplingRate, x._1, x._2))
                 waveToHighestSamplingRateWithTaskIndexWithConstraints.update(wave, oldPart ++ newPart)
             }
         }
     }
 
-    def Handle_JMHeartBeatResponse(message: _JMHeartBeatResponse) = SamplingManager.loadNewSamplingRate(message._samplingRate)
+    def Handle_JMHeartBeatResponse(message: _JMHeartBeatResponse) = SamplingManagerAdvance.loadNewSamplingRate(message._samplingRate)
 
     //TODO: change to refelect the number of retry and if
     //some of the task failed show their constraints
-    def create_JMHeartBeat() = new _JMHeartBeat(self, DateTime.now(), new JobReport(userId, jobId))
+    //TODO: the last argument of JobReport is completely wrong
+    def create_JMHeartBeat() = new _JMHeartBeat(self, DateTime.now(), new JobReport(userId, jobId, SamplingManagerAdvance.samplingRate))
 
     def getActorRefFromNodeId(node: NodeId): ActorSelection = context.actorSelection(JobManagerConfig.createNodeManagerAddressString(node.host, node.port))
 

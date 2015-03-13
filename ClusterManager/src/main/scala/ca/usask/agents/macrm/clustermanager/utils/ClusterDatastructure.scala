@@ -14,6 +14,7 @@ class ClusterDatastructure {
         if (addedServers != null) {
             clusterNodes = clusterNodes.filterNot(x => addedServers.exists(y => y._1 == x._1))
             clusterNodes ++= addedServers
+            println("ClusterNodes " + clusterNodes.length)
         }
         if (rareResourcesUpdate != null) rareResourcesUpdate.foreach(x => addOrDropRareResources(x._1, x._2))
     }
@@ -25,7 +26,7 @@ class ClusterDatastructure {
 
     def getCurrentSamplingInformation(constraints: List[Constraint]): SamplingInformation = {
         val (nodeWithConstraints, nodeWithoutConstraints) =
-            clusterNodes.map(x => (x._1, getMatchCapablitiesOfNode(x._2, constraints))).filterNot(x => x._2 == List()).partition(x => x._2 == null)
+            clusterNodes.map(x => (x._1, getMatchCapablitiesOfNode(x._2, constraints))).filterNot(x => x._2 == List()).partition(x => x._2 != null)
         new SamplingInformation(samplingRate, nodeWithConstraints, nodeWithoutConstraints.map(x => x._1))
     }
 

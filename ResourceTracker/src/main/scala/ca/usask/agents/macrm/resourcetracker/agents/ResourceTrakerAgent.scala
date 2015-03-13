@@ -18,7 +18,7 @@ class ResourceTrackerAgent extends Agent {
     def receive = {
         case "initiateEvent"                => Event_initiate()
         case "finishedCentralizeScheduling" => Handle_FinishedCentralizeScheduling()
-        case message: _HeartBeat            => Handle_HeartBeat(message)
+        case message: _HeartBeat            => Handle_HeartBeat(message, sender())
         case message: _JMHeartBeat          => Handle_JMHeartBeat(message)
         case message: _ClusterState         => Handle_ClusterState(message)
         case _                              => Handle_UnknownMessage("ResourceTrackerAgent")
@@ -40,8 +40,10 @@ class ResourceTrackerAgent extends Agent {
         clusterDatabaseReaderAgent ! message
     }
 
-    def Handle_HeartBeat(message: _HeartBeat) = {
-        clusterDatabaseWriterAgent ! message        
+    def Handle_HeartBeat(oldMessage: _HeartBeat, sender: ActorRef) = {        
+        val message = new _HeartBeat(sender, oldMessage._time, oldMessage._report)
+        clusterDatabaseWriterAgent ! message
+
         if (doesServerHaveResourceForAJobManager(message._report) && hasSubmittedFirstClusterState)
             clusterManagerAgent ! new _ServerWithEmptyResources(self, DateTime.now(), addIPandPortToNodeReport(message._report, message._source))
     }

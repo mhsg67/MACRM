@@ -9,6 +9,10 @@ import java.util.Formatter.DateTime
 
 class ClusterDatabaseReaderAgent(val resourceTrackerAgent: ActorRef) extends Agent {
 
+    var lastClusterUtilizationLevel = new Utilization(0.0, 0.0)
+    var currentSamplingRate = 2
+    var numberOfUnsuccessfulSampling = 0
+
     import context.dispatcher
     override def preStart() = {
         context.system.scheduler.scheduleOnce(ResourceTrakerConfig.firstClusterStateUpdateDelay, self, "sendFirstClusterStateUpdate")
@@ -22,12 +26,24 @@ class ClusterDatabaseReaderAgent(val resourceTrackerAgent: ActorRef) extends Age
     }
 
     def Event_sendFirstClusterStateUpdate() = {
-        resourceTrackerAgent ! new _ClusterState(resourceTrackerAgent, DateTime.now(), 2, null, ClusterDatabase.getNodeIdToContaintsMaping(), null)
+        resourceTrackerAgent ! new _ClusterState(resourceTrackerAgent, DateTime.now(), currentSamplingRate, null, ClusterDatabase.getNodeIdToContaintsMaping(), null)
     }
 
-    //TODO:Implement adaptive sampling here
     def Handle_JMHeartBeat(message: _JMHeartBeat) = {
 
+        val currentUtilization = ClusterDatabase.getCurrentClusterLoad()
+        val maxResourceUtilization =
+            if (currentUtilization.memoryUtilization > currentUtilization.virtualCoreUtilization)
+                currentUtilization.memoryUtilization
+            else
+                currentUtilization.virtualCoreUtilization
+        
+       val properSamplingRate = ((math.log(0.05)/math.log(maxResourceUtilization)) + 0.5).toInt
+       
+       if(properSamplingRate != currentSamplingRate && properSamplingRate >= 2){
+           currentSamplingRate = properSamplingRate
+           resourceTrackerAgent ! new _ClusterState(resourceTrackerAgent, DateTime.now(), currentSamplingRate, null, null, null)
+       }
     }
 
     def Event_initiate() = {

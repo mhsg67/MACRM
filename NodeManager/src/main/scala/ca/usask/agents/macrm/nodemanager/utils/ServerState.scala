@@ -31,5 +31,5 @@ trait ServerState {
  * This is just class factory to create either of above classes depends on simulation or real case
  */
 object ServerState {
-    def apply(isSimulation: Boolean): ServerState = if (isSimulation) SimulationServerState else RealServerState
+    def apply(isSimulation: Boolean): ServerState = if (isSimulation) new SimulationServerState() else RealServerState
 }

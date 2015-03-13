@@ -8,29 +8,18 @@ import ca.usask.agents.macrm.common.records._
  */
 object JobManagerConfig {
 
-    var userId: Int = 1
-    var jobId: String = null
-
     def readConfigurationFile() = {
         Logger.Log("Start reading configuration file")
-
-        /*
-         * These are just for test, in the case of simulation
-         * the central creater of JobManager specify these two, in
-         * the case of real system, it should read configuration file
-         */
-
-        jobId = GUIDGenerator.getNextGUID
 
         Logger.Log("Finished reading configuration file")
     }
 
-    def getClusterManagerAddress() = "akka.tcp://ClusterManagerAgent@" +
+    lazy val getClusterManagerAddress = "akka.tcp://ClusterManagerAgent@" +
         clusterManagerIPAddress + ":" +
         clusterManagerAgentDefualtPort + "/" +
         "user/ClusterManagerAgent"
 
-    def getResourceTrackerAddress() = "akka.tcp://ResourceTrackerAgent@" +
+    lazy val getResourceTrackerAddress = "akka.tcp://ResourceTrackerAgent@" +
         trackerIPAddress + ":" +
         trackerDefualtPort + "/" +
         "user/ResourceTrackerAgent"
@@ -57,7 +46,7 @@ object JobManagerConfig {
      * we start sampling, after 10 millis of that, if we still have
      * unschedule tasks we try to do sampling again
      */
-    val samplingTimeout = 10 millis
+    val samplingTimeout = 1000 millis
 
     /**
      * If the samplingTimout for 2 times and the JobManager could not find
@@ -73,6 +62,7 @@ object JobManagerConfig {
      * We will send it every 1 min (60000 millis) with the first one
      * send 1 second into JobManager execution time
      */
-    val heartBeatStartDelay = (samplingTimeout * numberOfAllowedSamplingRetry)
+    val heartBeatStartDelay = FiniteDuration((samplingTimeout.toMillis * (numberOfAllowedSamplingRetry + 0.5)).toLong, MILLISECONDS)
     val heartBeatInterval = 60000 millis
+
 }

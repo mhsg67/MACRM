@@ -7,9 +7,9 @@ import java.io.Serializable
  * TODO: defualt port should be read from config
  */
 @SerialVersionUID(100L)
-class NodeId(val host: String,
-             val port: Int,
-             val agent: ActorRef)
+case class NodeId(val host: String = "0.0.0.0",
+                  val port: Int = 0,
+                  val agent: ActorRef = null)
     extends Serializable {
 
     override def equals(input: Any): Boolean = input match {
@@ -20,11 +20,6 @@ class NodeId(val host: String,
         case _ => false
     }
 
-    override def toString() = "<host:" + host + " port:" + port.toString() + ">"
-}
+    override def toString() = "<host:" + host + " port:" + port.toString() + " hash: " + this.hashCode().toString() + s">"
 
-object NodeId {
-    def apply(host: String, port: Int, agent: ActorRef): NodeId = new NodeId(host, port, agent)
-    def apply(agent: ActorRef): NodeId = apply("0.0.0.0", 0, agent)
-    def apply(host: String, port: Int): NodeId = apply(host, port, null)
 }

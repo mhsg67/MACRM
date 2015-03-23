@@ -2,6 +2,7 @@ package ca.usask.agents.macrm.resourcetracker.test
 
 import ca.usask.agents.macrm.resourcetracker.utils._
 import ca.usask.agents.macrm.common.records._
+import org.joda.time._
 
 class ClusterDatabaseTest extends UnitSpec {
 
@@ -9,14 +10,14 @@ class ClusterDatabaseTest extends UnitSpec {
 
         val nId1 = new NodeId("0.0.0.1", 1, null)
         ClusterDatabase.updateNodeState(nId1,
-            new Resource(4000, 8), new Resource(2500, 5), null, new Utilization(), 10)
+            new Resource(4000, 8), new Resource(2500, 5), List(), new Utilization(), 10)
 
         ClusterDatabase.nodeIdToNodeStateTable.get(nId1).get shouldBe a[nodeIdToNodeStateRow]
         ClusterDatabase.nodeIdToNodeStateTable.get(nId1).get.usedResources should be(new Resource(2500, 5))
         ClusterDatabase.nodeIdToNodeStateTable.size should be(1)
 
         ClusterDatabase.updateNodeState(nId1,
-            new Resource(4000, 8), new Resource(1000, 3), null, new Utilization(), 5)
+            new Resource(4000, 8), new Resource(1000, 3), List(), new Utilization(), 5)
         ClusterDatabase.nodeIdToNodeStateTable.get(nId1).get.usedResources should be(new Resource(1000, 3))
         ClusterDatabase.nodeIdToNodeStateTable.get(nId1).get.queueState should be(5)
         ClusterDatabase.nodeIdToNodeStateTable.size should be(1)

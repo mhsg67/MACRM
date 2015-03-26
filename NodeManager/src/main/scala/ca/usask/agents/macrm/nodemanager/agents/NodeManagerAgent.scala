@@ -4,7 +4,6 @@ import ca.usask.agents.macrm.common.agents._
 import ca.usask.agents.macrm.jobmanager.agents._
 import ca.usask.agents.macrm.common.records._
 import ca.usask.agents.macrm.nodemanager.utils._
-import scala.util.control.Exception
 import org.joda.time.DateTime
 import akka.actor._
 import scala.concurrent.duration._
@@ -24,7 +23,10 @@ class NodeManagerAgent(val id: Int = 0) extends Agent {
 
     def receive = {
         case "heartBeatEvent"                        => Event_heartBeat()
-        case "emptyHeartBeatResponse"                => receivedHeartBeatRespond = true
+        case "emptyHeartBeatResponse"                => {
+            receivedHeartBeatRespond = true
+            println("emptyHeartBeatResponse")
+        }
         case message: _NodeManagerSimulationInitiate => Event_NodeManagerSimulationInitiate(message)
         case message: _ContainerExecutionFinished    => Event_ContainerExecutionFinished(message)
         case message: _ResourceSamplingInquiry => {

@@ -13,10 +13,11 @@ object ResourceTrakerConfig {
         Logger.Log("Finished reading configuration file")
     }
 
-    def getClusterManagerAddress() = "akka.tcp://ClusterManagerAgent@" +
-        clusterManagerIPAddress + ":" +
-        clusterManagerAgentDefualtPort + "/" +
-        "user/ClusterManagerAgent"
+    def getClusterManagerAddress() = {
+        val result = "akka.tcp://ClusterManagerAgent@" + clusterManagerIPAddress + ":" + clusterManagerAgentDefualtPort + "/" + "user/ClusterManagerAgent"
+        println(result)
+        result
+    }
 
     /**
      * If we do not receive heart beat from a node during last 2 minutes we
@@ -28,7 +29,7 @@ object ResourceTrakerConfig {
     /**
      * To access ClusterManager actor
      */
-    val clusterManagerIPAddress = "127.0.1.1"
+    var clusterManagerIPAddress = "127.0.0.1"
     val clusterManagerAgentDefualtPort = "2000"
     
     /**
@@ -41,7 +42,7 @@ object ResourceTrakerConfig {
     /**
      * Delay for sending first _ClusterStateUpdate to the cluster manager
      */
-    val firstClusterStateUpdateDelay = 20000 millis //3000 millis
+    val firstClusterStateUpdateDelay = 10000 millis //3000 millis
     
     /**
      * Try to adapte sampling rate based on current cluster load

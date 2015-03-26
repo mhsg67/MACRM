@@ -20,8 +20,8 @@ object JobManagerConfig {
         "user/ClusterManagerAgent"
 
     lazy val getResourceTrackerAddress = "akka.tcp://ResourceTrackerAgent@" +
-        trackerIPAddress + ":" +
-        trackerDefualtPort + "/" +
+        resourceTrackerIPAddress + ":" +
+        resourceTrackerDefualtPort + "/" +
         "user/ResourceTrackerAgent"
 
     def createNodeManagerAddressString(host: String, port: Int) = "akka.tcp://NodeManagerAgent@" +
@@ -32,14 +32,14 @@ object JobManagerConfig {
     /**
      * To access ClusterManager actor
      */
-    val clusterManagerIPAddress = "127.0.1.1"
+    var clusterManagerIPAddress = "127.0.0.1"
     val clusterManagerAgentDefualtPort = "2000"
 
     /**
      * To access resourceTracker actor
      */
-    val trackerIPAddress = "127.0.1.1"
-    val trackerDefualtPort = "3000"
+    var resourceTrackerIPAddress = "127.0.0.1"
+    val resourceTrackerDefualtPort = "3000"
 
     /**
      * After receiving a wave of task for scheduling

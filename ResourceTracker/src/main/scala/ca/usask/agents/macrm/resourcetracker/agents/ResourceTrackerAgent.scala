@@ -42,6 +42,7 @@ class ResourceTrackerAgent extends Agent {
     }
 
     def Handle_HeartBeat(sender: ActorRef, message: _HeartBeat) = {
+        println("_heartBeat")
         updateClusterDatebaseByNMHeartBeat(sender, message)
 
         if (doesServerHaveResourceForAJobManager(message._report) && hasSubmittedFirstClusterState)
@@ -58,7 +59,10 @@ class ResourceTrackerAgent extends Agent {
         ClusterDatabase.updateNodeContainer(nodeId, message._report.containers)
     }
 
-    def doesServerHaveResourceForAJobManager(_nodeReport: NodeReport) = if (_nodeReport.getFreeResources() > ResourceTrakerConfig.minResourceForJobManager) true else false
+    def doesServerHaveResourceForAJobManager(_nodeReport: NodeReport) = {
+        false
+        //if (_nodeReport.getFreeResources() > ResourceTrakerConfig.minResourceForJobManager) true else false
+    }
 
     def addIPandPortToNodeReport(oldReport: NodeReport, sender: ActorRef) =
         new NodeReport(new NodeId(sender.path.address.host.get, sender.path.address.port.get, sender),

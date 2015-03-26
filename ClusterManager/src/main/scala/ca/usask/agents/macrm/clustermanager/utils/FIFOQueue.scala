@@ -17,7 +17,7 @@ class FIFOQueue extends AbstractQueue {
 
     def RemoveJob(e: JobDescription) = JobQueue = JobQueue.filter(x => x.jobId != e.jobId)
 
-    def RemoveTask(e: TaskDescription) = TaskQueue = TaskQueue.filter(x => (x.jobId != e.jobId && x.index != e.index))
+    def RemoveTask(e: TaskDescription) = TaskQueue = TaskQueue.filterNot(x => (x.jobId == e.jobId && x.index == e.index))
 
     def getFirstOrBestMatchJob(resource: Resource, capability: List[Constraint]): Option[JobDescription] = JobQueue match {
         case MutableList() => None

@@ -7,7 +7,7 @@ import org.joda.time.DateTime
 /**
  * This class is used for simulation in which there is no real server
  */
-class SimulationServerState extends ServerState {
+class SimulationServerState {
 
     var nextContainerId = 0
     var serverResource: Resource = new Resource(0,0)

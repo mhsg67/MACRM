@@ -12,11 +12,12 @@ import scala.collection.mutable._
 class NodeManagerAgent(val id: Int = 0) extends Agent {
 
     var havePendingServing = false
-    var serverState: ServerState = null
     var receivedHeartBeatRespond = false
     var missedHeartBeat = false
     var containerToActorSystem = Map[Long, ActorSystem]()
     var containerToOwnerActor = Map[Long, ActorRef]()
+    
+    val serverState= new SimulationServerState()
     val resourceTracker = context.actorSelection(NodeManagerConfig.getResourceTrackerAddress)
 
     import context.dispatcher
@@ -50,7 +51,6 @@ class NodeManagerAgent(val id: Int = 0) extends Agent {
 
     def Event_NodeManagerSimulationInitiate(message: _NodeManagerSimulationInitiate) = {
         Logger.Log("NodeManagerAgent" + id.toString() + " Initialization Start")
-        serverState = ServerState(isSimulation = true)
         serverState.initializeSimulationServer(message.resource, message.capabilities)
         context.system.scheduler.scheduleOnce(NodeManagerConfig.heartBeatStartDelay, self, "heartBeatEvent")
         Logger.Log("NodeManagerAgent" + id.toString() + " Initialization End")
@@ -85,7 +85,7 @@ class NodeManagerAgent(val id: Int = 0) extends Agent {
     def Handle_ResourceSamplingInquiry(sender: ActorRef, message: _ResourceSamplingInquiry) = {
         if (receivedHeartBeatRespond == true && havePendingServing == false) {
             havePendingServing == true
-            sender ! new _ResourceSamplingResponse(self, DateTime.now(), serverState.getServerFreeResources())
+            sender ! new _ResourceSamplingResponse(self, DateTime.now(), serverState.getServerFreeResources)
         }
     }
 

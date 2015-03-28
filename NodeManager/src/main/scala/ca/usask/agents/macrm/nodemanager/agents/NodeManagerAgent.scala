@@ -24,10 +24,7 @@ class NodeManagerAgent(val id: Int = 0) extends Agent {
 
     def receive = {
         case "heartBeatEvent"                        => Event_heartBeat()
-        case "emptyHeartBeatResponse"                => {
-            receivedHeartBeatRespond = true
-            println("emptyHeartBeatResponse")
-        }
+        case "emptyHeartBeatResponse"                => receivedHeartBeatRespond = true
         case message: _NodeManagerSimulationInitiate => Event_NodeManagerSimulationInitiate(message)
         case message: _ContainerExecutionFinished    => Event_ContainerExecutionFinished(message)
         case message: _ResourceSamplingInquiry => {
@@ -43,7 +40,7 @@ class NodeManagerAgent(val id: Int = 0) extends Agent {
             Handle_AllocateContainerFromCM(sender(), message)
         }
         case message: _AllocateContainerFromJM => {
-            println("AllocateContainerFromJM " + id.toString())
+            println("AllocateContainerFromJM " + id.toString() + " #Containers" + message._taskDescriptions.length)
             Handle_AllocateContainerFromJM(sender(), message)
         }
         case _ => Handle_UnknownMessage("NodeManagerAgent")

@@ -22,12 +22,12 @@ object main {
 
     def main(args: Array[String]) {  
         val startIndex = args(0).toInt
+        val numActor = args(1).toInt
         val config = readConfiguration()
         
         NodeManagerConfig.resourceTrackerIPAddress = config(1)
         JobManagerConfig.resourceTrackerIPAddress = config(1)
         JobManagerConfig.clusterManagerIPAddress = config(0)
-        val numActor = config(2).toInt
         val actorsList = (startIndex until startIndex + numActor toList).map(y => ActorSystem.create("NodeManagerAgent", ConfigFactory.load().getConfig("NodeManagerAgent")).actorOf(Props(new NodeManagerAgent(y)), name = "NodeManagerAgent"))
         actorsList.foreach(x => x ! new _NodeManagerSimulationInitiate(new Resource(4000, 4), List()))
 

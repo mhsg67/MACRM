@@ -35,7 +35,7 @@ class SamplingManager {
                 None
             }
             case _ => {
-                val temp = getBigestTasksThatCanFitThisResource(resource, unscheduledTasks.sortWith((x, y) => x.resource > y.resource), List())
+                val temp = getBigestTasksThatCanFitThisResource(resource, unscheduledTasks, List())
                 temp match {
                     case List() => None
                     case _ => {
@@ -47,24 +47,26 @@ class SamplingManager {
         }
     }
 
+    //TODO: this can further be improved by doing good algorithm like knapstack 
     @annotation.tailrec
     final def getBigestTasksThatCanFitThisResource(resource: Resource, tasks: List[TaskDescription], result: List[TaskDescription]): List[TaskDescription] = tasks match {
         case List() => result
         case x :: xs =>
-            if (x.resource < resource)
+            if (x.resource < resource) {
+                println(resource - x.resource)
                 getBigestTasksThatCanFitThisResource(resource - x.resource, xs, x :: result)
-            else
+            } else
                 getBigestTasksThatCanFitThisResource(resource, xs, result)
     }
 
     @annotation.tailrec
     final def getUnscheduledTasks(waveNumber: Int, tasks: List[TaskDescription]): List[TaskDescription] = waveToTasks.get(waveNumber) match {
         case None    => tasks
-        case Some(x) => getUnscheduledTasks(waveNumber + 1, getUnscheduledTaskOfWave(waveNumber) ++ tasks)
+        case Some(x) => getUnscheduledTasks(waveNumber + 1, tasks ++ getUnscheduledTaskOfWave(waveNumber))
     }
 
     @annotation.tailrec
-    final def removeFromUnscheduledTasks(waveNumber: Int, tasks: List[TaskDescription]):Unit = waveToTasks.get(waveNumber) match {
+    final def removeFromUnscheduledTasks(waveNumber: Int, tasks: List[TaskDescription]): Unit = waveToTasks.get(waveNumber) match {
         case None    => ()
         case Some(x) => removeFromUnscheduledTasks(waveNumber + 1, removeUnscheduledTasksOfWave(waveNumber, tasks))
     }
@@ -72,16 +74,18 @@ class SamplingManager {
     def removeUnscheduledTasksOfWave(waveNumber: Int, scheduledTasks: List[TaskDescription]): List[TaskDescription] = {
         val waveOldState = waveToTasks.get(waveNumber).get
         var waveNewState = List[(Boolean, TaskDescription)]()
-        val scheduledTasksIndex = scheduledTasks.map(x => x.index)
-        waveOldState.foreach { x =>
-            if (scheduledTasksIndex.contains(x._2.index)) {
-                (true, x._2) :: waveNewState
-            }
-            else {
-                (x._1, x._2) :: waveNewState
-            }
+        for (x <- waveOldState) {
+            var isScheduled = false
+            for (y <- scheduledTasks)
+                if (x._2.index == y.index)
+                    isScheduled = true
+            if (isScheduled)
+                waveNewState = (true, x._2) :: waveNewState
+            else
+                waveNewState = (x._1, x._2) :: waveNewState
         }
-        waveToTasks.update(waveNumber, waveNewState)
+
+        waveToTasks.update(waveNumber, waveNewState.reverse)
         scheduledTasks
     }
 

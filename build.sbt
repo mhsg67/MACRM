@@ -31,6 +31,7 @@ lazy val ClusterManager = project.in(file("ClusterManager")).dependsOn(Common).
 			"com.typesafe.akka" %% "akka-camel" % "2.3.7",
 			"org.apache.camel" % "camel-netty" % "2.14.1",
 			"org.apache.camel" % "camel-jetty" % "2.14.1",
+			"org.apache.camel" % "camel-mina2" % "2.15.0",
 			"org.slf4j" % "slf4j-simple" % "1.7.10",
 			"com.typesafe.play" % "play-json_2.11" % "2.4.0-M2"
 		)

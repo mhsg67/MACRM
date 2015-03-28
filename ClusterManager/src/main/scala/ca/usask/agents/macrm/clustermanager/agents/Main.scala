@@ -9,8 +9,6 @@ import com.typesafe.config.ConfigFactory
  */
 object main extends App {
     try {
-        ClusterManagerConfig.readConfigurationFile()
-
         val system = ActorSystem.create("ClusterManagerAgent", ConfigFactory.load().getConfig("ClusterManagerAgent"))
         val clusterManagerAgent = system.actorOf(Props[ClusterManagerAgent], name = "ClusterManagerAgent")
         

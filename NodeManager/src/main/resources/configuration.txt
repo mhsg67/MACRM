@@ -1,3 +1,2 @@
-ClusterManagerIPAddress:pp7054d2e4e803.usask.ca
-ResourceTrackerIPAddress:pp7054d2e4e803.usask.ca
-NumberOfNodeToSimulate:1
+ClusterManagerIPAddress:127.0.0.1
+ResourceTrackerIPAddress:127.0.0.1

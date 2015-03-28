@@ -5,10 +5,6 @@ package ca.usask.agents.macrm.clustermanager.utils
  */
 object ClusterManagerConfig {
 
-    def readConfigurationFile() = {
-        Logger.Log("Start reading configuration file")
-        Logger.Log("Finished reading configuration file")
-    }
 
     def getResourceTrackerAddress() = "akka.tcp://ResourceTrackerAgent@" +
         trackerIPAddress + ":" +

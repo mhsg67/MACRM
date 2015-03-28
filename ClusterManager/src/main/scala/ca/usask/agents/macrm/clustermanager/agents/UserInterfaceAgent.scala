@@ -15,7 +15,7 @@ class UserInterfaceAgent(val queueAgent: ActorRef) extends Agent with Consumer {
     var jobIdToJobSubmission = Map[Long, (DateTime,DateTime)]()
     var numberOfSubmittedJob = 0
 
-    def endpointUri = "netty:tcp://0.0.0.0:2001?textline=true"
+    def endpointUri = "netty:tcp://127.0.0.1:2001?textline=true"
 
     def receive = {
         case "initiateEvent"            => Event_initiate()
@@ -34,6 +34,8 @@ class UserInterfaceAgent(val queueAgent: ActorRef) extends Agent with Consumer {
         JSONManager.getJobDescription(message.body.toString()) match {
             case Left(x) => sender ! "Incorrect job submission format: " + x
             case Right(x) => {
+                val response = "received:" + x.jobId.toString
+                sender ! response
                 jobIdToUserRef.update(x.jobId, sender)
                 queueAgent ! new _JobSubmission(x)
             }
@@ -41,7 +43,7 @@ class UserInterfaceAgent(val queueAgent: ActorRef) extends Agent with Consumer {
     }
 
     def Handle_JobFinished(message: _JobFinished) = {
-        
-        println("Job " + message._jobId + " finished")
+        val response = "finished:" + message._jobId
+        jobIdToUserRef(message._jobId) ! response
     }
 }

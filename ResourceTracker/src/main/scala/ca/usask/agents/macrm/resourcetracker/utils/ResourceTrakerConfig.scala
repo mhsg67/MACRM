@@ -42,7 +42,7 @@ object ResourceTrakerConfig {
     /**
      * Delay for sending first _ClusterStateUpdate to the cluster manager
      */
-    val firstClusterStateUpdateDelay = 10000 millis //3000 millis
+    val firstClusterStateUpdateDelay = 20000 millis //3000 millis
     
     /**
      * Try to adapte sampling rate based on current cluster load

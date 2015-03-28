@@ -1,1 +1,1 @@
-ClusterManagerIPAddress:pp7054d2e4e803.usask.ca
+ClusterManagerIPAddress:127.0.0.1

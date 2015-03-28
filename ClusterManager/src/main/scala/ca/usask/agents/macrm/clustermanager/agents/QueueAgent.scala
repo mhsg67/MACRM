@@ -24,8 +24,11 @@ class QueueAgent extends Agent {
         case message: _ServerWithEmptyResources => Handle_ServerWithEmptyResources(message)
         case message: _EachUserShareOfCluster   => Handle_EachUserShareOfCluster(message)
         case message: _JobSubmission            => Handle_JobSubmission(message)
-        case message: _TaskSubmission           => Handle_TaskSubmission(message)
-        case _                                  => Handle_UnknownMessage("QueueAgent")
+        case message: _TaskSubmission => {
+            println("_TaskSubmission")
+            Handle_TaskSubmission(message)
+        }
+        case _ => Handle_UnknownMessage("QueueAgent")
     }
 
     def Event_initiate() = {
@@ -42,8 +45,7 @@ class QueueAgent extends Agent {
             println("**** Schedule a Task")
             schedulingQueue.RemoveTask(headOfTaskQueue.get)
             scheduleTask(headOfTaskQueue.get, message)
-        }
-        else {
+        } else {
             val headOfJobQueue = schedulingQueue.getFirstOrBestMatchJob(message._report.resource, message._report.capabilities)
             if (!headOfJobQueue.isEmpty) {
                 println("**** Schedule a Job")
@@ -52,8 +54,7 @@ class QueueAgent extends Agent {
                     schedulerJob(headOfJobQueue.get, message, clusterStructure.getCurrentSamplingInformation(headOfJobQueue.get.constraints()))
                 else
                     schedulerJob(headOfJobQueue.get, message, null)
-            }
-            else{                
+            } else {
                 message._report.nodeId.agent ! "emptyHeartBeatResponse"
             }
         }

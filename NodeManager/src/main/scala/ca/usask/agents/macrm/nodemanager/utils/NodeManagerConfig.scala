@@ -21,14 +21,14 @@ object NodeManagerConfig {
     /**
      * To access resourceTracker actor
      */
-    var resourceTrackerIPAddress = "127.0.1.1"
+    var resourceTrackerIPAddress = "127.0.0.1"
     val resourceTrackerDefualtPort = "3000"
 
     /**
      * Based on YARN configuration we set heart beat interval
      * to RM to 1000
      */
-    val heartBeatInterval = 2000 millis
+    val heartBeatInterval = 3000 millis
 
     /**
      * Each node start to send heart beat 3000 millisecond
@@ -36,18 +36,6 @@ object NodeManagerConfig {
      */
     val heartBeatStartDelay = 1000 millis
 
-    /**
-     * The same as YARN we check containers every 3 sec and
-     * their resource consumption to control their limitation
-     */
-    val checkContainersInterval = 3000 millis
-
-    /**
-     * In case we have resourceSamplingInquiry we check server state
-     * to see if we can JobMaganer container request
-     */
-    val checkAvailableResource = 5 millis
-    val firstCheckAvailableResources = 0 millis
 
     /**
      * When ContainerManager realizes that it can server container with the size in

@@ -1,4 +1,4 @@
-package ca.usask.agents.macrm.clustermanager.test
+package ca.usask.agents.macrm.jobmanager.test
 
 import org.scalatest._
 

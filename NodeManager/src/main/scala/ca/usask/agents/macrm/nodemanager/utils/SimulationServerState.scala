@@ -10,7 +10,7 @@ import org.joda.time.DateTime
 class SimulationServerState {
 
     var nextContainerId = 0
-    var serverResource: Resource = new Resource(0,0)
+    var serverResource: Resource = new Resource(0, 0)
     var serverCapabilities: List[Constraint] = List()
     var serverContainers: List[Container] = List()
     var serverNodeState = NodeState("RUNNING")
@@ -18,7 +18,7 @@ class SimulationServerState {
     def initializeServer(): Boolean = true
 
     def initializeSimulationServer(resource: Resource, capability: List[Constraint]) = {
-        serverResource = resource        
+        serverResource = resource
         serverCapabilities = capability
         true
     }
@@ -34,9 +34,10 @@ class SimulationServerState {
     def getServerResource() = serverResource
 
     def createContainer(userId: Int, jobId: Long, taskIndex: Int, size: Resource): Option[Long] = {
-        if ((serverResource - serverContainers.foldLeft(new Resource(0, 0))((x, y) => y.resource + x)) < size)
+        val availableResources = getServerFreeResources
+        if (availableResources.memory < size.memory || availableResources.virtualCore < size.virtualCore)
             None
-        else {            
+        else {
             serverContainers = new Container(nextContainerId, userId, jobId, taskIndex, size) :: serverContainers
             nextContainerId += 1
             Some(nextContainerId - 1)
@@ -45,11 +46,12 @@ class SimulationServerState {
 
     def killContainer(containerId: Long): Option[Int] = {
         if (serverContainers.exists(x => x.containerId == containerId)) {
-            val (finishedContainer, runningContainers) = serverContainers.span (x => x.containerId == containerId)
-                    serverContainers = runningContainers
+            val (finishedContainer, runningContainers) = serverContainers.partition(x => x.containerId == containerId)
+            serverContainers = runningContainers
             Some(finishedContainer(0).taskIndex)
+        } else {
+            None
         }
-        else None
     }
 
 }

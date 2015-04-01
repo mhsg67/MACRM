@@ -53,7 +53,6 @@ class SamplingManager {
         case List() => result
         case x :: xs =>
             if (x.resource < resource) {
-                println(resource - x.resource)
                 getBigestTasksThatCanFitThisResource(resource - x.resource, xs, x :: result)
             } else
                 getBigestTasksThatCanFitThisResource(resource, xs, result)

@@ -60,7 +60,7 @@ class ResourceTrackerAgent extends Agent {
 
     def doesServerHaveResourceForAJobManager(_nodeReport: NodeReport) = if (_nodeReport.getFreeResources() > ResourceTrakerConfig.minResourceForJobManager) true else false
 
-    def addIPandPortToNodeReport(oldReport: NodeReport, sender: ActorRef) =
+    def addIPandPortToNodeReport(oldReport: NodeReport, sender: ActorRef) = 
         new NodeReport(new NodeId(sender.path.address.host.get, sender.path.address.port.get, sender),
             oldReport.resource, oldReport.capabilities, oldReport.containers, oldReport.utilization,
             oldReport.nodeState, oldReport.queueState)
@@ -75,10 +75,12 @@ class ResourceTrackerAgent extends Agent {
 
         val properSamplingRate = ((math.log(0.05) / math.log(maxResourceUtilization)) + 0.5).toInt
 
-        if (properSamplingRate != currentSamplingRate && properSamplingRate >= 2) {
+        //MHSGTODO: Uncomment it
+        /*if (properSamplingRate != currentSamplingRate && properSamplingRate >= 2) {
+            println("properSamplingRate " + properSamplingRate)
             currentSamplingRate = properSamplingRate
             clusterManagerAgent ! new _ClusterState(self, DateTime.now(), currentSamplingRate, null, null, null)
-        }
+        }*/
 
         println(currentUtilization)
     }

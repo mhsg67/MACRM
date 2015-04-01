@@ -6,6 +6,7 @@ import akka.actor._
 import ca.usask.agents.macrm.nodemanager.utils._
 import ca.usask.agents.macrm.jobmanager.utils._
 import com.typesafe.config.ConfigFactory
+import java.net._
 
 /**
  * It is the starter for node manager; this will create a NodeManagerAgent
@@ -20,11 +21,15 @@ object main {
         result
     }
 
-    def main(args: Array[String]) {  
+    def main(args: Array[String]) {
         val startIndex = args(0).toInt
         val numActor = args(1).toInt
+        val heartBeatInterval = args(2).toInt
         val config = readConfiguration()
         
+        println(config)
+        
+        NodeManagerConfig.heartBeatInterval = heartBeatInterval
         NodeManagerConfig.resourceTrackerIPAddress = config(1)
         JobManagerConfig.resourceTrackerIPAddress = config(1)
         JobManagerConfig.clusterManagerIPAddress = config(0)

@@ -8,16 +8,18 @@ import org.joda.time.DateTime
 import akka.actor._
 import scala.concurrent.duration._
 import scala.collection.mutable._
+import scala.util._
 
 class NodeManagerAgent(val id: Int = 0) extends Agent {
 
+    val random = new Random(id)
     var havePendingServing = false
     var receivedHeartBeatRespond = false
     var missedHeartBeat = false
     var containerToActorSystem = Map[Long, ActorSystem]()
     var containerToOwnerActor = Map[Long, ActorRef]()
-    
-    val serverState= new SimulationServerState()
+
+    val serverState = new SimulationServerState()
     val resourceTracker = context.actorSelection(NodeManagerConfig.getResourceTrackerAddress)
 
     import context.dispatcher
@@ -26,7 +28,10 @@ class NodeManagerAgent(val id: Int = 0) extends Agent {
         case "heartBeatEvent"                        => Event_heartBeat()
         case "emptyHeartBeatResponse"                => receivedHeartBeatRespond = true
         case message: _NodeManagerSimulationInitiate => Event_NodeManagerSimulationInitiate(message)
-        case message: _ContainerExecutionFinished    => Event_ContainerExecutionFinished(message)
+        case message: _ContainerExecutionFinished => {
+            println("ContainerExecutionFinished: " + message.containerId)
+            Event_ContainerExecutionFinished(message)
+        }
         case message: _ResourceSamplingInquiry => {
             println("ResourceSamplingInquiry " + id.toString())
             Handle_ResourceSamplingInquiry(sender(), message)
@@ -49,19 +54,21 @@ class NodeManagerAgent(val id: Int = 0) extends Agent {
     def Event_NodeManagerSimulationInitiate(message: _NodeManagerSimulationInitiate) = {
         Logger.Log("NodeManagerAgent" + id.toString() + " Initialization Start")
         serverState.initializeSimulationServer(message.resource, message.capabilities)
-        context.system.scheduler.scheduleOnce(NodeManagerConfig.heartBeatStartDelay, self, "heartBeatEvent")
+        val startDelay = new FiniteDuration(NodeManagerConfig.heartBeatStartDelay + random.nextInt(3000), MILLISECONDS)
+        context.system.scheduler.scheduleOnce(startDelay, self, "heartBeatEvent")
         Logger.Log("NodeManagerAgent" + id.toString() + " Initialization End")
     }
 
+    def sendHeartBeat() = {
+        missedHeartBeat = false
+        resourceTracker ! new _HeartBeat(self, DateTime.now(), serverState.getServerStatus(self))
+        val nextHeartBeatDelay = new FiniteDuration(NodeManagerConfig.heartBeatInterval, MILLISECONDS)
+        context.system.scheduler.scheduleOnce(nextHeartBeatDelay, self, "heartBeatEvent")
+        receivedHeartBeatRespond = false
+    }
+
     def Event_heartBeat() = {
-        if (!havePendingServing) {
-            resourceTracker ! new _HeartBeat(self, DateTime.now(), serverState.getServerStatus(self))
-            context.system.scheduler.scheduleOnce(NodeManagerConfig.heartBeatStartDelay, self, "heartBeatEvent")
-            receivedHeartBeatRespond = false
-        }
-        else {
-            missedHeartBeat = true
-        }
+        if (!havePendingServing) sendHeartBeat() else missedHeartBeat = true
     }
 
     def Event_ContainerExecutionFinished(message: _ContainerExecutionFinished) = {
@@ -75,12 +82,12 @@ class NodeManagerAgent(val id: Int = 0) extends Agent {
                 else
                     jobMangerRef ! _TasksExecutionFinished(self, DateTime.now(), x)
         }
-        containerToOwnerActor.remove(message.containerId)
 
+        containerToOwnerActor.remove(message.containerId)
     }
 
     def Handle_ResourceSamplingInquiry(sender: ActorRef, message: _ResourceSamplingInquiry) = {
-        if (receivedHeartBeatRespond == true && havePendingServing == false) {
+        if (receivedHeartBeatRespond == true && havePendingServing == false && serverState.getServerFreeResources > message._minRequiredResource) {
             havePendingServing == true
             sender ! new _ResourceSamplingResponse(self, DateTime.now(), serverState.getServerFreeResources)
         }
@@ -88,11 +95,7 @@ class NodeManagerAgent(val id: Int = 0) extends Agent {
 
     def Handle_ResourceSamplingCancel(message: _ResourceSamplingCancel) = {
         havePendingServing = false
-        if (missedHeartBeat) {
-            missedHeartBeat = false
-            resourceTracker ! new _HeartBeat(self, DateTime.now(), serverState.getServerStatus(self))
-            context.system.scheduler.scheduleOnce(NodeManagerConfig.heartBeatStartDelay, self, "heartBeatEvent")
-        }
+        if (missedHeartBeat) sendHeartBeat()
     }
 
     def Handle_AllocateContainerFromCM(sender: ActorRef, message: _AllocateContainerFromCM) = {
@@ -152,8 +155,12 @@ class NodeManagerAgent(val id: Int = 0) extends Agent {
     }
 
     def Handle_AllocateContainerFromJM(sender: ActorRef, message: _AllocateContainerFromJM) = {
+        havePendingServing = false
+
         val tasks = message._taskDescriptions.map(x => new TaskDescription(sender, x.jobId, x.index, x.duration, x.resource, x.relativeSubmissionTime, x.constraints, x.userId))
         if (startNewTasks(tasks) < message._taskDescriptions.length)
             sender ! "ridi"
+
+        if (missedHeartBeat) sendHeartBeat()
     }
 }

@@ -11,11 +11,8 @@ import akka.camel._
 
 class UserInterfaceAgent(val queueAgent: ActorRef) extends Agent with Consumer {
 
-    var jobIdToUserRef = Map[Long, ActorRef]()
-    var jobIdToJobSubmission = Map[Long, (DateTime,DateTime)]()
-    var numberOfSubmittedJob = 0
-
-    def endpointUri = "netty:tcp://127.0.0.1:2001?textline=true"
+    var jobIdToJobSubmission = Map[Long, Long]()
+    def endpointUri = "netty:tcp://127.0.0.1:2001?textline=true" //MHSGTODO: change ip to 81....
 
     def receive = {
         case "initiateEvent"            => Event_initiate()
@@ -36,14 +33,15 @@ class UserInterfaceAgent(val queueAgent: ActorRef) extends Agent with Consumer {
             case Right(x) => {
                 val response = "received:" + x.jobId.toString
                 sender ! response
-                jobIdToUserRef.update(x.jobId, sender)
+                
+                jobIdToJobSubmission.update(x.jobId,DateTime.now().getMillis)
                 queueAgent ! new _JobSubmission(x)
             }
         }
     }
 
     def Handle_JobFinished(message: _JobFinished) = {
-        val response = "finished:" + message._jobId
-        jobIdToUserRef(message._jobId) ! response
+        if(message._jobId < 100000)
+            println(message._jobId + "\t" + (DateTime.now().getMillis - jobIdToJobSubmission.get(message._jobId).get).toString())
     }
 }

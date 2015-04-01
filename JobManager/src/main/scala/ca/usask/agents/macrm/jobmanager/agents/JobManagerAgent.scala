@@ -29,11 +29,14 @@ class JobManagerAgent(val containerId: Long,
     val clusterManager = context.actorSelection(JobManagerConfig.getClusterManagerAddress)
 
     def receive = {
-        case message: _ResourceSamplingResponse     => Handle_ResourceSamplingResponse(message, sender())
-        case message: _TaskSubmission               => Handle_TaskSubmission(message)
-        case message: _JMHeartBeatResponse          => Handle_JMHeartBeatResponse(message)
-        case message: _NodeSamplingTimeout          => Handle_NodeSamplingTimeout(message)
-        case message: _TasksExecutionFinished       => Handle_TasksExecutionFinished(message)
+        case message: _ResourceSamplingResponse => Handle_ResourceSamplingResponse(message, sender())
+        case message: _TaskSubmission           => Handle_TaskSubmission(message)
+        case message: _JMHeartBeatResponse      => Handle_JMHeartBeatResponse(message)
+        case message: _NodeSamplingTimeout      => Handle_NodeSamplingTimeout(message)
+        case message: _TasksExecutionFinished => {
+            println("_TaskExecutionFinished")
+            Handle_TasksExecutionFinished(message)
+        }
         case message: _JobManagerSimulationInitiate => Event_JobManagerSimulationInitiate(message)
         case _                                      => Handle_UnknownMessage
     }
@@ -78,21 +81,22 @@ class JobManagerAgent(val containerId: Long,
                 context.system.scheduler.scheduleOnce(JobManagerConfig.samplingTimeout, self, new _NodeSamplingTimeout(currentWaveOfTasks, message.retry + 1))
 
                 println("NodeSamplingTimeout SamplingListSize " + samplingList.length.toString())
-            }
-            else {
+            } else {
                 sendheartBeat(message.forWave)
                 clusterManager ! new _TaskSubmissionFromJM(self, DateTime.now(), unscheduledTasks)
             }
-        }
-        else
+        } else
             sendheartBeat(message.forWave)
     }
 
     def Handle_TasksExecutionFinished(message: _TasksExecutionFinished) = {
         remainingTasksToFinish -= 1
         if (remainingTasksToFinish == 0) {
-            node ! new _ContainerExecutionFinished(containerId, true)
+            println(resourceTracker)
+            println(clusterManager)
             clusterManager ! new _JobFinished(self, DateTime.now(), jobId)
+            //context.system.scheduler.scheduleOnce(1 millis, node, new _ContainerExecutionFinished(containerId, true))
+            //node ! new _ContainerExecutionFinished(containerId, true)
         }
     }
 

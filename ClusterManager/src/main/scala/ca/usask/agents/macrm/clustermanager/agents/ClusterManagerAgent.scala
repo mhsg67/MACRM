@@ -21,6 +21,7 @@ class ClusterManagerAgent extends Agent {
     var schedulerAgentList = List[ActorRef]()
 
     def receive = {
+        case "salamKiri" => println("salamKiri")
         case "initiateEvent"                    => Event_initiate()
         case "changeToCentralizedMode"          => Handle_ChangeToCentralizedMode()
         case "changeToDistributedMode"          => Handle_ChangeToDistributedMode()

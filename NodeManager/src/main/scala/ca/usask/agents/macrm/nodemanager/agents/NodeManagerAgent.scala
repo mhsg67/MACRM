@@ -29,23 +29,23 @@ class NodeManagerAgent(val id: Int = 0) extends Agent {
         case "emptyHeartBeatResponse"                => receivedHeartBeatRespond = true
         case message: _NodeManagerSimulationInitiate => Event_NodeManagerSimulationInitiate(message)
         case message: _ContainerExecutionFinished => {
-            println("ContainerExecutionFinished: " + message.containerId)
+            //println("ContainerExecutionFinished: " + message.containerId)
             Event_ContainerExecutionFinished(message)
         }
         case message: _ResourceSamplingInquiry => {
-            println("ResourceSamplingInquiry " + id.toString())
+            //println("ResourceSamplingInquiry " + id.toString())
             Handle_ResourceSamplingInquiry(sender(), message)
         }
         case message: _ResourceSamplingCancel => {
-            println("ResourceSamplingCancel " + id.toString())
+            //println("ResourceSamplingCancel " + id.toString())
             Handle_ResourceSamplingCancel(message)
         }
         case message: _AllocateContainerFromCM => {
-            println("AllocateContainerFromCM " + id.toString())
+            //println("AllocateContainerFromCM " + id.toString())
             Handle_AllocateContainerFromCM(sender(), message)
         }
         case message: _AllocateContainerFromJM => {
-            println("AllocateContainerFromJM " + id.toString() + " #Containers" + message._taskDescriptions.length)
+            //println("AllocateContainerFromJM " + id.toString() + " #Containers" + message._taskDescriptions.length)
             Handle_AllocateContainerFromJM(sender(), message)
         }
         case _ => Handle_UnknownMessage("NodeManagerAgent")
@@ -54,7 +54,7 @@ class NodeManagerAgent(val id: Int = 0) extends Agent {
     def Event_NodeManagerSimulationInitiate(message: _NodeManagerSimulationInitiate) = {
         Logger.Log("NodeManagerAgent" + id.toString() + " Initialization Start")
         serverState.initializeSimulationServer(message.resource, message.capabilities)
-        val startDelay = new FiniteDuration(NodeManagerConfig.heartBeatStartDelay + random.nextInt(3000), MILLISECONDS)
+        val startDelay = new FiniteDuration(NodeManagerConfig.heartBeatStartDelay + random.nextInt(NodeManagerConfig.heartBeatInterval), MILLISECONDS)
         context.system.scheduler.scheduleOnce(startDelay, self, "heartBeatEvent")
         Logger.Log("NodeManagerAgent" + id.toString() + " Initialization End")
     }

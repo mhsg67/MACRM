@@ -21,7 +21,6 @@ class ClusterManagerAgent extends Agent {
     var schedulerAgentList = List[ActorRef]()
 
     def receive = {
-        case "salamKiri" => println("salamKiri")
         case "initiateEvent"                    => Event_initiate()
         case "changeToCentralizedMode"          => Handle_ChangeToCentralizedMode()
         case "changeToDistributedMode"          => Handle_ChangeToDistributedMode()
@@ -71,7 +70,7 @@ class ClusterManagerAgent extends Agent {
     //information for changing RackAgents and sampling rate of 
     //schedulerAgents
     def Handle_ClusterState(message: _ClusterState) = {
-        println("ClusterState")
+        //println("ClusterState")
         queueAgent ! message
     }
 

@@ -8,7 +8,7 @@ import ca.usask.agents.macrm.common.records._
  */
 object JobManagerConfig {
 
-    def getClusterManagerAddress = "akka.tcp://ClusterManagerAgent@" + clusterManagerIPAddress + ":" + clusterManagerDefualtPort + "/user/ClusterManagerAgent"
+    def getClusterManagerAddress() = "akka.tcp://ClusterManagerAgent@" + clusterManagerIPAddress + ":" + clusterManagerDefualtPort + "/user/ClusterManagerAgent"
 
     def getResourceTrackerAddress = "akka.tcp://ResourceTrackerAgent@" + resourceTrackerIPAddress + ":" + resourceTrackerDefualtPort + "/user/ResourceTrackerAgent"
 

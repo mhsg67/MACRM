@@ -14,7 +14,7 @@ object ResourceTrakerConfig {
     }
 
     def getClusterManagerAddress() = {
-        val result = "akka.tcp://ClusterManagerAgent@" + clusterManagerIPAddress + ":" + clusterManagerAgentDefualtPort + "/" + "user/ClusterManagerAgent"
+        val result = "akka.tcp://ClusterManagerAgent@" + clusterManagerIPAddress + ":" + clusterManagerAgentDefualtPort + "/user/ClusterManagerAgent"
         println(result)
         result
     }

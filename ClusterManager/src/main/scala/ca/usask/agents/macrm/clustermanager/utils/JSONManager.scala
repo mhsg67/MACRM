@@ -15,7 +15,7 @@ object JSONManager {
 
     def getJobDescription(messageBody: String): Either[String, JobDescription] = {
         try {
-
+            
             implicit val constraintRead: Reads[InputConstraintDescription] = (
                 (__ \ "INX").read[Int] and
                 (__ \ "N").read[String] and

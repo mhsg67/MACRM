@@ -18,28 +18,29 @@ class JobManagerAgent(val containerId: Long,
                       val userId: Int,
                       val jobId: Long,
                       val samplingInformation: SamplingInformation) extends Agent {
-    
+
     var samplingTimeout: Cancellable = null
     var waveToSamplingRate = Map[Int, Int]()
     var currentWaveOfTasks = 0
     var remainingTasksToFinish = 0
 
+    val samplingTimeoutMillis = new FiniteDuration(JobManagerConfig.samplingTimeoutLong,MILLISECONDS)
     val samplingManager = new SamplingManager()
     val resourceTracker = context.actorSelection(JobManagerConfig.getResourceTrackerAddress)
     val clusterManager = context.actorSelection(JobManagerConfig.getClusterManagerAddress())
 
     import context.dispatcher
     def receive = {
-        case message: _ResourceSamplingResponse => Handle_ResourceSamplingResponse(message, sender())
-        case message: _TaskSubmission           => Handle_TaskSubmission(message)
-        case message: _JMHeartBeatResponse      => Handle_JMHeartBeatResponse(message)
-        case message: _NodeSamplingTimeout      => Handle_NodeSamplingTimeout(message)
-        case message: _TasksExecutionFinished => {
-            //println("_TaskExecutionFinished")
-            Handle_TasksExecutionFinished(message)
-        }
+        case message: _ResourceSamplingResponse     => Handle_ResourceSamplingResponse(message, sender())
+        case message: _TaskSubmission               => Handle_TaskSubmission(message)
+        case message: _JMHeartBeatResponse          => Handle_JMHeartBeatResponse(message)
+        case message: _NodeSamplingTimeout          => Handle_NodeSamplingTimeout(message)
+        case message: _TasksExecutionFinished       => Handle_TasksExecutionFinished(message)
         case message: _JobManagerSimulationInitiate => Event_JobManagerSimulationInitiate(message)
-        case _                                      => Handle_UnknownMessage
+        case message => {
+            println(message)
+            Handle_UnknownMessage
+        }
     }
 
     def Event_JobManagerSimulationInitiate(message: _JobManagerSimulationInitiate) = {
@@ -69,7 +70,7 @@ class JobManagerAgent(val containerId: Long,
         val samplingList = samplingManager.getSamplingNode(message.taskDescriptions, 0)
 
         samplingList.foreach(x => getActorRefFromNodeId(x._1) ! new _ResourceSamplingInquiry(self, DateTime.now(), x._2, jobId))
-        samplingTimeout = context.system.scheduler.scheduleOnce(JobManagerConfig.samplingTimeout, self, new _NodeSamplingTimeout(currentWaveOfTasks, 1))
+        samplingTimeout = context.system.scheduler.scheduleOnce(samplingTimeoutMillis, self, new _NodeSamplingTimeout(currentWaveOfTasks, 1))
     }
 
     def Handle_NodeSamplingTimeout(message: _NodeSamplingTimeout) = {
@@ -77,10 +78,10 @@ class JobManagerAgent(val containerId: Long,
         if (unscheduledTasks.length > 0) {
             updateWaveToSamplingRate(message.forWave, message.retry)
             if (message.retry <= JobManagerConfig.numberOfAllowedSamplingRetry) {
-                val samplingList = samplingManager.getSamplingNode(unscheduledTasks, message.retry + 1)
+                val samplingList = samplingManager.getSamplingNode(unscheduledTasks, message.retry)
                 samplingList.foreach(x => getActorRefFromNodeId(x._1) ! new _ResourceSamplingInquiry(self, DateTime.now(), x._2, jobId))
-                samplingTimeout = context.system.scheduler.scheduleOnce(JobManagerConfig.samplingTimeout, self, new _NodeSamplingTimeout(currentWaveOfTasks, message.retry + 1))
-                //println("NodeSamplingTimeout SamplingListSize " + samplingList.length.toString())
+                samplingTimeout = context.system.scheduler.scheduleOnce(samplingTimeoutMillis, self, new _NodeSamplingTimeout(currentWaveOfTasks, message.retry + 1))
+                println("NodeSamplingTimeout SamplingListSize " + samplingList.length.toString())
             } else {
                 sendheartBeat(message.forWave)
                 clusterManager ! new _TaskSubmissionFromJM(self, DateTime.now(), unscheduledTasks)

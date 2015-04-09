@@ -12,6 +12,8 @@ import scala.util._
 
 class NodeManagerAgent(val id: Int = 0) extends Agent {
 
+    var pendingServingJob: Long = 0
+
     val random = new Random(id)
     var havePendingServing = false
     var receivedHeartBeatRespond = false
@@ -48,7 +50,10 @@ class NodeManagerAgent(val id: Int = 0) extends Agent {
             //println("AllocateContainerFromJM " + id.toString() + " #Containers" + message._taskDescriptions.length)
             Handle_AllocateContainerFromJM(sender(), message)
         }
-        case _ => Handle_UnknownMessage("NodeManagerAgent")
+        case message => {
+            println(message)
+            Handle_UnknownMessage("NodeManagerAgent")
+        }
     }
 
     def Event_NodeManagerSimulationInitiate(message: _NodeManagerSimulationInitiate) = {
@@ -68,7 +73,7 @@ class NodeManagerAgent(val id: Int = 0) extends Agent {
     }
 
     def Event_heartBeat() = {
-        if (!havePendingServing) sendHeartBeat() else missedHeartBeat = true
+        if (havePendingServing == false) sendHeartBeat() else missedHeartBeat = true
     }
 
     def Event_ContainerExecutionFinished(message: _ContainerExecutionFinished) = {
@@ -87,8 +92,8 @@ class NodeManagerAgent(val id: Int = 0) extends Agent {
     }
 
     def Handle_ResourceSamplingInquiry(sender: ActorRef, message: _ResourceSamplingInquiry) = {
-        if (receivedHeartBeatRespond == true && havePendingServing == false && serverState.getServerFreeResources > message._minRequiredResource) {
-            havePendingServing == true
+        if (receivedHeartBeatRespond == true && havePendingServing == false && serverState.canAllocateThisSizeContainer(message._minRequiredResource)) {
+            havePendingServing = true
             sender ! new _ResourceSamplingResponse(self, DateTime.now(), serverState.getServerFreeResources)
         }
     }
@@ -145,7 +150,10 @@ class NodeManagerAgent(val id: Int = 0) extends Agent {
 
     def startANewTask(task: TaskDescription, ownerActor: ActorRef): Boolean = {
         serverState.createContainer(task.userId, task.jobId, task.index, task.resource) match {
-            case None => false
+            case None => {
+                println(id + " taskResource:" + task.resource + " nodeResource:" + serverState.getServerFreeResources)
+                false
+            }
             case Some(x) => {
                 containerToOwnerActor.update(x, ownerActor)
                 context.system.scheduler.scheduleOnce(FiniteDuration(task.duration.getMillis, MILLISECONDS), self, new _ContainerExecutionFinished(x, false))

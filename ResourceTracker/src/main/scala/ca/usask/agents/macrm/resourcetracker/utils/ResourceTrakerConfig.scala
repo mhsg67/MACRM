@@ -52,5 +52,11 @@ object ResourceTrakerConfig {
      * currentLoad ^ x = acceptableLevelOfSamplingFailure
      */
     val acceptableLevelOfSamplingFailure = 0.05
+    
+    /**
+     * We try to increase sampling rate in a way that probability of finding free resources
+     * in first sampling be greater than (1-samplingSuccessProbability)
+     */
+    var samplingSuccessProbability = 0.25 
 
 }

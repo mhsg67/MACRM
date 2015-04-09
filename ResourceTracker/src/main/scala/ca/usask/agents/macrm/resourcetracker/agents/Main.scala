@@ -10,24 +10,20 @@ import com.typesafe.config.ConfigFactory
 object main {
 
     def readConfiguration(): List[String] = {
-        val stream = getClass.getResourceAsStream("/configuration.txt")
-        val lines = scala.io.Source.fromInputStream(stream).getLines()
-        val result = lines.map(x => x.split(":")(1)).toList
-        result
+        val file = scala.io.Source.fromFile("ResourceTrackerConfig.txt")
+        val lines = file.getLines()
+        lines.map(x => x.split(":")(1)).toList
     }
 
     def main(args: Array[String]) {
-        try {
-            val config = readConfiguration()
-            ResourceTrakerConfig.clusterManagerIPAddress = config(0)
+        val generalConfig = readConfiguration()
 
-            val system = ActorSystem.create("ResourceTrackerAgent", ConfigFactory.load().getConfig("ResourceTrackerAgent"))
-            val resourceTracker = system.actorOf(Props[ResourceTrackerAgent], name = "ResourceTrackerAgent")
+        ResourceTrakerConfig.clusterManagerIPAddress = generalConfig(0)
+        ResourceTrakerConfig.samplingSuccessProbability = generalConfig(1).toDouble
 
-            resourceTracker ! "initiateEvent"
+        val system = ActorSystem.create("ResourceTrackerAgent", ConfigFactory.load().getConfig("ResourceTrackerAgent"))
+        val resourceTracker = system.actorOf(Props[ResourceTrackerAgent], name = "ResourceTrackerAgent")
 
-        } catch {
-            case e: Exception => Logger.Error(e.toString())
-        }
+        resourceTracker ! "initiateEvent"
     }
 }

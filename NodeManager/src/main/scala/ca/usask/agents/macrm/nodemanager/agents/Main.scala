@@ -15,24 +15,23 @@ import java.net._
 object main {
 
     def readConfiguration(): List[String] = {
-        val stream = getClass.getResourceAsStream("/configuration.txt")
-        val lines = scala.io.Source.fromInputStream(stream).getLines
-        val result = lines.map(x => x.split(":")(1)).toList
-        result
+        val file = scala.io.Source.fromFile("NodeManagerConfig.txt")
+        val lines = file.getLines()
+        lines.map(x => x.split(":")(1)).toList
     }
 
     def main(args: Array[String]) {
         val startIndex = args(0).toInt
         val numActor = args(1).toInt
-        val heartBeatInterval = args(2).toInt
-        val config = readConfiguration()
-        
-        println(config)
-        
-        NodeManagerConfig.heartBeatInterval = heartBeatInterval
-        NodeManagerConfig.resourceTrackerIPAddress = config(1)
-        JobManagerConfig.resourceTrackerIPAddress = config(1)
-        JobManagerConfig.clusterManagerIPAddress = config(0)
+        val generalConfig = readConfiguration()
+
+        NodeManagerConfig.heartBeatInterval = generalConfig(4).toInt
+        NodeManagerConfig.resourceTrackerIPAddress = generalConfig(1)
+        JobManagerConfig.numberOfAllowedSamplingRetry = generalConfig(3).toInt
+        JobManagerConfig.samplingTimeoutLong = generalConfig(2).toLong
+        JobManagerConfig.resourceTrackerIPAddress = generalConfig(1)
+        JobManagerConfig.clusterManagerIPAddress = generalConfig(0)
+
         val actorsList = (startIndex until startIndex + numActor toList).map(y => ActorSystem.create("NodeManagerAgent", ConfigFactory.load().getConfig("NodeManagerAgent")).actorOf(Props(new NodeManagerAgent(y)), name = "NodeManagerAgent"))
         actorsList.foreach(x => x ! new _NodeManagerSimulationInitiate(new Resource(4000, 4), List()))
 

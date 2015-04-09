@@ -20,7 +20,10 @@ class SamplingManager {
     }
 
     def getSamplingNode(tasks: List[TaskDescription], retry: Int): List[(NodeId, Resource)] = {
-        val samplingRateForThisTry = if (retry > 0) samplingRate * math.pow(2, retry) else samplingRate
+        if(retry > 1)
+            println("list Size:" + tasks.length)
+        samplingRate = 2
+        val samplingRateForThisTry = if (retry > 0) samplingRate * math.pow(2.0, retry) else samplingRate
         val samplingCount = (samplingRateForThisTry.toInt * tasks.length)
         val minResource = new Resource(tasks.min(Ordering.by((x: TaskDescription) => x.resource.memory)).resource.memory,
             tasks.min(Ordering.by((x: TaskDescription) => x.resource.virtualCore)).resource.virtualCore)
@@ -36,6 +39,7 @@ class SamplingManager {
             }
             case _ => {
                 val temp = getBigestTasksThatCanFitThisResource(resource, unscheduledTasks, List())
+                //println("avaialableResouces:" + resource + " requestedResources:" + temp.map(x=>x.resource).foldRight(new Resource(0,0))((x,y) => x + y))
                 temp match {
                     case List() => None
                     case _ => {
@@ -52,7 +56,7 @@ class SamplingManager {
     final def getBigestTasksThatCanFitThisResource(resource: Resource, tasks: List[TaskDescription], result: List[TaskDescription]): List[TaskDescription] = tasks match {
         case List() => result
         case x :: xs =>
-            if (x.resource < resource) {
+            if (x.resource.memory <= resource.memory && x.resource.virtualCore <= resource.virtualCore) {
                 getBigestTasksThatCanFitThisResource(resource - x.resource, xs, x :: result)
             } else
                 getBigestTasksThatCanFitThisResource(resource, xs, result)

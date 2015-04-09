@@ -41,7 +41,7 @@ class ResourceTrackerAgent extends Agent {
         clusterManagerAgent ! new _ClusterState(self, DateTime.now(), currentSamplingRate, null, ClusterDatabase.getNodeIdToContaintsMaping(), null)
     }
 
-    def Handle_HeartBeat(sender: ActorRef, message: _HeartBeat) = {
+    def Handle_HeartBeat(sender: ActorRef, message: _HeartBeat) = {        
         updateClusterDatebaseByNMHeartBeat(sender, message)
 
         if (doesServerHaveResourceForAJobManager(message._report) && hasSubmittedFirstClusterState)
@@ -58,9 +58,16 @@ class ResourceTrackerAgent extends Agent {
         ClusterDatabase.updateNodeContainer(nodeId, message._report.containers)
     }
 
-    def doesServerHaveResourceForAJobManager(_nodeReport: NodeReport) = if (_nodeReport.getFreeResources() > ResourceTrakerConfig.minResourceForJobManager) true else false
+    def doesServerHaveResourceForAJobManager(_nodeReport: NodeReport) = {
+        val nodeFreeResources = _nodeReport.getFreeResources()
+        if (nodeFreeResources.memory >= ResourceTrakerConfig.minResourceForJobManager.memory &&
+            nodeFreeResources.virtualCore >= ResourceTrakerConfig.minResourceForJobManager.virtualCore)
+            true
+        else
+            false
+    }
 
-    def addIPandPortToNodeReport(oldReport: NodeReport, sender: ActorRef) = 
+    def addIPandPortToNodeReport(oldReport: NodeReport, sender: ActorRef) =
         new NodeReport(new NodeId(sender.path.address.host.get, sender.path.address.port.get, sender),
             oldReport.resource, oldReport.capabilities, oldReport.containers, oldReport.utilization,
             oldReport.nodeState, oldReport.queueState)
@@ -73,10 +80,9 @@ class ResourceTrackerAgent extends Agent {
             else
                 currentUtilization.virtualCoreUtilization
 
-        val properSamplingRate = ((math.log(0.05) / math.log(maxResourceUtilization)) + 0.5).toInt
+        val properSamplingRate = ((math.log(ResourceTrakerConfig.samplingSuccessProbability) / math.log(maxResourceUtilization)) + 0.5).toInt
 
-        //MHSGTODO: Uncomment it
-        /*if (properSamplingRate != currentSamplingRate && properSamplingRate >= 2) {
+/*        if (properSamplingRate != currentSamplingRate && properSamplingRate >= 2) {
             println("properSamplingRate " + properSamplingRate)
             currentSamplingRate = properSamplingRate
             clusterManagerAgent ! new _ClusterState(self, DateTime.now(), currentSamplingRate, null, null, null)

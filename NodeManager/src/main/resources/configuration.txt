@@ -1,2 +1,0 @@
-ClusterManagerIPAddress:127.0.0.1
-ResourceTrackerIPAddress:127.0.0.1

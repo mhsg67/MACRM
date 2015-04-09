@@ -32,22 +32,30 @@ class FIFOQueue extends AbstractQueue {
     def doesJobDescriptionMatch(resource: Resource, capability: List[Constraint], jobDescription: JobDescription) = {
         if (jobDescription.numberOfTasks != 1)
             true
-        else if (jobDescription.constraints.isEmpty && jobDescription.tasks(0).resource < resource)
+        else if (jobDescription.constraints.isEmpty &&
+            jobDescription.tasks(0).resource.memory <= resource.memory &&
+            jobDescription.tasks(0).resource.virtualCore <= resource.virtualCore)
             true
         else if (!jobDescription.constraints.isEmpty && capability.isEmpty)
             false
-        else if (jobDescription.constraints.foldLeft(true)((x, y) => doesConstraintMatch(capability, y) && x) && jobDescription.tasks(0).resource < resource)
+        else if (jobDescription.constraints.foldLeft(true)((x, y) => doesConstraintMatch(capability, y) && x) &&
+            jobDescription.tasks(0).resource.memory <= resource.memory &&
+            jobDescription.tasks(0).resource.virtualCore <= resource.virtualCore)
             true
         else
             false
     }
 
     def doesTaskDescriptionMatch(resource: Resource, capability: List[Constraint], taskDescription: TaskDescription) = {
-        if (taskDescription.constraints.isEmpty && taskDescription.resource < resource)
+        if (taskDescription.constraints.isEmpty &&
+            taskDescription.resource.memory <= resource.memory &&
+            taskDescription.resource.virtualCore <= resource.virtualCore)
             true
         else if (capability.isEmpty)
             false
-        else if (taskDescription.constraints.foldLeft(true)((x, y) => doesConstraintMatch(capability, y) && x) && taskDescription.resource < resource)
+        else if (taskDescription.constraints.foldLeft(true)((x, y) => doesConstraintMatch(capability, y) && x) &&
+            taskDescription.resource.memory <= resource.memory &&
+            taskDescription.resource.virtualCore <= resource.virtualCore)
             true
         else
             false

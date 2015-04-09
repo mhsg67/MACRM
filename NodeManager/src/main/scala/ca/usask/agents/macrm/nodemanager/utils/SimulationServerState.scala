@@ -33,9 +33,16 @@ class SimulationServerState {
 
     def getServerResource() = serverResource
 
-    def createContainer(userId: Int, jobId: Long, taskIndex: Int, size: Resource): Option[Long] = {
+    def canAllocateThisSizeContainer(size:Resource) = {
         val availableResources = getServerFreeResources
-        if (availableResources.memory < size.memory || availableResources.virtualCore < size.virtualCore)
+        if(availableResources.memory >= size.memory && availableResources.virtualCore >= size.virtualCore)
+            true
+        else
+            false
+    }
+    
+    def createContainer(userId: Int, jobId: Long, taskIndex: Int, size: Resource): Option[Long] = {
+        if(canAllocateThisSizeContainer(size) == false)
             None
         else {
             serverContainers = new Container(nextContainerId, userId, jobId, taskIndex, size) :: serverContainers

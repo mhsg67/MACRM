@@ -25,7 +25,7 @@ class QueueAgent extends Agent {
         case message: _EachUserShareOfCluster   => Handle_EachUserShareOfCluster(message)
         case message: _JobSubmission            => Handle_JobSubmission(message)
         case message: _TaskSubmission => {
-            println("_TaskSubmission")
+            println("_TaskSubmission " + message.taskDescriptions.length)
             Handle_TaskSubmission(message)
         }
         case _ => Handle_UnknownMessage("QueueAgent")

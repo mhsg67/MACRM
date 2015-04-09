@@ -20,8 +20,8 @@ class Resource(val memory: Int = 0,
 
     def -(other: Resource) = new Resource(this.memory - other.memory, this.virtualCore - other.virtualCore)
 
-    def <(other: Resource) = if (other.memory >= this.memory && other.virtualCore >= this.virtualCore) true else false
+    /*def <(other: Resource) = if (other.memory >= this.memory && other.virtualCore >= this.virtualCore) true else false
 
-    def >(other: Resource) = if (other.memory <= this.memory && other.virtualCore <= this.virtualCore) true else false
+    def >(other: Resource) = if (other.memory <= this.memory && other.virtualCore <= this.virtualCore) true else false*/
 
 }

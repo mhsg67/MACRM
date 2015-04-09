@@ -34,11 +34,11 @@ object JobManagerConfig {
      * we start sampling, after 10 millis of that, if we still have
      * unschedule tasks we try to do sampling again
      */
-    val samplingTimeout = 150 millis
+    var samplingTimeoutLong:Long = 300
 
     /**
      * If the samplingTimout for 2 times and the JobManager could not find
      * proper resources for some tasks of a wave , then it forward them to CM
      */
-    val numberOfAllowedSamplingRetry = 1000
+    var numberOfAllowedSamplingRetry = 1
 }

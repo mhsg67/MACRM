@@ -6,27 +6,74 @@ import scala.collection.mutable._
 import akka.actor._
 
 class FIFOQueue extends AbstractQueue {
+var requestCounter: Long = 1
+    var generalQueue = new MutableList[(Long, Any)]()
 
-    var JobQueue = new MutableList[JobDescription]()
+    def isEmpty: Boolean = generalQueue.length == 0
 
-    var TaskQueue = new MutableList[TaskDescription]()
-
-    def EnqueueJob(e: JobDescription) = JobQueue += e
-
-    def EnqueueTask(e: TaskDescription) = TaskQueue += e
-
-    def RemoveJob(e: JobDescription) = JobQueue = JobQueue.filter(x => x.jobId != e.jobId)
-
-    def RemoveTask(e: TaskDescription) = TaskQueue = TaskQueue.filterNot(x => (x.jobId == e.jobId && x.index == e.index))
-
-    def getFirstOrBestMatchJob(resource: Resource, capability: List[Constraint]): Option[JobDescription] = JobQueue match {
-        case MutableList() => None
-        case _             => JobQueue.find(x => doesJobDescriptionMatch(resource, capability, x))
+    def EnqueueRequest(e: Any) = {
+        if (requestCounter == Long.MaxValue) requestCounter = 1 else requestCounter += 1
+        generalQueue += ((requestCounter, e))
     }
 
-    def getFirtOrBestMatchTask(resource: Resource, capability: List[Constraint]): Option[TaskDescription] = TaskQueue match {
-        case MutableList() => None
-        case _             => TaskQueue.find(x => doesTaskDescriptionMatch(resource, capability, x))
+    def getBestMatches(resource: Resource, capability: List[Constraint]): Option[(List[JobDescription], List[TaskDescription])] = {
+        if (resource.isNotUsable())
+            None
+        else {
+            val preResult = iterateQueueToFindMatchRequests(resource, capability, generalQueue)
+            if (preResult == List())
+                None
+            else
+                Some(removeMatchedRequestAndSeparateThem(preResult))
+        }
+    }
+
+    def removeMatchedRequestAndSeparateThem(matches: List[(Long, Any)]): (List[JobDescription], List[TaskDescription]) = {
+        var matchedJobs = List[JobDescription]()
+        var matchedTasks = List[TaskDescription]()
+
+        matches.foreach(x => {
+            RemoveRequest(x._1)
+            x._2 match {
+                case job: JobDescription   => matchedJobs = job :: matchedJobs
+                case task: TaskDescription => matchedTasks = task :: matchedTasks
+            }
+        })
+
+        var requestR = matchedJobs.foldLeft(new Resource(0, 0))((x, y) => x + y.tasks(0).resource)
+        requestR = matchedTasks.foldLeft(requestR)((x, y) => x + y.resource)
+
+        (matchedJobs, matchedTasks)
+    }
+
+    def iterateQueueToFindMatchRequests(res: Resource, cap: List[Constraint], que: MutableList[(Long, Any)]): List[(Long, Any)] = que match {
+        case MutableList() => List()
+        case _ => que.head._2 match {
+            case job: JobDescription =>
+                if (res.memory >= job.tasks(0).resource.memory &&
+                    res.virtualCore >= job.tasks(0).resource.virtualCore &&
+                    doesJobDescriptionMatch(res, cap, job)) {
+                    val remainingResource = new Resource(res.memory - job.tasks(0).resource.memory, res.virtualCore - job.tasks(0).resource.virtualCore)
+                    if (remainingResource.isNotUsable())
+                        (que.head._1, que.head._2) :: Nil
+                    else
+                        (que.head._1, que.head._2) :: iterateQueueToFindMatchRequests(remainingResource, cap, que.tail)
+                } else {
+                    iterateQueueToFindMatchRequests(res, cap, que.tail)
+                }
+            case task: TaskDescription =>
+                if (res.memory >= task.resource.memory &&
+                    res.virtualCore >= task.resource.virtualCore &&
+                    doesTaskDescriptionMatch(res, cap, task)) {
+                    val remainingResource = new Resource(res.memory - task.resource.memory, res.virtualCore - task.resource.virtualCore)
+                    if (remainingResource.isNotUsable())
+                        (que.head._1, que.head._2) :: Nil
+                    else
+                        (que.head._1, que.head._2) :: iterateQueueToFindMatchRequests(remainingResource, cap, que.tail)
+                } else {
+                    iterateQueueToFindMatchRequests(res, cap, que.tail)
+                }
+        }
     }
 
     def doesJobDescriptionMatch(resource: Resource, capability: List[Constraint], jobDescription: JobDescription) = {
@@ -71,4 +118,6 @@ class FIFOQueue extends AbstractQueue {
                 case 3 => if (x.value > taskConstraint.value) true else false
             }
     }
+
+    def RemoveRequest(index: Long) = generalQueue = generalQueue.filter(x => (x._1 != index))
 }

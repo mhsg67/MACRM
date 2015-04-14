@@ -16,7 +16,7 @@ class NodeManagerAgent(val id: Int = 0) extends Agent {
 
     val random = new Random(id)
     var havePendingServing = false
-    var receivedHeartBeatRespond = false
+    var receivedHeartBeatRespond = true
     var missedHeartBeat = false
     var containerToActorSystem = Map[Long, ActorSystem]()
     var containerToOwnerActor = Map[Long, ActorRef]()

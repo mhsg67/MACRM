@@ -30,7 +30,7 @@ class SamplingManagerTest extends UnitSpec {
         sampMang.clusterNodes should contain(nId6)
     }
 
-    "addNewSubmittedTasksIntoWaveToTasks" should "properly manage wave to tasks mapping" in {
+    /*"addNewSubmittedTasksIntoWaveToTasks" should "properly manage wave to tasks mapping" in {
         val sampMang = new SamplingManager()
 
         sampMang.waveToTasks.size should be(0)
@@ -217,6 +217,6 @@ class SamplingManagerTest extends UnitSpec {
         unscheduledTasks should not contain (ts3)
         unscheduledTasks should not contain (ts4)
 
-    }
+    }*/
 
 }

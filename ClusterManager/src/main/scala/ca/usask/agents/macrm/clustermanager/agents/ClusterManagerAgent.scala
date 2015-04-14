@@ -11,11 +11,10 @@ import ca.usask.agents.macrm.common.agents._TaskSubmission
 
 class ClusterManagerAgent extends Agent {
 
+    val queueAgent = context.actorOf(Props[QueueAgent], name = "QueueAgent")
     val userInterfaceAgent = context.actorOf(Props(new UserInterfaceAgent(queueAgent)), name = "UserInterfaceAgent")
     val resourceTracker = context.actorSelection(ClusterManagerConfig.getResourceTrackerAddress())
-    val queueAgent = context.actorOf(Props[QueueAgent], name = "QueueAgent")
     
-
     var hasReceivedFirstClusterState = false
     var nodeToRackMap = Map[(String, Int), ActorRef]()
     var rackAgentList = List[ActorRef]()

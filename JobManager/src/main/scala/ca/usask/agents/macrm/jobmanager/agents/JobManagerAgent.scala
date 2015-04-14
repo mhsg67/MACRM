@@ -24,7 +24,7 @@ class JobManagerAgent(val containerId: Long,
     var currentWaveOfTasks = 0
     var remainingTasksToFinish = 0
 
-    val samplingTimeoutMillis = new FiniteDuration(JobManagerConfig.samplingTimeoutLong,MILLISECONDS)
+    val samplingTimeoutMillis = new FiniteDuration(JobManagerConfig.samplingTimeoutLong, MILLISECONDS)
     val samplingManager = new SamplingManager()
     val resourceTracker = context.actorSelection(JobManagerConfig.getResourceTrackerAddress)
     val clusterManager = context.actorSelection(JobManagerConfig.getClusterManagerAddress())
@@ -44,7 +44,6 @@ class JobManagerAgent(val containerId: Long,
     }
 
     def Event_JobManagerSimulationInitiate(message: _JobManagerSimulationInitiate) = {
-        Logger.Log("JobManagerAgent<ID:" + jobId + "> Initialization")
         samplingManager.loadSamplingInformation(samplingInformation)
 
         val tempTask = message.taskDescriptions.tail.map(x => TaskDescription(self, jobId, x, userId))
@@ -57,18 +56,22 @@ class JobManagerAgent(val containerId: Long,
     }
 
     def Handle_ResourceSamplingResponse(message: _ResourceSamplingResponse, sender: ActorRef) = {
-        samplingManager.whichTaskShouldSubmittedToThisNode(currentWaveOfTasks, message._availableResource) match {
-            case None    => sender ! new _ResourceSamplingCancel(self, DateTime.now(), jobId)
-            case Some(x) => sender ! new _AllocateContainerFromJM(self, DateTime.now(), x)
+        samplingManager.whichTaskShouldSubmittedToThisNode(message._availableResource) match {
+            case None    =>{
+                sender ! new _ResourceSamplingCancel(self, DateTime.now(), jobId)
+            }
+            case Some(x) => {
+                sender ! new _AllocateContainerFromJM(self, DateTime.now(), x)
+            }
         }
     }
 
     def Handle_TaskSubmission(message: _TaskSubmission) = {
         currentWaveOfTasks += 1
         updateWaveToSamplingRate(currentWaveOfTasks, 0)
-        samplingManager.addNewSubmittedTasksIntoWaveToTaks(currentWaveOfTasks, message.taskDescriptions)
+        samplingManager.addNewSubmittedTasks(message.taskDescriptions)
         val samplingList = samplingManager.getSamplingNode(message.taskDescriptions, 0)
-
+                
         samplingList.foreach(x => getActorRefFromNodeId(x._1) ! new _ResourceSamplingInquiry(self, DateTime.now(), x._2, jobId))
         samplingTimeout = context.system.scheduler.scheduleOnce(samplingTimeoutMillis, self, new _NodeSamplingTimeout(currentWaveOfTasks, 1))
     }
@@ -81,7 +84,8 @@ class JobManagerAgent(val containerId: Long,
                 val samplingList = samplingManager.getSamplingNode(unscheduledTasks, message.retry)
                 samplingList.foreach(x => getActorRefFromNodeId(x._1) ! new _ResourceSamplingInquiry(self, DateTime.now(), x._2, jobId))
                 samplingTimeout = context.system.scheduler.scheduleOnce(samplingTimeoutMillis, self, new _NodeSamplingTimeout(currentWaveOfTasks, message.retry + 1))
-                println("NodeSamplingTimeout SamplingListSize " + samplingList.length.toString())
+                
+                println("SampTimeout:" + jobId.toString() + " SampRate:" + (samplingList.length / unscheduledTasks.length).toString() + " SampListSize:" + samplingList.length.toString())
             } else {
                 sendheartBeat(message.forWave)
                 clusterManager ! new _TaskSubmissionFromJM(self, DateTime.now(), unscheduledTasks)

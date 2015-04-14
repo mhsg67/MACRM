@@ -25,7 +25,7 @@ class QueueAgent extends Agent {
         case message: _EachUserShareOfCluster   => Handle_EachUserShareOfCluster(message)
         case message: _JobSubmission            => Handle_JobSubmission(message)
         case message: _TaskSubmission => {
-            println("_TaskSubmission " + message.taskDescriptions.length)
+            //println("_TaskSubmission " + message.taskDescriptions.length)
             Handle_TaskSubmission(message)
         }
         case _ => Handle_UnknownMessage("QueueAgent")
@@ -35,38 +35,32 @@ class QueueAgent extends Agent {
         Logger.Log("QueueAgent Initialization")
     }
 
-    //TODO: try to schedule as much task and job as possible since 
-    //the node may have lots of free resources
-    //TODO: check if you can make it parallel the headOfTaskQueue and 
-    //the headOfJobQueue fetching, be careful about actor system 
     def Handle_ServerWithEmptyResources(message: _ServerWithEmptyResources) = {
-        val headOfTaskQueue = schedulingQueue.getFirtOrBestMatchTask(message._report.resource, message._report.capabilities)
-        if (!headOfTaskQueue.isEmpty) {
-            //println("**** Schedule a Task")
-            schedulingQueue.RemoveTask(headOfTaskQueue.get)
-            scheduleTask(headOfTaskQueue.get, message)
-        } else {
-            val headOfJobQueue = schedulingQueue.getFirstOrBestMatchJob(message._report.resource, message._report.capabilities)
-            if (!headOfJobQueue.isEmpty) {
-                //println("**** Schedule a Job")
-                schedulingQueue.RemoveJob(headOfJobQueue.get)
-                if (headOfJobQueue.get.numberOfTasks != 1)
-                    schedulerJob(headOfJobQueue.get, message, clusterStructure.getCurrentSamplingInformation(headOfJobQueue.get.constraints()))
-                else
-                    schedulerJob(headOfJobQueue.get, message, null)
-            } else {
-                message._report.nodeId.agent ! "emptyHeartBeatResponse"
+        val freeResources = message._report.getFreeResources()
+        if (!schedulingQueue.isEmpty && !freeResources.isNotUsable())
+            schedulingQueue.getBestMatches(freeResources, message._report.capabilities) match {
+                case None => message._report.nodeId.agent ! "emptyHeartBeatResponse"
+                case Some(x) => {
+                    val addedSamplingInfo = x._1.map(y => {
+                        if (y.numberOfTasks != 1)
+                            (y, clusterStructure.getCurrentSamplingInformation(y.constraints()))
+                        else
+                            (y, null)
+                    })
+                    allocateContainer(x._2, addedSamplingInfo, message)
+                }
             }
-        }
+        else
+            message._report.nodeId.agent ! "emptyHeartBeatResponse"
     }
 
-    def Handle_JobSubmission(message: _JobSubmission) = schedulingQueue.EnqueueJob(message.jobDescription)
+    def allocateContainer(tasks: List[TaskDescription], jobs: List[(JobDescription, SamplingInformation)], message: _ServerWithEmptyResources) = {
+        message._report.nodeId.agent ! new _AllocateContainerFromCM(self, DateTime.now(), tasks, jobs)
+    }
 
-    def Handle_TaskSubmission(message: _TaskSubmission) = message.taskDescriptions.foreach(x => schedulingQueue.EnqueueTask(x))
+    def Handle_JobSubmission(message: _JobSubmission) = schedulingQueue.EnqueueRequest(message.jobDescription)
 
-    def scheduleTask(task: TaskDescription, message: _ServerWithEmptyResources) = message._report.nodeId.agent ! new _AllocateContainerFromCM(self, DateTime.now(), List(task), null)
-
-    def schedulerJob(job: JobDescription, message: _ServerWithEmptyResources, samplingInformation: SamplingInformation) = message._report.nodeId.agent ! new _AllocateContainerFromCM(self, DateTime.now(), null, List((job, samplingInformation)))
+    def Handle_TaskSubmission(message: _TaskSubmission) = message.taskDescriptions.foreach(x => schedulingQueue.EnqueueRequest(x))
 
     def Handle_ClusterState(message: _ClusterState) = clusterStructure.updateClusterStructure(message._newSamplingRate, message._removedServers, message._addedServers, message._rareResources)
 

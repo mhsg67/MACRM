@@ -21,5 +21,4 @@ case class NodeId(val host: String = "0.0.0.0",
     }
 
     override def toString() = "<host:" + host + " port:" + port.toString() + " hash: " + this.hashCode().toString() + s">"
-
 }

@@ -33,6 +33,7 @@ object main {
         JobManagerConfig.clusterManagerIPAddress = generalConfig(0)
 
         val actorsList = (startIndex until startIndex + numActor toList).map(y => ActorSystem.create("NodeManagerAgent", ConfigFactory.load().getConfig("NodeManagerAgent")).actorOf(Props(new NodeManagerAgent(y)), name = "NodeManagerAgent"))
+        //val actorsList = (startIndex until startIndex + numActor toList).map(y => ActorSystem.create("NodeManagerAgent", ConfigFactory.load().getConfig("NodeManagerAgent")).actorOf(Props(new NodeManagerAgent(y)), name = "NodeManagerAgent"))
         actorsList.foreach(x => x ! new _NodeManagerSimulationInitiate(new Resource(4000, 4), List()))
 
     }

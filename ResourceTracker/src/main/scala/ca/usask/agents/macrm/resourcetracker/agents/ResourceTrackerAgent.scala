@@ -80,13 +80,13 @@ class ResourceTrackerAgent extends Agent {
             else
                 currentUtilization.virtualCoreUtilization
 
-        val properSamplingRate = ((math.log(ResourceTrakerConfig.samplingSuccessProbability) / math.log(maxResourceUtilization)) + 0.5).toInt
+        val properSamplingRate = (math.log10(ResourceTrakerConfig.samplingSuccessProbability) / math.log10(maxResourceUtilization)).toInt
 
-/*        if (properSamplingRate != currentSamplingRate && properSamplingRate >= 2) {
+        if (properSamplingRate != currentSamplingRate && properSamplingRate >= 2) {
             println("properSamplingRate " + properSamplingRate)
             currentSamplingRate = properSamplingRate
             clusterManagerAgent ! new _ClusterState(self, DateTime.now(), currentSamplingRate, null, null, null)
-        }*/
+        }
 
         println(currentUtilization)
     }

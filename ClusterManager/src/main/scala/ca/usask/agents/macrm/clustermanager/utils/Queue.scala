@@ -3,14 +3,11 @@ package ca.usask.agents.macrm.clustermanager.utils
 import ca.usask.agents.macrm.common.records._
 
 trait AbstractQueue {
-    def EnqueueJob(e: JobDescription): Unit
-    def EnqueueTask(e: TaskDescription)
+    def isEmpty: Boolean
 
-    def RemoveJob(e: JobDescription)
-    def RemoveTask(e: TaskDescription)
+    def EnqueueRequest(e: Any): Unit
 
-    def getFirstOrBestMatchJob(resource: Resource, capability: List[Constraint]): Option[JobDescription]
-    def getFirtOrBestMatchTask(resource: Resource, capability: List[Constraint]): Option[TaskDescription]
+    def getBestMatches(resource: Resource, capability: List[Constraint]): Option[(List[JobDescription], List[TaskDescription])]
 }
 
 object AbstractQueue {

@@ -18,7 +18,7 @@ object main {
     def main(args: Array[String]) {
         val generalConfig = readConfiguration()
 
-        ClusterManagerConfig.clusterManagerIpAddress = generalConfig(1)
+        ClusterManagerConfig.clusterManagerIpAddress = generalConfig(0)
 
         val system = ActorSystem.create("ClusterManagerAgent", ConfigFactory.load().getConfig("ClusterManagerAgent"))
         val clusterManagerAgent = system.actorOf(Props[ClusterManagerAgent], name = "ClusterManagerAgent")

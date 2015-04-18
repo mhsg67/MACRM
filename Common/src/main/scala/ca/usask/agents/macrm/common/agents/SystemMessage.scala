@@ -14,7 +14,7 @@ trait BasicMessage
  */
 case class _Resource(val _resource: Resource) extends BasicMessage
 
-case class _ContainerExecutionFinished(val containerId: Long, val isJobManager:Boolean)
+case class _ContainerExecutionFinished(val containerId: Long, val isJobManager: Boolean)
 
 case class _AllocateContainer(val userId: Int, val jobId: Long, val taskIndex: Int, val size: Resource, val duration: Duration = null, val isHeartBeatRespond: Boolean = false)
 
@@ -22,8 +22,20 @@ case class _JobSubmission(val jobDescription: JobDescription)
 
 case class _TaskSubmission(val taskDescriptions: List[TaskDescription]) extends BasicMessage
 
-case class _NodeSamplingTimeout(val forWave:Int, val retry:Int) extends BasicMessage
+case class _NodeSamplingTimeout(val forWave: Int, val retry: Int) extends BasicMessage
 
 case class _NodeManagerSimulationInitiate(val resource: Resource, val capabilities: List[Constraint])
 
 case class _JobManagerSimulationInitiate(val taskDescriptions: List[TaskDescription]) extends BasicMessage
+
+case class _headOfSchedulingQueue(val jobOrTask: Either[JobDescription, TaskDescription]) extends BasicMessage
+
+case class _NodesWithFreeResources(val nodes: List[(NodeId, Resource)]) extends BasicMessage
+
+case class _UpdateNodesWithFreeResourcesTransaction(val nodes: List[(NodeId, Resource)]) extends BasicMessage
+
+case class _NodeWithFreeResourcesIsInconsistance(val nodes: List[(NodeId, Resource)]) extends BasicMessage
+
+case class _UnsuccessfulPartOfTrasaction(val nodes: List[NodeId]) extends BasicMessage
+
+case class _ridi(val resource: Resource) extends BasicMessage

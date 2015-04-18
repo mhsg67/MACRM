@@ -11,17 +11,19 @@ import akka.camel._
 
 class UserInterfaceAgent(val queueAgent: ActorRef) extends Agent with Consumer {
 
-    var jobIdToUserRef = Map[Long, ActorRef]()
-    var jobIdToJobSubmission = Map[Long, (DateTime,DateTime)]()
-    var numberOfSubmittedJob = 0
-
-    def endpointUri = "netty:tcp://0.0.0.0:2001?textline=true"
+    var submittedJobCache: String = ""
+    var jobIdToJobSubmissionJobDuration = Map[Long, (Long, Long)]()
+    def endpointUri = "netty:tcp://" + ClusterManagerConfig.clusterManagerIpAddress + ":2001?textline=true"
 
     def receive = {
-        case "initiateEvent"            => Event_initiate()
-        case message: _JobFinished      => Handle_JobFinished(message)
-        case message: CamelMessage      => Handle_UserMessage(message, sender())
-        case _                          => Handle_UnknownMessage("UserInterfaceAgent")
+        case "initiateEvent"       => Event_initiate()
+        case message: _JobFinished => Handle_JobFinished(message)
+        case message: CamelMessage => Handle_UserMessage(message, sender())
+        case message               => Handle_UnknownMessage("UserInterfaceAgent", message)
+    }
+
+    override def replyTimeout(): FiniteDuration = {
+        new FiniteDuration(60000 * 5, MILLISECONDS)
     }
 
     def Event_initiate() = {
@@ -29,19 +31,31 @@ class UserInterfaceAgent(val queueAgent: ActorRef) extends Agent with Consumer {
         Logger.Log("UserInterfaceAgent Initialization End")
     }
 
-
     def Handle_UserMessage(message: CamelMessage, sender: ActorRef) = {
-        JSONManager.getJobDescription(message.body.toString()) match {
-            case Left(x) => sender ! "Incorrect job submission format: " + x
-            case Right(x) => {
-                jobIdToUserRef.update(x.jobId, sender)
-                queueAgent ! new _JobSubmission(x)
+        message.body.toString() match {
+            case "$$$" => JSONManager.getJobDescription(submittedJobCache) match {
+                case Left(x) => {
+                    sender ! "Incorrect job submission format: " + x
+                    submittedJobCache = ""
+                }
+                case Right(x) => {
+                    //val response = "received:" + x.jobId.toString
+                    //sender ! response 
+
+                    jobIdToJobSubmissionJobDuration.update(x.jobId, (DateTime.now().getMillis, x.tasks(1).duration.getMillis))
+                    queueAgent ! new _JobSubmission(x)
+                    submittedJobCache = ""
+                }
+            }
+            case _ => {
+                submittedJobCache = submittedJobCache + message.body.toString()
             }
         }
     }
 
     def Handle_JobFinished(message: _JobFinished) = {
-        
-        println("Job " + message._jobId + " finished")
+        if (message._jobId < 100000)
+            println(message._jobId + "\t" + (DateTime.now().getMillis - jobIdToJobSubmissionJobDuration.get(message._jobId).get._1).toString() +
+                "\t" + jobIdToJobSubmissionJobDuration.get(message._jobId).get._2.toString())
     }
 }

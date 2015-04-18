@@ -7,16 +7,22 @@ import com.typesafe.config.ConfigFactory
 /**
  * It is the starter for ClusterManager
  */
-object main extends App {
-    try {
-        ClusterManagerConfig.readConfigurationFile()
+object main {
+
+    def readConfiguration(): List[String] = {
+        val file = scala.io.Source.fromFile("ClusterManagerConfig.txt")
+        val lines = file.getLines()
+        lines.map(x => x.split(":")(1)).toList
+    }
+
+    def main(args: Array[String]) {
+        val generalConfig = readConfiguration()
+
+        ClusterManagerConfig.clusterManagerIpAddress = generalConfig(0)
 
         val system = ActorSystem.create("ClusterManagerAgent", ConfigFactory.load().getConfig("ClusterManagerAgent"))
         val clusterManagerAgent = system.actorOf(Props[ClusterManagerAgent], name = "ClusterManagerAgent")
-        
-        clusterManagerAgent ! "initiateEvent"   
-    }
-    catch {
-        case e: Exception => Logger.Error(e.toString())
+
+        clusterManagerAgent ! "initiateEvent"
     }
 }

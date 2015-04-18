@@ -5,11 +5,6 @@ package ca.usask.agents.macrm.clustermanager.utils
  */
 object ClusterManagerConfig {
 
-    def readConfigurationFile() = {
-        Logger.Log("Start reading configuration file")
-        Logger.Log("Finished reading configuration file")
-    }
-
     def getResourceTrackerAddress() = "akka.tcp://ResourceTrackerAgent@" +
         trackerIPAddress + ":" +
         trackerDefualtPort + "/" +
@@ -25,12 +20,14 @@ object ClusterManagerConfig {
      * The default system queue is FIFO Queue
      */
     def QueueType = "FIFOQueue"
-    
+
     /**
      * Container size for a job manager
      * 1000 memory = 1GB memory
      * 1 virtual core
      */
-     val jobManagerContainerMemorySize = 1000 
-     val jobManagerContainerVirtualCoreSize = 1
+    val jobManagerContainerMemorySize = 1000
+    val jobManagerContainerVirtualCoreSize = 1
+
+    var clusterManagerIpAddress = "127.0.0.1"
 }

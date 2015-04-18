@@ -7,10 +7,11 @@ import scala.util.Random
 
 class SamplingManager {
 
-    var samplingRate = 2
+    var lastWave = 1
+    var samplingRate = 2.0
     var clusterNodes: List[NodeId] = null
-    var waveToTasks = Map[Int, List[(Boolean, TaskDescription)]]() //The Int is waveNumber
-    var completedWave = 0
+    var unscheduledTasks = List[(Int,TaskDescription)]()
+    var scheduledTasks = List[TaskDescription]()
 
     def loadNewSamplingRate(newSamplingRate: Int) = samplingRate = newSamplingRate
 
@@ -19,78 +20,64 @@ class SamplingManager {
         clusterNodes = samplingInformation.clusterNodeWithoutConstraint
     }
 
-    def getSamplingNode(tasks: List[TaskDescription], retry: Int): List[(NodeId, Resource)] = {
-        val samplingRateForThisTry = if (retry > 0) samplingRate * math.pow(2, retry) else samplingRate
-        val samplingCount = (samplingRateForThisTry.toInt * tasks.length)
-        val minResource = new Resource(tasks.min(Ordering.by((x: TaskDescription) => x.resource.memory)).resource.memory,
-            tasks.min(Ordering.by((x: TaskDescription) => x.resource.virtualCore)).resource.virtualCore)
-        Random.shuffle(clusterNodes).take(samplingCount).map(x => (x, minResource))
+    def addNewSubmittedTasks(tasks: List[TaskDescription]) = {
+        unscheduledTasks = unscheduledTasks ++ tasks.map(x => (lastWave,x))
+        lastWave = lastWave + 1
     }
 
-    def whichTaskShouldSubmittedToThisNode(lastWave: Int, resource: Resource): Option[List[TaskDescription]] = {
-        val unscheduledTasks = getUnscheduledTasks(completedWave + 1, List())
+    def getUnscheduledTaskOfWave(wave:Int):List[TaskDescription] = unscheduledTasks.filter(x => x._1 == wave).map(x => x._2)
+    
+    def getUnscheduledTasks(): List[TaskDescription] = unscheduledTasks.map(x => x._2)
+
+    def getSamplingNode(tasks: List[TaskDescription], retry: Int): List[(NodeId, Resource)] = {
+        val samplingCount = if (retry >= 1) samplingRate * math.pow(2.0, retry).toInt * tasks.length else samplingRate * tasks.length
+
+        val minMemory = tasks.min(Ordering.by((x: TaskDescription) => x.resource.memory)).resource.memory
+        val minVCore = tasks.min(Ordering.by((x: TaskDescription) => x.resource.virtualCore)).resource.virtualCore
+        val minResource = new Resource(minMemory, minVCore)
+        
+        val randomNodes = Random.shuffle(clusterNodes).take(samplingCount.toInt)
+        randomNodes.map(x => (x, minResource))
+    }
+
+    def whichTaskShouldSubmittedToThisNode(resource: Resource): Option[List[TaskDescription]] = {
         unscheduledTasks match {
-            case List() => {
-                completedWave = lastWave
-                None
-            }
+            case List() => None
             case _ => {
-                val temp = getBigestTasksThatCanFitThisResource(resource, unscheduledTasks, List())
-                temp match {
+                getMatchingUnscheduledTasksAndRemoveThem(resource) match {
                     case List() => None
-                    case _ => {
-                        removeFromUnscheduledTasks(completedWave + 1, temp)
-                        Some(temp)
-                    }
+                    case x      => Some(x)
                 }
             }
         }
     }
 
-    //TODO: this can further be improved by doing good algorithm like knapstack
-    @annotation.tailrec
-    final def getBigestTasksThatCanFitThisResource(resource: Resource, tasks: List[TaskDescription], result: List[TaskDescription]): List[TaskDescription] = tasks match {
-        case List() => result
-        case x :: xs =>
-            if (x.resource < resource) {
-                println(resource - x.resource)
-                getBigestTasksThatCanFitThisResource(resource - x.resource, xs, x :: result)
-            } else
-                getBigestTasksThatCanFitThisResource(resource, xs, result)
+    def getMatchingUnscheduledTasksAndRemoveThem(res: Resource): List[TaskDescription] = {
+        val matchedTasks = getMatchingUnscheduledTasks(res, unscheduledTasks.map(x => x._2))
+        matchedTasks.foreach(x => removeTheTaskFromUnscheduledTask(x))
+        matchedTasks
     }
 
-    @annotation.tailrec
-    final def getUnscheduledTasks(waveNumber: Int, tasks: List[TaskDescription]): List[TaskDescription] = waveToTasks.get(waveNumber) match {
-        case None    => tasks
-        case Some(x) => getUnscheduledTasks(waveNumber + 1, tasks ++ getUnscheduledTaskOfWave(waveNumber))
+    def removeTheTaskFromUnscheduledTask(task: TaskDescription) = {
+        unscheduledTasks = unscheduledTasks.filterNot(x => x._2.index == task.index)
+        scheduledTasks = task :: scheduledTasks
     }
 
-    @annotation.tailrec
-    final def removeFromUnscheduledTasks(waveNumber: Int, tasks: List[TaskDescription]): Unit = waveToTasks.get(waveNumber) match {
-        case None    => ()
-        case Some(x) => removeFromUnscheduledTasks(waveNumber + 1, removeUnscheduledTasksOfWave(waveNumber, tasks))
-    }
-
-    def removeUnscheduledTasksOfWave(waveNumber: Int, scheduledTasks: List[TaskDescription]): List[TaskDescription] = {
-        val waveOldState = waveToTasks.get(waveNumber).get
-        var waveNewState = List[(Boolean, TaskDescription)]()
-        for (x <- waveOldState) {
-            var isScheduled = false
-            for (y <- scheduledTasks)
-                if (x._2.index == y.index)
-                    isScheduled = true
-            if (isScheduled)
-                waveNewState = (true, x._2) :: waveNewState
-            else
-                waveNewState = (x._1, x._2) :: waveNewState
+    def getMatchingUnscheduledTasks(res: Resource, tasks: List[TaskDescription]): List[TaskDescription] = {
+        if (!res.isNotUsable()) {
+            tasks match {
+                case List() => Nil
+                case x :: xs => {
+                    if (x.resource.memory <= res.memory && x.resource.virtualCore <= res.virtualCore) {
+                        val remainResource = new Resource(res.memory - x.resource.memory, res.virtualCore - x.resource.virtualCore)
+                        x :: getMatchingUnscheduledTasks(remainResource, xs)
+                    } else {
+                        getMatchingUnscheduledTasks(res, xs)
+                    }
+                }
+            }
+        } else {
+            Nil
         }
-
-        waveToTasks.update(waveNumber, waveNewState.reverse)
-        scheduledTasks
     }
-
-    def getUnscheduledTaskOfWave(waveNumber: Int) = waveToTasks.get(waveNumber).get.filter(x => x._1 == false).map(y => y._2)
-
-    def addNewSubmittedTasksIntoWaveToTaks(waveNumber: Int, tasks: List[TaskDescription]) = waveToTasks.update(waveNumber, tasks.map(x => (false, x)))
-
 }

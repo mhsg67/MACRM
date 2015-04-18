@@ -22,7 +22,7 @@ class ServerStateAgent(val nodeManager: ActorRef) extends Agent {
         case message: _AllocateContainer             => Handle_AllocateContainer(message, sender())
         case message: _NodeManagerSimulationInitiate => Event_NodeManagerSimulationInitiate(message)
         case message: _ContainerExecutionFinished    => Handle_ContainerExecutionFinished(message)
-        case _                                       => Handle_UnknownMessage("ServerStateAgent")
+        case message                                      => Handle_UnknownMessage("ServerStateAgent",message)
     }
 
     def Event_initiate = {

@@ -8,21 +8,9 @@ import ca.usask.agents.macrm.common.records._
  */
 object JobManagerConfig {
 
-    def readConfigurationFile() = {
-        Logger.Log("Start reading configuration file")
+    def getClusterManagerAddress() = "akka.tcp://ClusterManagerAgent@" + clusterManagerIPAddress + ":" + clusterManagerDefualtPort + "/user/ClusterManagerAgent"
 
-        Logger.Log("Finished reading configuration file")
-    }
-
-    lazy val getClusterManagerAddress = "akka.tcp://ClusterManagerAgent@" +
-        clusterManagerIPAddress + ":" +
-        clusterManagerAgentDefualtPort + "/" +
-        "user/ClusterManagerAgent"
-
-    lazy val getResourceTrackerAddress = "akka.tcp://ResourceTrackerAgent@" +
-        resourceTrackerIPAddress + ":" +
-        resourceTrackerDefualtPort + "/" +
-        "user/ResourceTrackerAgent"
+    def getResourceTrackerAddress = "akka.tcp://ResourceTrackerAgent@" + resourceTrackerIPAddress + ":" + resourceTrackerDefualtPort + "/user/ResourceTrackerAgent"
 
     def createNodeManagerAddressString(host: String, port: Int) = "akka.tcp://NodeManagerAgent@" +
         host + ":" +
@@ -33,7 +21,7 @@ object JobManagerConfig {
      * To access ClusterManager actor
      */
     var clusterManagerIPAddress = "127.0.0.1"
-    val clusterManagerAgentDefualtPort = "2000"
+    val clusterManagerDefualtPort = "2000"
 
     /**
      * To access resourceTracker actor
@@ -46,23 +34,11 @@ object JobManagerConfig {
      * we start sampling, after 10 millis of that, if we still have
      * unschedule tasks we try to do sampling again
      */
-    val samplingTimeout = 150 millis
+    var samplingTimeoutLong:Long = 300
 
     /**
      * If the samplingTimout for 2 times and the JobManager could not find
      * proper resources for some tasks of a wave , then it forward them to CM
      */
-    val numberOfAllowedSamplingRetry = 2
-
-    /**
-     * There is no specific time, there is just a timeout
-     * which is 600000 (10 min), on the other hand, when JobManager
-     * send resource request or resource release it count as heartBeat
-     *
-     * We will send it every 1 min (60000 millis) with the first one
-     * send 1 second into JobManager execution time
-     */
-    val heartBeatStartDelay = FiniteDuration((samplingTimeout.toMillis * (numberOfAllowedSamplingRetry + 0.5)).toLong, MILLISECONDS)
-    val heartBeatInterval = 60000 millis
-
+    var numberOfAllowedSamplingRetry = 1
 }

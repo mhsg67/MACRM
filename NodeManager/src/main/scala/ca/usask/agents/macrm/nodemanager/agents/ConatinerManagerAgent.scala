@@ -36,7 +36,7 @@ class ContainerManagerAgent(val nodeManager: ActorRef, val serverState: ActorRef
         case message: _Resource                     => Handle_Resource(message)
         case message: _AllocateContainerFromCM      => Handle_AllocateContainerFromCM(message)
         case message: _AllocateContainerFromJM      => Handle_AllocateContainerFromJM(message)
-        case _                                      => Handle_UnknownMessage("ContainerManagerAgent")
+        case message                                     => Handle_UnknownMessage("ContainerManagerAgent",message)
     }
 
     def Event_initiate = {

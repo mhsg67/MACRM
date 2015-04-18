@@ -7,7 +7,7 @@ import scala.util.Random
 
 object SamplingManagerAdvance {
 
-    var samplingRate = 2
+    var samplingRate = 2.0
     var clusterNodesWithConstraint: List[(NodeId, List[Constraint])] = null
     var clusterNodesWithoutConstraint: List[NodeId] = null
     var waveToTasks = Map[Int, List[(Boolean, TaskDescription)]]() //The Int is waveNumber

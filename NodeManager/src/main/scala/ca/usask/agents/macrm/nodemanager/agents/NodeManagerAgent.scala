@@ -40,7 +40,7 @@ class RealNodeManagerAgent(val id: Int = 0) extends Agent {
             Handle_ResourceSamplingResponse(message)
         }
 
-        case _                                  => Handle_UnknownMessage("NodeManagerAgent")
+        case message                                 => Handle_UnknownMessage("NodeManagerAgent",message)
     }
 
     def Event_initiate() = {

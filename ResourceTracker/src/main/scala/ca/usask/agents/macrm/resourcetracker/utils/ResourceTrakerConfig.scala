@@ -14,7 +14,7 @@ object ResourceTrakerConfig {
     }
 
     def getClusterManagerAddress() = {
-        val result = "akka.tcp://ClusterManagerAgent@" + clusterManagerIPAddress + ":" + clusterManagerAgentDefualtPort + "/" + "user/ClusterManagerAgent"
+        val result = "akka.tcp://ClusterManagerAgent@" + clusterManagerIPAddress + ":" + clusterManagerAgentDefualtPort + "/user/ClusterManagerAgent"
         println(result)
         result
     }
@@ -38,19 +38,4 @@ object ResourceTrakerConfig {
      val minMemory = 500
      val minVirtualCore = 1
      val minResourceForJobManager = new Resource(minMemory,minVirtualCore)
-    
-    /**
-     * Delay for sending first _ClusterStateUpdate to the cluster manager
-     */
-    val firstClusterStateUpdateDelay = 10000 millis //3000 millis
-    
-    /**
-     * Try to adapte sampling rate based on current cluster load
-     * in order to achieve 1 - acceptableLevelOfSamplingFailure > 0.95 for 
-     * finding resources
-     * 
-     * currentLoad ^ x = acceptableLevelOfSamplingFailure
-     */
-    val acceptableLevelOfSamplingFailure = 0.05
-
 }

@@ -8,34 +8,27 @@ import org.joda.time._
  */
 object NodeManagerConfig {
 
-    def readConfigurationFile() = {
-        Logger.Log("Start reading configuration file")
-        Logger.Log("Finished reading configuration file")
-    }
-
-    lazy val getResourceTrackerAddress = "akka.tcp://ResourceTrackerAgent@" +
-        resourceTrackerIPAddress + ":" +
-        resourceTrackerDefualtPort + "/" +
-        "user/ResourceTrackerAgent"
+    def getResourceTrackerAddress = "akka.tcp://ResourceTrackerAgent@" + resourceTrackerIPAddress + ":" + resourceTrackerDefualtPort + "/user/ResourceTrackerAgent"
 
     /**
      * To access resourceTracker actor
      */
-    var resourceTrackerIPAddress = "127.0.1.1"
+    var resourceTrackerIPAddress = "127.0.0.1"
     val resourceTrackerDefualtPort = "3000"
 
     /**
      * Based on YARN configuration we set heart beat interval
      * to RM to 1000
      */
-    val heartBeatInterval = 2000 millis
+    var heartBeatInterval = 3000
 
     /**
      * Each node start to send heart beat 3000 millisecond
      * after booting
      */
-    val heartBeatStartDelay = 1000 millis
-
+    val heartBeatStartDelay = 1000
+    
+    
     /**
      * The same as YARN we check containers every 3 sec and
      * their resource consumption to control their limitation
@@ -84,5 +77,7 @@ object NodeManagerConfig {
      */
     val stopServingJobManagerRequestAfterHeartBeat = 10
     val stopServingJobManagerRequestBeforeHeartBeat = 1000 - waitForJMActionToResourceSamplingResponseTimeout.toMillis
-
+    
 }
+
+

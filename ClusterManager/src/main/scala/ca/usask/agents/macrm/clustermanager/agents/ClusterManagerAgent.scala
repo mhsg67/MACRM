@@ -12,26 +12,25 @@ import ca.usask.agents.macrm.common.agents._TaskSubmission
 class ClusterManagerAgent extends Agent {
 
     val queueAgent = context.actorOf(Props[QueueAgent], name = "QueueAgent")
+    val rackAgent = context.actorOf(Props(new RackAgent(0)), name = "RackAgent")
+    val schedulerAgent = context.actorOf(Props(new SchedulerAgent(0, queueAgent, rackAgent)), name = "SchedulerAgent")
     val userInterfaceAgent = context.actorOf(Props(new UserInterfaceAgent(queueAgent)), name = "UserInterfaceAgent")
     val resourceTracker = context.actorSelection(ClusterManagerConfig.getResourceTrackerAddress())
-    
+
     var hasReceivedFirstClusterState = false
     var nodeToRackMap = Map[(String, Int), ActorRef]()
-    var rackAgentList = List[ActorRef]()
-    var schedulerAgentList = List[ActorRef]()
+    var isInCentralizeState = false
 
     def receive = {
         case "initiateEvent"                    => Event_initiate()
         case "changeToCentralizedMode"          => Handle_ChangeToCentralizedMode()
-        case "changeToDistributedMode"          => Handle_ChangeToDistributedMode()
-        case "finishedCentralizeScheduling"     => Handle_FinishedCentralizeScheduling(sender)
         case message: _ClusterState             => Handle_ClusterState(message)
         case message: _TaskSubmissionFromJM     => Handle_TaskSubmissionFromJM(sender(), message)
         case message: _JobFinished              => Handle_JobFinished(message)
         case message: _ServerWithEmptyResources => Handle_ServerWithEmptyResources(message)
         case message: _EachUserShareOfCluster   => Handle_EachUserShareOfCluster(message)
         case message: _ServerStatusUpdate       => Handle_ServerStatusUpdate(message)
-        case _                                  => Handle_UnknownMessage("ClusterManagerAgent")
+        case message                            => Handle_UnknownMessage("ClusterManagerAgent", message)
     }
 
     def Event_initiate() = {
@@ -43,21 +42,20 @@ class ClusterManagerAgent extends Agent {
 
     def Handle_ServerStatusUpdate(message: _ServerStatusUpdate) = nodeToRackMap(message._report.nodeId.host, message._report.nodeId.port) ! message
 
-    def Handle_JobFinished(message: _JobFinished) = {
-        userInterfaceAgent ! message
-    }
+    def Handle_JobFinished(message: _JobFinished) = userInterfaceAgent ! message
 
     def Handle_ChangeToCentralizedMode() = {
-        queueAgent ! "changeToCentralizedMode"
-        //TODO:create scheduling agent and rackAgent
+        isInCentralizeState = true
+        rackAgent ! "initiateEvent"
+        schedulerAgent ! "initiateEvent"
     }
 
-    def Handle_ChangeToDistributedMode() = {
-        queueAgent ! "changeToDistributedMode"
-        schedulerAgentList.foreach(x => x ! "changeToDistributedMode")
+    def Handle_ServerWithEmptyResources(message: _ServerWithEmptyResources) = {
+        if (isInCentralizeState == true)
+            rackAgent ! message
+        else
+            queueAgent ! message
     }
-
-    def Handle_ServerWithEmptyResources(message: _ServerWithEmptyResources) = queueAgent ! message
 
     def Handle_EachUserShareOfCluster(message: _EachUserShareOfCluster) = queueAgent ! message
 
@@ -66,19 +64,8 @@ class ClusterManagerAgent extends Agent {
         queueAgent ! new _TaskSubmission(tasks)
     }
 
-    //TODO: in case of centralize scheduling you should use this 
-    //information for changing RackAgents and sampling rate of 
-    //schedulerAgents
     def Handle_ClusterState(message: _ClusterState) = {
-        //println("ClusterState")
+        isInCentralizeState = if (message._switchToDistributedMode == true) false else true
         queueAgent ! message
-    }
-
-    def Handle_FinishedCentralizeScheduling(sender: ActorRef) = {
-        schedulerAgentList = schedulerAgentList.filter(x => x == sender)
-        if (schedulerAgentList.isEmpty) {
-            rackAgentList.foreach(x => { context.stop(x); x ! Kill })
-            resourceTracker ! "finishedCentralizeScheduling"
-        }
     }
 }

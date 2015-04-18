@@ -37,10 +37,8 @@ class JobManagerAgent(val containerId: Long,
         case message: _NodeSamplingTimeout          => Handle_NodeSamplingTimeout(message)
         case message: _TasksExecutionFinished       => Handle_TasksExecutionFinished(message)
         case message: _JobManagerSimulationInitiate => Event_JobManagerSimulationInitiate(message)
-        case message => {
-            println(message)
-            Handle_UnknownMessage
-        }
+        case message                                => Handle_UnknownMessage("JobManager_" + jobId.toString(), message)
+
     }
 
     def Event_JobManagerSimulationInitiate(message: _JobManagerSimulationInitiate) = {
@@ -57,7 +55,7 @@ class JobManagerAgent(val containerId: Long,
 
     def Handle_ResourceSamplingResponse(message: _ResourceSamplingResponse, sender: ActorRef) = {
         samplingManager.whichTaskShouldSubmittedToThisNode(message._availableResource) match {
-            case None    =>{
+            case None => {
                 sender ! new _ResourceSamplingCancel(self, DateTime.now(), jobId)
             }
             case Some(x) => {
@@ -67,13 +65,19 @@ class JobManagerAgent(val containerId: Long,
     }
 
     def Handle_TaskSubmission(message: _TaskSubmission) = {
-        currentWaveOfTasks += 1
-        updateWaveToSamplingRate(currentWaveOfTasks, 0)
-        samplingManager.addNewSubmittedTasks(message.taskDescriptions)
-        val samplingList = samplingManager.getSamplingNode(message.taskDescriptions, 0)
-                
-        samplingList.foreach(x => getActorRefFromNodeId(x._1) ! new _ResourceSamplingInquiry(self, DateTime.now(), x._2, jobId))
-        samplingTimeout = context.system.scheduler.scheduleOnce(samplingTimeoutMillis, self, new _NodeSamplingTimeout(currentWaveOfTasks, 1))
+        if (samplingManager.samplingRate == 0) {
+            clusterManager ! new _TaskSubmissionFromJM(self, DateTime.now(), message.taskDescriptions)
+            sendheartBeat(0)
+        }
+        else {
+            currentWaveOfTasks += 1
+            updateWaveToSamplingRate(currentWaveOfTasks, 0)
+            samplingManager.addNewSubmittedTasks(message.taskDescriptions)
+            val samplingList = samplingManager.getSamplingNode(message.taskDescriptions, 0)
+
+            samplingList.foreach(x => getActorRefFromNodeId(x._1) ! new _ResourceSamplingInquiry(self, DateTime.now(), x._2, jobId))
+            samplingTimeout = context.system.scheduler.scheduleOnce(samplingTimeoutMillis, self, new _NodeSamplingTimeout(currentWaveOfTasks, 1))
+        }
     }
 
     def Handle_NodeSamplingTimeout(message: _NodeSamplingTimeout) = {
@@ -84,28 +88,28 @@ class JobManagerAgent(val containerId: Long,
                 val samplingList = samplingManager.getSamplingNode(unscheduledTasks, message.retry)
                 samplingList.foreach(x => getActorRefFromNodeId(x._1) ! new _ResourceSamplingInquiry(self, DateTime.now(), x._2, jobId))
                 samplingTimeout = context.system.scheduler.scheduleOnce(samplingTimeoutMillis, self, new _NodeSamplingTimeout(currentWaveOfTasks, message.retry + 1))
-                
+
                 println("SampTimeout:" + jobId.toString() + " SampRate:" + (samplingList.length / unscheduledTasks.length).toString() + " SampListSize:" + samplingList.length.toString())
-            } else {
+            }
+            else {
                 sendheartBeat(message.forWave)
                 clusterManager ! new _TaskSubmissionFromJM(self, DateTime.now(), unscheduledTasks)
             }
-        } else
+        }
+        else
             sendheartBeat(message.forWave)
     }
 
     def Handle_TasksExecutionFinished(message: _TasksExecutionFinished) = {
         remainingTasksToFinish -= 1
         if (remainingTasksToFinish == 0) {
-            samplingTimeout.cancel()
+            if (samplingTimeout != null) samplingTimeout.cancel()
             clusterManager ! new _JobFinished(self, DateTime.now(), jobId)
             context.system.scheduler.scheduleOnce(1 millis, node, new _ContainerExecutionFinished(containerId, true))
         }
     }
 
-    def sendheartBeat(waveNumber: Int) = {
-        resourceTracker ! new _JMHeartBeat(self, DateTime.now(), new JobReport(userId, jobId, waveToSamplingRate.get(waveNumber).get))
-    }
+    def sendheartBeat(waveNumber: Int) = resourceTracker ! new _JMHeartBeat(self, DateTime.now(), new JobReport(userId, jobId, waveToSamplingRate.get(waveNumber).get))
 
     def updateWaveToSamplingRate(wave: Int, retry: Int) = waveToSamplingRate.update(wave, (samplingManager.samplingRate * math.pow(2, retry)).toInt)
 

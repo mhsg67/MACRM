@@ -8,6 +8,8 @@ trait AbstractQueue {
     def EnqueueRequest(e: Any): Unit
 
     def getBestMatches(resource: Resource, capability: List[Constraint]): Option[(List[JobDescription], List[TaskDescription])]
+    
+    def DequeueRequest(): Either[JobDescription,TaskDescription]
 }
 
 object AbstractQueue {

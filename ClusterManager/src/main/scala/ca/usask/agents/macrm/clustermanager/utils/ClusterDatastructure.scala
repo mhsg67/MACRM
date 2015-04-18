@@ -4,12 +4,12 @@ import ca.usask.agents.macrm.common.records._
 
 class ClusterDatastructure {
 
-    var samplingRate = 2
+    var samplingRate = 2.0
     var clusterNodes = List[(NodeId, List[Constraint])]()
     var rareResource = List[Constraint]()
 
-    def updateClusterStructure(newSamplingRate: Int = -1, removedServers: List[NodeId] = null, addedServers: List[(NodeId, List[Constraint])] = null, rareResourcesUpdate: List[(Boolean, Constraint)] = null) = {
-        if (newSamplingRate != -1) samplingRate = newSamplingRate
+    def updateClusterStructure(newSamplingRate: Double = -1.0, removedServers: List[NodeId] = null, addedServers: List[(NodeId, List[Constraint])] = null, rareResourcesUpdate: List[(Boolean, Constraint)] = null) = {
+        if (newSamplingRate > 0) samplingRate = newSamplingRate
         if (removedServers != null) clusterNodes = clusterNodes.filterNot(x => removedServers.exists(y => y == x._1))
         if (addedServers != null) {
             clusterNodes = clusterNodes.filterNot(x => addedServers.exists(y => y._1 == x._1))

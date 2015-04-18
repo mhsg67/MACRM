@@ -22,13 +22,9 @@ class QueueAgent extends Agent {
         case "getNextTaskForScheduling"         => Handle_getNextTaskForScheduling(sender)
         case message: _ClusterState             => Handle_ClusterState(message)
         case message: _ServerWithEmptyResources => Handle_ServerWithEmptyResources(message)
-        case message: _EachUserShareOfCluster   => Handle_EachUserShareOfCluster(message)
         case message: _JobSubmission            => Handle_JobSubmission(message)
-        case message: _TaskSubmission => {
-            //println("_TaskSubmission " + message.taskDescriptions.length)
-            Handle_TaskSubmission(message)
-        }
-        case _ => Handle_UnknownMessage("QueueAgent")
+        case message: _TaskSubmission           => Handle_TaskSubmission(message)
+        case message                            => Handle_UnknownMessage("QueueAgent", message)
     }
 
     def Event_initiate() = {
@@ -51,12 +47,11 @@ class QueueAgent extends Agent {
                 }
             }
         else
-            message._report.nodeId.agent ! "emptyHeartBeatResponse"
+            message._report.nodeId.agent ! new _EmptyHeartBeatResponse(false)
     }
 
-    def allocateContainer(tasks: List[TaskDescription], jobs: List[(JobDescription, SamplingInformation)], message: _ServerWithEmptyResources) = {
-        message._report.nodeId.agent ! new _AllocateContainerFromCM(self, DateTime.now(), tasks, jobs)
-    }
+    def allocateContainer(tasks: List[TaskDescription], jobs: List[(JobDescription, SamplingInformation)], message: _ServerWithEmptyResources) =
+        message._report.nodeId.agent ! new _AllocateContainerFromCM(self, DateTime.now(), tasks, jobs, false)
 
     def Handle_JobSubmission(message: _JobSubmission) = schedulingQueue.EnqueueRequest(message.jobDescription)
 
@@ -64,15 +59,6 @@ class QueueAgent extends Agent {
 
     def Handle_ClusterState(message: _ClusterState) = clusterStructure.updateClusterStructure(message._newSamplingRate, message._removedServers, message._addedServers, message._rareResources)
 
-    /*
-     * TODO: Implement following functions
-     */
+    def Handle_getNextTaskForScheduling(sender: ActorRef) = sender ! new _headOfSchedulingQueue(schedulingQueue.DequeueRequest())
 
-    def Handle_getNextTaskForScheduling(sender: ActorRef) = {
-
-    }
-
-    def Handle_EachUserShareOfCluster(message: _EachUserShareOfCluster) = {
-
-    }
 }

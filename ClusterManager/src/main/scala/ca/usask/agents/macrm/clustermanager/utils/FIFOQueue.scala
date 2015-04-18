@@ -6,7 +6,7 @@ import scala.collection.mutable._
 import akka.actor._
 
 class FIFOQueue extends AbstractQueue {
-var requestCounter: Long = 1
+    var requestCounter: Long = 1
     var generalQueue = new MutableList[(Long, Any)]()
 
     def isEmpty: Boolean = generalQueue.length == 0
@@ -14,6 +14,20 @@ var requestCounter: Long = 1
     def EnqueueRequest(e: Any) = {
         if (requestCounter == Long.MaxValue) requestCounter = 1 else requestCounter += 1
         generalQueue += ((requestCounter, e))
+    }
+
+    def DequeueRequest(): Either[JobDescription, TaskDescription] = {
+        val headOfQueue = generalQueue.get(0)
+        headOfQueue match {
+            case None => Left(null)
+            case Some(x) => {
+                generalQueue = generalQueue.drop(1)
+                x._2 match {
+                    case job: JobDescription   => Left(job)
+                    case task: TaskDescription => Right(task)
+                }
+            }
+        }
     }
 
     def getBestMatches(resource: Resource, capability: List[Constraint]): Option[(List[JobDescription], List[TaskDescription])] = {
@@ -58,7 +72,8 @@ var requestCounter: Long = 1
                         (que.head._1, que.head._2) :: Nil
                     else
                         (que.head._1, que.head._2) :: iterateQueueToFindMatchRequests(remainingResource, cap, que.tail)
-                } else {
+                }
+                else {
                     iterateQueueToFindMatchRequests(res, cap, que.tail)
                 }
             case task: TaskDescription =>
@@ -70,7 +85,8 @@ var requestCounter: Long = 1
                         (que.head._1, que.head._2) :: Nil
                     else
                         (que.head._1, que.head._2) :: iterateQueueToFindMatchRequests(remainingResource, cap, que.tail)
-                } else {
+                }
+                else {
                     iterateQueueToFindMatchRequests(res, cap, que.tail)
                 }
         }

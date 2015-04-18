@@ -8,7 +8,7 @@ import scala.util.Random
 class SamplingManager {
 
     var lastWave = 1
-    var samplingRate = 2
+    var samplingRate = 2.0
     var clusterNodes: List[NodeId] = null
     var unscheduledTasks = List[(Int,TaskDescription)]()
     var scheduledTasks = List[TaskDescription]()
@@ -36,7 +36,7 @@ class SamplingManager {
         val minVCore = tasks.min(Ordering.by((x: TaskDescription) => x.resource.virtualCore)).resource.virtualCore
         val minResource = new Resource(minMemory, minVCore)
         
-        val randomNodes = Random.shuffle(clusterNodes).take(samplingCount)
+        val randomNodes = Random.shuffle(clusterNodes).take(samplingCount.toInt)
         randomNodes.map(x => (x, minResource))
     }
 

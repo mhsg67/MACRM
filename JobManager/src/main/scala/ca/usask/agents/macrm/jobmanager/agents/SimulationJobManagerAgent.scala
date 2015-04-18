@@ -13,7 +13,7 @@ import scala.concurrent.duration._
  * 2. there is no single tasks job
  */
 
-class JobManagerAgent(val containerId: Long,
+class SimulationJobManagerAgent(val containerId: Long,
                       val node: ActorRef,
                       val userId: Int,
                       val jobId: Long,
@@ -25,7 +25,7 @@ class JobManagerAgent(val containerId: Long,
     var remainingTasksToFinish = 0
 
     val samplingTimeoutMillis = new FiniteDuration(JobManagerConfig.samplingTimeoutLong, MILLISECONDS)
-    val samplingManager = new SamplingManager()
+    val samplingManager = new SimulationSamplingManager()
     val resourceTracker = context.actorSelection(JobManagerConfig.getResourceTrackerAddress)
     val clusterManager = context.actorSelection(JobManagerConfig.getClusterManagerAddress())
 

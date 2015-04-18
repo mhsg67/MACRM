@@ -5,7 +5,7 @@ import scala.collection.mutable._
 import akka.actor._
 import scala.util.Random
 
-class SamplingManager {
+class SimulationSamplingManager {
 
     var lastWave = 1
     var samplingRate = 2.0

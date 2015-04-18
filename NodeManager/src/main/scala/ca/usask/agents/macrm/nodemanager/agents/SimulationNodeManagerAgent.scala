@@ -10,7 +10,7 @@ import scala.concurrent.duration._
 import scala.collection.mutable._
 import scala.util._
 
-class NodeManagerAgent(val id: Int = 0) extends Agent {
+class SimulationNodeManagerAgent(val id: Int = 0) extends Agent {
 
     val random = new Random(id)
 
@@ -148,7 +148,7 @@ class NodeManagerAgent(val id: Int = 0) extends Agent {
     import com.typesafe.config.ConfigFactory
     def createJobManagerActor(job: JobDescription, samplInfo: SamplingInformation, containerId: Long) = {
         val jobMangerSystem = ActorSystem.create("JobManagerAgent", ConfigFactory.load().getConfig("JobManagerAgent"))
-        val newJobManager = jobMangerSystem.actorOf(Props(new JobManagerAgent(containerId, self, job.userId, job.jobId, samplInfo)), name = "JobManagerAgent")
+        val newJobManager = jobMangerSystem.actorOf(Props(new SimulationJobManagerAgent(containerId, self, job.userId, job.jobId, samplInfo)), name = "JobManagerAgent")
         newJobManager ! new _JobManagerSimulationInitiate(job.tasks)
         containerToOwnerActor.update(containerId, newJobManager)
         containerToActorSystem.update(containerId, jobMangerSystem)

@@ -9,7 +9,7 @@ import java.util.Formatter.DateTime
 
 class RealResourceTrackerAgent extends Agent {
 
-    var hasSubmittedFirstClusterState = false
+    var isInCentralizeState = false
 
     val clusterManagerAgent = context.actorSelection(ResourceTrakerConfig.getClusterManagerAddress())
     val clusterDatabaseReaderAgent = context.actorOf(Props(new ClusterDatabaseReaderAgent(self)), name = "ClusterDatabaseReaderAgent")
@@ -17,11 +17,11 @@ class RealResourceTrackerAgent extends Agent {
 
     def receive = {
         case "initiateEvent"                => Event_initiate()
-        case "finishedCentralizeScheduling" => Handle_FinishedCentralizeScheduling()
+        case "changeToCentralizedMode" => Handle_changeToCentralizedMode()
         case message: _HeartBeat            => Handle_HeartBeat(message, sender())
         case message: _JMHeartBeat          => Handle_JMHeartBeat(message)
         case message: _ClusterState         => Handle_ClusterState(message)
-        case _                              => Handle_UnknownMessage("ResourceTrackerAgent")
+        case message                        => Handle_UnknownMessage("ResourceTrackerAgent", message)
     }
 
     def Event_initiate() = {
@@ -32,7 +32,6 @@ class RealResourceTrackerAgent extends Agent {
     }
 
     def Handle_ClusterState(message: _ClusterState) = {
-        hasSubmittedFirstClusterState = true
         clusterManagerAgent ! message
     }
 
@@ -40,14 +39,21 @@ class RealResourceTrackerAgent extends Agent {
         clusterDatabaseReaderAgent ! message
     }
 
-    def Handle_HeartBeat(oldMessage: _HeartBeat, sender: ActorRef) = {        
+    def Handle_changeToCentralizedMode() = {
+        isInCentralizeState = true
+        clusterManagerAgent ! "changeToCentralizedMode"
+    }
+    
+    def Handle_HeartBeat(oldMessage: _HeartBeat, sender: ActorRef) = {
         val message = new _HeartBeat(sender, oldMessage._time, oldMessage._report)
         clusterDatabaseWriterAgent ! message
 
-        if (doesServerHaveResourceForAJobManager(message._report) && hasSubmittedFirstClusterState)
-            clusterManagerAgent ! new _ServerWithEmptyResources(self, DateTime.now(), addIPandPortToNodeReport(message._report, message._source))
-        else 
-            sender ! "emptyHeartBeatResponse"
+        if (doesServerHaveResourceForAJobManager(message._report))
+            clusterManagerAgent ! new _ServerWithEmptyResources(self, DateTime.now(), addIPandPortToNodeReport(message._report, sender))
+        else if (isInCentralizeState == true)
+            sender ! new _EmptyHeartBeatResponse(true)
+        else
+            sender ! new _EmptyHeartBeatResponse(false)
     }
 
     def doesServerHaveResourceForAJobManager(_nodeReport: NodeReport) = if (_nodeReport.getFreeResources() > ResourceTrakerConfig.minResourceForJobManager) true else false
@@ -56,9 +62,4 @@ class RealResourceTrackerAgent extends Agent {
         new NodeReport(new NodeId(sender.path.address.host.get, sender.path.address.port.get, sender),
             oldReport.resource, oldReport.capabilities, oldReport.containers, oldReport.utilization,
             oldReport.nodeState, oldReport.queueState)
-
-    def Handle_FinishedCentralizeScheduling() = {
-        //TODO: Stop sending _ServerStatusUpdate
-        //TODO: Start sending _ServerWithEmptyResources
-    }
 }

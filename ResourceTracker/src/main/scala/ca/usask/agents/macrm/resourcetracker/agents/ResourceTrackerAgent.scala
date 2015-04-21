@@ -10,7 +10,7 @@ import java.util.Formatter.DateTime
 class ResourceTrackerAgent extends Agent {
 
     var currentSamplingRate = 2.0
-    var isInCentralizeState = false
+    var isInCentralizeState = 0
     val clusterManagerAgent = context.actorSelection(ResourceTrakerConfig.getClusterManagerAddress())
 
     def addIPandPortToNodeReport(oldReport: NodeReport, sender: ActorRef) =
@@ -71,13 +71,18 @@ class ResourceTrackerAgent extends Agent {
         else
             currentUtilization.virtualCoreUtilization
 
-        if (maxResourceUtilization > 0.94) {
-            clusterManagerAgent ! "changeToCentralizedMode"
-            isInCentralizeState = true
+        if (maxResourceUtilization >= 0.90 && maxResourceUtilization < 0.98) {
+            clusterManagerAgent ! "changeToCentralizedMode1"
+            isInCentralizeState = 1
+            currentSamplingRate = 2
+        }
+        else if (maxResourceUtilization >= 0.98) {
+            clusterManagerAgent ! "changeToCentralizedMod2"
+            isInCentralizeState = 2
             currentSamplingRate = 2
         }
         else {
-            if (maxResourceUtilization < 0.91 && isInCentralizeState == true) isInCentralizeState = false
+            if (maxResourceUtilization < 0.90 && isInCentralizeState > 0) isInCentralizeState = 0
             val properSamplingRate = calcProperSamplingRate(maxResourceUtilization)
             if (properSamplingRate != currentSamplingRate && properSamplingRate >= 2.0) {
                 println("properSamplingRate " + properSamplingRate)

@@ -23,7 +23,7 @@ class ClusterManagerAgent extends Agent {
 
     def receive = {
         case "initiateEvent"                    => Event_initiate()
-        case "changeToCentralizedMode"          => Handle_ChangeToCentralizedMode()
+        case "changeToCentralizedMode1"          => Handle_ChangeToCentralizedMode()
         case message: _ClusterState             => Handle_ClusterState(message)
         case message: _TaskSubmissionFromJM     => Handle_TaskSubmissionFromJM(sender(), message)
         case message: _JobFinished              => Handle_JobFinished(message)

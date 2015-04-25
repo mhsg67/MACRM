@@ -27,9 +27,23 @@ class QueueAgent extends Agent {
         case message                            => Handle_UnknownMessage("QueueAgent", message)
     }
 
-    def Event_initiate() = {
+    def Event_initiate() =
         Logger.Log("QueueAgent Initialization")
-    }
+
+    def allocateContainer(tasks: List[TaskDescription], jobs: List[(JobDescription, SamplingInformation)], message: _ServerWithEmptyResources) =
+        message._report.nodeId.agent ! new _AllocateContainerFromCM(self, DateTime.now(), tasks, jobs, false)
+
+    def Handle_JobSubmission(message: _JobSubmission) =
+        schedulingQueue.EnqueueRequest(message.jobDescription)
+
+    def Handle_TaskSubmission(message: _TaskSubmission) =
+        message.taskDescriptions.foreach(x => schedulingQueue.EnqueueRequest(x))
+
+    def Handle_ClusterState(message: _ClusterState) =
+        clusterStructure.updateClusterStructure(message._newSamplingRate, message._removedServers, message._addedServers, message._rareResources)
+
+    def Handle_getNextTaskForScheduling(sender: ActorRef) =
+        sender ! new _headOfSchedulingQueue(schedulingQueue.DequeueRequest())
 
     def Handle_ServerWithEmptyResources(message: _ServerWithEmptyResources) = {
         val freeResources = message._report.getFreeResources()
@@ -49,16 +63,5 @@ class QueueAgent extends Agent {
         else
             message._report.nodeId.agent ! new _EmptyHeartBeatResponse(0)
     }
-
-    def allocateContainer(tasks: List[TaskDescription], jobs: List[(JobDescription, SamplingInformation)], message: _ServerWithEmptyResources) =
-        message._report.nodeId.agent ! new _AllocateContainerFromCM(self, DateTime.now(), tasks, jobs, false)
-
-    def Handle_JobSubmission(message: _JobSubmission) = schedulingQueue.EnqueueRequest(message.jobDescription)
-
-    def Handle_TaskSubmission(message: _TaskSubmission) = message.taskDescriptions.foreach(x => schedulingQueue.EnqueueRequest(x))
-
-    def Handle_ClusterState(message: _ClusterState) = clusterStructure.updateClusterStructure(message._newSamplingRate, message._removedServers, message._addedServers, message._rareResources)
-
-    def Handle_getNextTaskForScheduling(sender: ActorRef) = sender ! new _headOfSchedulingQueue(schedulingQueue.DequeueRequest())
 
 }

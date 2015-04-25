@@ -12,8 +12,10 @@ import akka.camel._
 class UserInterfaceAgent(val queueAgent: ActorRef) extends Agent with Consumer {
 
     var submittedJobCache: String = ""
-    var jobIdToJobSubmissionJobDuration = Map[Long, (Long, Long)]()
-    def endpointUri = "netty:tcp://" + ClusterManagerConfig.clusterManagerIpAddress + ":2001?textline=true"
+    
+    val jobIdToJobSubmissionJobDuration = Map[Long, (Long, Long)]()
+    def endpointUri = 
+        "netty:tcp://" + ClusterManagerConfig.clusterManagerIpAddress + ":2001?textline=true"
 
     def receive = {
         case "initiateEvent"       => Event_initiate()

@@ -8,22 +8,17 @@ import org.joda.time._
 import akka.actor._
 import scala.concurrent.duration._
 
-/**
- * 1. After completing each wave it will submitt a heartbeat
- * 2. there is no single tasks job
- */
-
 class SimulationJobManagerAgent(val containerId: Long,
-                      val node: ActorRef,
-                      val userId: Int,
-                      val jobId: Long,
-                      val samplingInformation: SamplingInformation) extends Agent {
+                                val node: ActorRef,
+                                val userId: Int,
+                                val jobId: Long,
+                                val samplingInformation: SamplingInformation) extends Agent {
 
     var samplingTimeout: Cancellable = null
-    var waveToSamplingRate = Map[Int, Int]()
     var currentWaveOfTasks = 0
     var remainingTasksToFinish = 0
 
+    val waveToSamplingRate = Map[Int, Int]()
     val samplingTimeoutMillis = new FiniteDuration(JobManagerConfig.samplingTimeoutLong, MILLISECONDS)
     val samplingManager = new SimulationSamplingManager()
     val resourceTracker = context.actorSelection(JobManagerConfig.getResourceTrackerAddress)
@@ -40,6 +35,15 @@ class SimulationJobManagerAgent(val containerId: Long,
         case message                                => Handle_UnknownMessage("JobManager_" + jobId.toString(), message)
 
     }
+
+    def updateWaveToSamplingRate(wave: Int, retry: Int) =
+        waveToSamplingRate.update(wave, (samplingManager.samplingRate * math.pow(2, retry)).toInt)
+
+    def Handle_JMHeartBeatResponse(message: _JMHeartBeatResponse) =
+        samplingManager.loadNewSamplingRate(message._samplingRate)
+
+    def getActorRefFromNodeId(node: NodeId): ActorSelection =
+        context.actorSelection(JobManagerConfig.createNodeManagerAddressString(node.host, node.port))
 
     def Event_JobManagerSimulationInitiate(message: _JobManagerSimulationInitiate) = {
         samplingManager.loadSamplingInformation(samplingInformation)
@@ -67,7 +71,7 @@ class SimulationJobManagerAgent(val containerId: Long,
     def Handle_TaskSubmission(message: _TaskSubmission) = {
         if (samplingManager.samplingRate == 0) {
             clusterManager ! new _TaskSubmissionFromJM(self, DateTime.now(), message.taskDescriptions)
-            sendheartBeat(0)
+            sendheartBeat(-1)
         }
         else {
             currentWaveOfTasks += 1
@@ -109,12 +113,10 @@ class SimulationJobManagerAgent(val containerId: Long,
         }
     }
 
-    def sendheartBeat(waveNumber: Int) = resourceTracker ! new _JMHeartBeat(self, DateTime.now(), new JobReport(userId, jobId, waveToSamplingRate.get(waveNumber).get))
-
-    def updateWaveToSamplingRate(wave: Int, retry: Int) = waveToSamplingRate.update(wave, (samplingManager.samplingRate * math.pow(2, retry)).toInt)
-
-    def Handle_JMHeartBeatResponse(message: _JMHeartBeatResponse) = samplingManager.loadNewSamplingRate(message._samplingRate)
-
-    def getActorRefFromNodeId(node: NodeId): ActorSelection = context.actorSelection(JobManagerConfig.createNodeManagerAddressString(node.host, node.port))
-
+    def sendheartBeat(waveNumber: Int) = {
+        if (waveNumber != -1)
+            resourceTracker ! new _JMHeartBeat(self, DateTime.now(), new JobReport(userId, jobId, waveToSamplingRate.get(waveNumber).get))
+        else
+            resourceTracker ! new _JMHeartBeat(self, DateTime.now(), new JobReport(userId, jobId, 0))
+    }
 }

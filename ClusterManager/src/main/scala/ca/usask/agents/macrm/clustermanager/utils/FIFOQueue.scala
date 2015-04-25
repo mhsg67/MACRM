@@ -9,7 +9,11 @@ class FIFOQueue extends AbstractQueue {
     var requestCounter: Long = 1
     var generalQueue = new MutableList[(Long, Any)]()
 
-    def isEmpty: Boolean = generalQueue.length == 0
+    def isEmpty: Boolean =
+        generalQueue.length == 0
+
+    def RemoveRequest(index: Long) =
+        generalQueue = generalQueue.filter(x => (x._1 != index))
 
     def EnqueueRequest(e: Any) = {
         if (requestCounter == Long.MaxValue) requestCounter = 1 else requestCounter += 1
@@ -134,6 +138,4 @@ class FIFOQueue extends AbstractQueue {
                 case 3 => if (x.value > taskConstraint.value) true else false
             }
     }
-
-    def RemoveRequest(index: Long) = generalQueue = generalQueue.filter(x => (x._1 != index))
 }

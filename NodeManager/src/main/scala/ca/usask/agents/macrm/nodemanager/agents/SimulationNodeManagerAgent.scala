@@ -12,17 +12,16 @@ import scala.util._
 
 class SimulationNodeManagerAgent(val id: Int = 0) extends Agent {
 
-    val random = new Random(id)
-
     var heartBeatTimer: Cancellable = null
     var isInCentralizeState = 0
     var pendingServingJob: Long = 0
     var havePendingServing = false
     var receivedHeartBeatRespond = true
     var missedHeartBeat = false
-    var containerToActorSystem = Map[Long, ActorSystem]()
-    var containerToOwnerActor = Map[Long, ActorRef]()
 
+    val random = new Random(id)
+    val containerToActorSystem = Map[Long, ActorSystem]()
+    val containerToOwnerActor = Map[Long, ActorRef]()
     val serverState = new SimulationServerState()
     val resourceTracker = context.actorSelection(NodeManagerConfig.getResourceTrackerAddress)
 
@@ -154,7 +153,6 @@ class SimulationNodeManagerAgent(val id: Int = 0) extends Agent {
 
     import com.typesafe.config.ConfigFactory
     def createJobManagerActor(job: JobDescription, samplInfo: SamplingInformation, containerId: Long) = {
-        println(job.jobId)
         val jobMangerSystem = ActorSystem.create("JobManagerAgent", ConfigFactory.load().getConfig("JobManagerAgent"))
         val newJobManager = jobMangerSystem.actorOf(Props(new SimulationJobManagerAgent(containerId, self, job.userId, job.jobId, samplInfo)), name = "JobManagerAgent")
         newJobManager ! new _JobManagerSimulationInitiate(job.tasks)

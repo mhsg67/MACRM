@@ -25,9 +25,7 @@ class ResourceTrackerAgent extends Agent {
         case message               => Handle_UnknownMessage("ResourceTrackerAgent", message)
     }
 
-    def Event_initiate() = {
-        Logger.Log("ResourceTrackerAgent Initialization")
-    }
+    def Event_initiate() = Logger.Log("ResourceTrackerAgent Initialization")
 
     //TODO: for real test and the case of centralize scheduling you should check 
     //if the node has resource for minimum container instead of a job manager container
@@ -70,7 +68,7 @@ class ResourceTrackerAgent extends Agent {
             if (maxResourceUtilization < 0.90 && isInCentralizeState > 0) isInCentralizeState = 0
             val properSamplingRate = calcProperSamplingRate(maxResourceUtilization)
             if (properSamplingRate != currentSamplingRate && properSamplingRate >= 2.0) {
-                //println("properSamplingRate " + properSamplingRate)
+                println("properSamplingRate " + properSamplingRate)
                 currentSamplingRate = properSamplingRate
                 clusterManagerAgent ! new _ClusterState(self, DateTime.now(), currentSamplingRate, null, null, null, true)
             }
@@ -91,29 +89,6 @@ class ResourceTrackerAgent extends Agent {
         val currentUtilization = ClusterDatabase.getCurrentClusterLoad()
         println(currentUtilization)
         println("<sampRate:" + currentSamplingRate + ">")
-
-        /*val maxResourceUtilization = if (currentUtilization.memoryUtilization > currentUtilization.virtualCoreUtilization)
-            currentUtilization.memoryUtilization
-        else
-            currentUtilization.virtualCoreUtilization
-
-        if (maxResourceUtilization >= 0.90) {
-            if (isInCentralizeState == 0) {
-                clusterManagerAgent ! "changeToCentralizedMode1"
-                isInCentralizeState = 1
-                currentSamplingRate = 2
-            }
-        }
-        else {
-            if (maxResourceUtilization < 0.90 && isInCentralizeState > 0) isInCentralizeState = 0
-            val properSamplingRate = calcProperSamplingRate(maxResourceUtilization)
-            if (properSamplingRate != currentSamplingRate && properSamplingRate >= 2.0) {
-                println("properSamplingRate " + properSamplingRate)
-                currentSamplingRate = properSamplingRate
-                clusterManagerAgent ! new _ClusterState(self, DateTime.now(), currentSamplingRate, null, null, null, true)
-            }
-        }*/
-
     }
 
     def calcProperSamplingRate(resourceUtilization: Double): Double = {

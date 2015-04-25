@@ -20,14 +20,25 @@ object ClusterDatabase {
 
     var capabilityToNodeIdTable = Map[Constraint, List[NodeId]]()
 
-    def updateNodeState(nodeId: NodeId, totalResource: Resource, usedResources: Resource, capabilities: List[Constraint], utilization: Utilization, queueState: Int):Boolean = {
+    var clusterTotalResources = new Resource(0, 0)
+    var clusterUsedResources = new Resource(0, 0)
+
+    def updateNodeState(nodeId: NodeId, totalResource: Resource, usedResources: Resource, capabilities: List[Constraint], utilization: Utilization, queueState: Int): Boolean = {
         val isNewNode = nodeIdToNodeStateTable.get(nodeId).isEmpty
+        if (isNewNode == true)
+            clusterTotalResources = new Resource(clusterTotalResources.memory + totalResource.memory, clusterTotalResources.virtualCore + totalResource.virtualCore)
+        else {
+            val oldUsedResources = nodeIdToNodeStateTable.get(nodeId).get.usedResources
+            val resourceUsageChange = new Resource(usedResources.memory - oldUsedResources.memory, usedResources.virtualCore - oldUsedResources.virtualCore)
+            clusterUsedResources = new Resource(clusterUsedResources.memory + resourceUsageChange.memory, clusterUsedResources.virtualCore + resourceUsageChange.virtualCore)
+        }
+
         nodeIdToNodeStateTable.update(nodeId, new nodeIdToNodeStateRow(totalResource, usedResources, utilization, queueState, DateTime.now()))
         capabilities.foreach(x => updateCapabilityTable(x, nodeId))
+
         isNewNode
     }
 
-    //TODO: test this
     def updateCapabilityTable(capability: Constraint, nodeId: NodeId) = capabilityToNodeIdTable.get(capability) match {
         case None    => capabilityToNodeIdTable.update(capability, List(nodeId))
         case Some(x) => if (!x.contains(nodeId)) capabilityToNodeIdTable.update(capability, nodeId :: x)
@@ -62,7 +73,8 @@ object ClusterDatabase {
     }*/
 
     def getCurrentClusterLoad(): Utilization = {
-        val (totalResource, usedResource) = nodeIdToNodeStateTable.toList.foldLeft((new Resource(0, 0), new Resource(0, 0)))((x, y) => (x._1 + y._2.totalResource, x._2 + y._2.usedResources))
-        new Utilization(usedResource.memory.toDouble / totalResource.memory.toDouble, usedResource.virtualCore.toDouble / totalResource.virtualCore.toDouble)        
+        //val (totalResource, usedResource) = nodeIdToNodeStateTable.toList.foldLeft((new Resource(0, 0), new Resource(0, 0)))((x, y) => (x._1 + y._2.totalResource, x._2 + y._2.usedResources))
+        //new Utilization(usedResource.memory.toDouble / totalResource.memory.toDouble, usedResource.virtualCore.toDouble / totalResource.virtualCore.toDouble)
+        new Utilization(clusterUsedResources.memory.toDouble/ clusterTotalResources.memory.toDouble, clusterUsedResources.virtualCore.toDouble / clusterTotalResources.virtualCore.toDouble)
     }
 }

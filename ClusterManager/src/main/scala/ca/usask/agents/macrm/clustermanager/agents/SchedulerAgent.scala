@@ -13,9 +13,13 @@ class SchedulerAgent(val myId: Int, val queueAgent: ActorRef, val rackAgent: Act
     var jobToSchedule: JobDescription = null
     var taskToSchedule: TaskDescription = null
     var properNode: NodeId = null
+    var isInCentralizeState = 1
 
     def receive = {
-        case "initiateEvent"                  => Event_initiate()
+        case "initiateEvent1"                 => Event_initiate(1)
+        case "initiateEvent2"                 => Event_initiate(2)
+        case "changeToCentralizedMode1"       => Handle_changeToCentralizedMode(1)
+        case "changeToCentralizedMode2"       => Handle_changeToCentralizedMode(2)
         case "trySchedulingAgain"             => Event_trySchedulingAgain()
         case "transactionCompleted"           => Handle_transactionCompleted()
         case "Scheduled"                      => Handle_Scheduled()
@@ -25,9 +29,14 @@ class SchedulerAgent(val myId: Int, val queueAgent: ActorRef, val rackAgent: Act
         case message                          => Handle_UnknownMessage("SchedulerAgent", message)
     }
 
-    def Event_initiate() = {
+    def Event_initiate(mode: Int) = {
         Logger.Log(("SchedulerAgent" + myId.toString() + " Initialization"))
+        isInCentralizeState = mode
         queueAgent ! "getNextTaskForScheduling"
+    }
+
+    def Handle_changeToCentralizedMode(mode: Int) = {
+        isInCentralizeState = mode
     }
 
     def Event_trySchedulingAgain() = {
@@ -54,14 +63,18 @@ class SchedulerAgent(val myId: Int, val queueAgent: ActorRef, val rackAgent: Act
     }
 
     def Handle_ridi(message: _ridi) = {
-
+        println("ridi")
+        startScheduling(null,null)
     }
 
     import context.dispatcher
     def waitForConditionChange(time: Long) = context.system.scheduler.scheduleOnce(FiniteDuration(time, MILLISECONDS), self, "trySchedulingAgain")
 
     def startScheduling(job: JobDescription, task: TaskDescription) = {
-        if (job != null) jobToSchedule = job
+        if (job != null) {
+            jobToSchedule = job
+            println(job.jobId)
+        }
         if (task != null) taskToSchedule = task
         rackAgent ! "getNodeWithFreeResources"
     }
@@ -72,14 +85,19 @@ class SchedulerAgent(val myId: Int, val queueAgent: ActorRef, val rackAgent: Act
 
         if (properNode == null)
             waitForConditionChange(10)
-        else {
+        else
             rackAgent ! new _UpdateNodesWithFreeResourcesTransaction(List((properNode, requiredResource)))
-        }
     }
 
     def Handle_transactionCompleted() = {
-        if (jobToSchedule != null) properNode.agent ! new _AllocateContainerFromSA(self, DateTime.now(), null, List((jobToSchedule, new SamplingInformation(0, null, null))))
-        if (taskToSchedule != null) properNode.agent ! new _AllocateContainerFromSA(self, DateTime.now(), List(taskToSchedule), null)
+        if (jobToSchedule != null) {
+            println("transactionCompleted: " + jobToSchedule.jobId)
+            properNode.agent ! new _AllocateContainerFromSA(self, DateTime.now(), null, List((jobToSchedule, new SamplingInformation(0, null, null))), isInCentralizeState)
+        }
+        if (taskToSchedule != null){
+            println("transactionCompleted: task")
+            properNode.agent ! new _AllocateContainerFromSA(self, DateTime.now(), List(taskToSchedule), null, isInCentralizeState)
+        }
     }
 
     def findProperNode(nodes: List[(NodeId, Resource)], res: Resource): NodeId = nodes match {

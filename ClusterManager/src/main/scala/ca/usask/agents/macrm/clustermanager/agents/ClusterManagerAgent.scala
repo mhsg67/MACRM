@@ -13,17 +13,21 @@ class ClusterManagerAgent extends Agent {
 
     val queueAgent = context.actorOf(Props[QueueAgent], name = "QueueAgent")
     val rackAgent = context.actorOf(Props(new RackAgent(0)), name = "RackAgent")
-    val schedulerAgent = context.actorOf(Props(new SchedulerAgent(0, queueAgent, rackAgent)), name = "SchedulerAgent")
+    
+    val schedulerAgent1 = context.actorOf(Props(new SchedulerAgent(0, queueAgent, rackAgent)), name = "SchedulerAgent1")
+    val schedulerAgent2 = context.actorOf(Props(new SchedulerAgent(0, queueAgent, rackAgent)), name = "SchedulerAgent2")
+    
     val userInterfaceAgent = context.actorOf(Props(new UserInterfaceAgent(queueAgent)), name = "UserInterfaceAgent")
     val resourceTracker = context.actorSelection(ClusterManagerConfig.getResourceTrackerAddress())
 
     var hasReceivedFirstClusterState = false
     var nodeToRackMap = Map[(String, Int), ActorRef]()
-    var isInCentralizeState = false
+    var isInCentralizeState = 0
 
     def receive = {
         case "initiateEvent"                    => Event_initiate()
-        case "changeToCentralizedMode1"          => Handle_ChangeToCentralizedMode()
+        case "changeToCentralizedMode1"         => Handle_ChangeToCentralizedMode(1)
+        case "changeToCentralizedMode2"         => Handle_ChangeToCentralizedMode(2)
         case message: _ClusterState             => Handle_ClusterState(message)
         case message: _TaskSubmissionFromJM     => Handle_TaskSubmissionFromJM(sender(), message)
         case message: _JobFinished              => Handle_JobFinished(message)
@@ -44,14 +48,25 @@ class ClusterManagerAgent extends Agent {
 
     def Handle_JobFinished(message: _JobFinished) = userInterfaceAgent ! message
 
-    def Handle_ChangeToCentralizedMode() = {
-        isInCentralizeState = true
-        rackAgent ! "initiateEvent"
-        schedulerAgent ! "initiateEvent"
+    def Handle_ChangeToCentralizedMode(mode: Int) = {
+        println("Swith to Centralize Mode " + mode.toString())
+        if (isInCentralizeState == 0) {
+            sendToSchedulerAgents("initiateEvent" + mode.toString())
+            rackAgent ! "initiateEvent"
+        }
+        else if (isInCentralizeState != mode) {
+            isInCentralizeState = mode
+            sendToSchedulerAgents("changeToCentralizedMode" + mode.toString())
+        }
     }
 
+    def sendToSchedulerAgents(message:String) = {
+        schedulerAgent1 ! message
+        schedulerAgent2 ! message
+    }
+    
     def Handle_ServerWithEmptyResources(message: _ServerWithEmptyResources) = {
-        if (isInCentralizeState == true)
+        if (isInCentralizeState > 0)
             rackAgent ! message
         else
             queueAgent ! message
@@ -65,7 +80,7 @@ class ClusterManagerAgent extends Agent {
     }
 
     def Handle_ClusterState(message: _ClusterState) = {
-        isInCentralizeState = if (message._switchToDistributedMode == true) false else true
+        isInCentralizeState = if (message._switchToDistributedMode == true) 0 else isInCentralizeState
         queueAgent ! message
     }
 }

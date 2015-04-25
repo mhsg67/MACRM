@@ -15,7 +15,7 @@ class SimulationNodeManagerAgent(val id: Int = 0) extends Agent {
     val random = new Random(id)
 
     var heartBeatTimer: Cancellable = null
-    var isInCentralizeState = false
+    var isInCentralizeState = 0
     var pendingServingJob: Long = 0
     var havePendingServing = false
     var receivedHeartBeatRespond = true
@@ -45,16 +45,22 @@ class SimulationNodeManagerAgent(val id: Int = 0) extends Agent {
     def Event_NodeManagerSimulationInitiate(message: _NodeManagerSimulationInitiate) = {
         Logger.Log("NodeManagerAgent" + id.toString() + " Initialization Start")
         serverState.initializeSimulationServer(message.resource, message.capabilities)
-        val startDelay = new FiniteDuration(NodeManagerConfig.heartBeatStartDelay + random.nextInt(NodeManagerConfig.heartBeatInterval), MILLISECONDS)
+        val startDelay = (NodeManagerConfig.heartBeatStartDelay + random.nextInt(NodeManagerConfig.heartBeatInterval)).milliseconds
         heartBeatTimer = context.system.scheduler.scheduleOnce(startDelay, self, "heartBeatEvent")
     }
 
     def sendHeartBeat() = {
-        missedHeartBeat = false
-        resourceTracker ! new _HeartBeat(self, DateTime.now(), serverState.getServerStatus(self))
-        val nextHeartBeatDelay = new FiniteDuration(NodeManagerConfig.heartBeatInterval, MILLISECONDS)
-        heartBeatTimer = context.system.scheduler.scheduleOnce(nextHeartBeatDelay, self, "heartBeatEvent")
-        receivedHeartBeatRespond = false
+        val nodeReport = serverState.getServerStatus(self)
+        if (isInCentralizeState > 0 && nodeReport.getFreeResources().isNotUsable() && missedHeartBeat == false) {
+            heartBeatTimer = context.system.scheduler.scheduleOnce((NodeManagerConfig.heartBeatInterval / 2).milliseconds, self, "heartBeatEvent")
+            missedHeartBeat = true
+        }
+        else {
+            missedHeartBeat = false
+            resourceTracker ! new _HeartBeat(self, DateTime.now(), nodeReport)
+            heartBeatTimer = context.system.scheduler.scheduleOnce(NodeManagerConfig.heartBeatInterval.milliseconds, self, "heartBeatEvent")
+            receivedHeartBeatRespond = false
+        }
     }
 
     def Event_heartBeat() = {
@@ -75,7 +81,7 @@ class SimulationNodeManagerAgent(val id: Int = 0) extends Agent {
 
         containerToOwnerActor.remove(message.containerId)
 
-        if (isInCentralizeState) {
+        if (isInCentralizeState > 0) {
             heartBeatTimer.cancel()
             sendHeartBeat()
         }
@@ -111,7 +117,8 @@ class SimulationNodeManagerAgent(val id: Int = 0) extends Agent {
     }
 
     def Handle_AllocateContainerFromSchedulerAgent(sender: ActorRef, message: _AllocateContainerFromSA) = {
-        isInCentralizeState = true
+        receivedHeartBeatRespond = true
+        isInCentralizeState = message._centralizeMode
 
         if (message._jobDescriptions != null)
             if (startNewJobManagers(message._jobDescriptions) < message._jobDescriptions.length)
@@ -147,6 +154,7 @@ class SimulationNodeManagerAgent(val id: Int = 0) extends Agent {
 
     import com.typesafe.config.ConfigFactory
     def createJobManagerActor(job: JobDescription, samplInfo: SamplingInformation, containerId: Long) = {
+        println(job.jobId)
         val jobMangerSystem = ActorSystem.create("JobManagerAgent", ConfigFactory.load().getConfig("JobManagerAgent"))
         val newJobManager = jobMangerSystem.actorOf(Props(new SimulationJobManagerAgent(containerId, self, job.userId, job.jobId, samplInfo)), name = "JobManagerAgent")
         newJobManager ! new _JobManagerSimulationInitiate(job.tasks)
@@ -167,7 +175,7 @@ class SimulationNodeManagerAgent(val id: Int = 0) extends Agent {
             }
             case Some(x) => {
                 containerToOwnerActor.update(x, ownerActor)
-                context.system.scheduler.scheduleOnce(FiniteDuration(task.duration.getMillis, MILLISECONDS), self, new _ContainerExecutionFinished(x, false))
+                context.system.scheduler.scheduleOnce(task.duration.getMillis.milliseconds, self, new _ContainerExecutionFinished(x, false))
                 true
             }
         }

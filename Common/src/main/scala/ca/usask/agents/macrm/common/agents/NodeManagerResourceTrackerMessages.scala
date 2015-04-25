@@ -11,4 +11,4 @@ import ca.usask.agents.macrm.common.records.NodeReport
 case class _HeartBeat(_source: ActorRef, _time: DateTime, _report: NodeReport)
     extends BasicMessage
 
-case class _EmptyHeartBeatResponse(_switchToCentralizeMode: Boolean) extends BasicMessage
+case class _EmptyHeartBeatResponse(_switchToCentralizeMode: Int) extends BasicMessage

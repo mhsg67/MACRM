@@ -22,7 +22,7 @@ class RackAgent(val myId: Int) extends Agent {
     }
 
     def Event_initiate() {
-        Logger.Log("QueueAgent" + myId.toString() + " Initialization")
+        Logger.Log("RackAgent" + myId.toString() + " Initialization")
     }
 
     def Handle_NodeWithFreeResourcesIsInconsistance(message: _NodeWithFreeResourcesIsInconsistance) = {
@@ -33,19 +33,26 @@ class RackAgent(val myId: Int) extends Agent {
         var impossibleIndexes = List[NodeId]()
 
         message.nodes.foreach(x => nodesWithFreeResources.get(x._1) match {
-            case None => impossibleIndexes = x._1 :: impossibleIndexes
+            case None => {
+                println("unknown node")
+                impossibleIndexes = x._1 :: impossibleIndexes
+            }
             case Some(y) => {
                 if (x._2.memory <= y.memory && x._2.virtualCore <= y.virtualCore)
                     updateResourceInNodesWithFreeResource(x._1, x._2)
-                else
+                else{
+                    println("nodes resource problem")
                     impossibleIndexes = x._1 :: impossibleIndexes
+                }
             }
         })
 
         if (impossibleIndexes.isEmpty)
             sender ! "transactionCompleted"
-        else
+        else{
+            println("transactionConflicted")
             sender ! new _UnsuccessfulPartOfTrasaction(impossibleIndexes)
+        }
 
     }
 

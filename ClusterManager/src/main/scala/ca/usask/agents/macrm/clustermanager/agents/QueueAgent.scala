@@ -47,7 +47,7 @@ class QueueAgent extends Agent {
                 }
             }
         else
-            message._report.nodeId.agent ! new _EmptyHeartBeatResponse(false)
+            message._report.nodeId.agent ! new _EmptyHeartBeatResponse(0)
     }
 
     def allocateContainer(tasks: List[TaskDescription], jobs: List[(JobDescription, SamplingInformation)], message: _ServerWithEmptyResources) =

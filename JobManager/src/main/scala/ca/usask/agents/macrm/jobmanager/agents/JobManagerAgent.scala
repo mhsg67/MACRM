@@ -16,9 +16,22 @@ class JobManagerAgentAdvance(val userId: Int,
     var samplingTimeout: Cancellable = null
     var waveToHighestSamplingRateWithTaskIndexWithConstraints = Map[Int, List[(Double, Int, List[Constraint])]]()
     var currentWaveOfTasks = 0
+
     val resourceTracker = context.actorSelection(JobManagerConfig.getResourceTrackerAddress)
     val clusterManager = context.actorSelection(JobManagerConfig.getClusterManagerAddress)
     val samplingTimeoutMillis = new FiniteDuration(JobManagerConfig.samplingTimeoutLong, MILLISECONDS)
+
+    def Handle_JMHeartBeatResponse(message: _JMHeartBeatResponse) =
+        SamplingManagerAdvance.loadNewSamplingRate(message._samplingRate)
+
+    def sendheartBeat(waveNumber: Int) =
+        resourceTracker ! create_JMHeartBeat()
+
+    def create_JMHeartBeat() =
+        new _JMHeartBeat(self, DateTime.now(), new JobReport(userId, jobId, SamplingManagerAdvance.samplingRate))
+
+    def getActorRefFromNodeId(node: NodeId): ActorSelection =
+        context.actorSelection(JobManagerConfig.createNodeManagerAddressString(node.host, node.port))
 
     def receive = {
         case "initiateEvent"                    => Event_initiate()
@@ -70,7 +83,7 @@ class JobManagerAgentAdvance(val userId: Int,
         }
         else
             sendheartBeat(message.forWave)
-            
+
     }
 
     def updateWaveToHighestSamplingRateToConstraints(wave: Int, retry: Int, unscheduledTasks: List[TaskDescription]) = {
@@ -85,13 +98,5 @@ class JobManagerAgentAdvance(val userId: Int,
             }
         }
     }
-
-    def Handle_JMHeartBeatResponse(message: _JMHeartBeatResponse) = SamplingManagerAdvance.loadNewSamplingRate(message._samplingRate)
-
-    def sendheartBeat(waveNumber: Int) = resourceTracker ! create_JMHeartBeat()
-
-    def create_JMHeartBeat() = new _JMHeartBeat(self, DateTime.now(), new JobReport(userId, jobId, SamplingManagerAdvance.samplingRate))
-
-    def getActorRefFromNodeId(node: NodeId): ActorSelection = context.actorSelection(JobManagerConfig.createNodeManagerAddressString(node.host, node.port))
 
 }

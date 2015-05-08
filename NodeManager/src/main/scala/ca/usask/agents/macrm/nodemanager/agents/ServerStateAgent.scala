@@ -14,28 +14,30 @@ class ServerStateAgent(val nodeManager: ActorRef) extends Agent {
     var containerManager: ActorRef = null
     var serverState: ServerState = null
 
+    def Handle_ContainerExecutionFinished(message: _ContainerExecutionFinished) =
+        serverState.killContainer(message.containerId)
+
+    def createNodeReport(): NodeReport =
+        serverState.getServerStatus(nodeManager)
+
+    def create_HeartBeat(_nodeReport: NodeReport) =
+        new _HeartBeat(self, DateTime.now(), _nodeReport)
+
+    def Handle_checkContainers(_sender: ActorRef) = null
+
     def receive = {
         case "initiateEvent"                         => Event_initiate
         case "heartBeatEvent"                        => Handle_heartBeat(sender())
         case "checkContainersEvent"                  => Handle_checkContainers(sender())
         case "checkAvailableResourcesEvent"          => Handle_checkAvailableResources(sender())
         case message: _AllocateContainer             => Handle_AllocateContainer(message, sender())
-        case message: _NodeManagerSimulationInitiate => Event_NodeManagerSimulationInitiate(message)
         case message: _ContainerExecutionFinished    => Handle_ContainerExecutionFinished(message)
-        case message                                      => Handle_UnknownMessage("ServerStateAgent",message)
+        case message                                 => Handle_UnknownMessage("ServerStateAgent", message)
     }
 
     def Event_initiate = {
         Logger.Log("ServerStateAgent Initialization")
-
         serverState = ServerState(isSimulation = false)
-    }
-
-    def Event_NodeManagerSimulationInitiate(message: _NodeManagerSimulationInitiate) = {
-        Logger.Log("ServerStateAgent Initialization")
-
-        serverState = ServerState(isSimulation = true)
-        serverState.initializeSimulationServer(message.resource, message.capabilities)
     }
 
     def Handle_heartBeat(_sender: ActorRef) = {
@@ -62,7 +64,7 @@ class ServerStateAgent(val nodeManager: ActorRef) extends Agent {
     }
 
     import context.dispatcher
-    def Handle_AllocateContainer(message: _AllocateContainer, sender: ActorRef) = {        
+    def Handle_AllocateContainer(message: _AllocateContainer, sender: ActorRef) = {
         receivedHeartBeatRespond = message.isHeartBeatRespond
         containerManager = sender
 
@@ -71,7 +73,7 @@ class ServerStateAgent(val nodeManager: ActorRef) extends Agent {
                 case None => sender ! "NACK"
                 case Some(x) =>
                     if (message.taskIndex > 0)
-                        context.system.scheduler.scheduleOnce(FiniteDuration(message.duration.getMillis, MILLISECONDS), self, new _ContainerExecutionFinished(x,false))
+                        context.system.scheduler.scheduleOnce(FiniteDuration(message.duration.getMillis, MILLISECONDS), self, new _ContainerExecutionFinished(x, false))
                     sender ! "ACK"
             }
         }
@@ -79,13 +81,4 @@ class ServerStateAgent(val nodeManager: ActorRef) extends Agent {
             case e: Exception => sender ! "NACK"
         }
     }
-
-    def Handle_ContainerExecutionFinished(message: _ContainerExecutionFinished) = serverState.killContainer(message.containerId)
-
-    def createNodeReport(): NodeReport = serverState.getServerStatus(nodeManager)
-
-    def create_HeartBeat(_nodeReport: NodeReport) = new _HeartBeat(self, DateTime.now(), _nodeReport)
-
-    def Handle_checkContainers(_sender: ActorRef) = null
-
 }

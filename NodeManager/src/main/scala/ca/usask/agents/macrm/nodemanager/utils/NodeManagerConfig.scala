@@ -17,14 +17,12 @@ object NodeManagerConfig {
     val resourceTrackerDefualtPort = "3000"
 
     /**
-     * Based on YARN configuration we set heart beat interval
-     * to RM to 1000
+     * Based on YARN configuration we set heart beat interval to RM to 1000
      */
     var heartBeatInterval = 3000
 
     /**
-     * Each node start to send heart beat 3000 millisecond
-     * after booting
+     * Each node start to send heart beat 3000 millisecond after booting
      */
     val heartBeatStartDelay = 1000
     

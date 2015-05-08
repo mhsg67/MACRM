@@ -56,14 +56,14 @@ class SimulationResourceTrackerAgent extends Agent {
         else
             currentUtilization.virtualCoreUtilization
 
-        /*if (maxResourceUtilization >= 0.90) {
+        if (maxResourceUtilization >= 0.90) {
             if (isInCentralizeState == 0) {
                 clusterManagerAgent ! "changeToCentralizedMode1"
                 isInCentralizeState = 1
                 currentSamplingRate = 2
             }
         }
-        else*/ {
+        else {
             if (maxResourceUtilization < 0.90 && isInCentralizeState > 0) isInCentralizeState = 0
             val properSamplingRate = calcProperSamplingRate(maxResourceUtilization)
             if (properSamplingRate != currentSamplingRate && properSamplingRate >= 2.0) {

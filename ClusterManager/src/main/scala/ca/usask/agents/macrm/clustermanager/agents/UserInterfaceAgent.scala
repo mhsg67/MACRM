@@ -12,10 +12,8 @@ import akka.camel._
 class UserInterfaceAgent(val queueAgent: ActorRef) extends Agent with Consumer {
 
     var submittedJobCache: String = ""
-    
+
     val jobIdToJobSubmissionJobDuration = Map[Long, (Long, Long)]()
-    def endpointUri = 
-        "netty:tcp://" + ClusterManagerConfig.clusterManagerIpAddress + ":2001?textline=true"
 
     def receive = {
         case "initiateEvent"       => Event_initiate()
@@ -23,6 +21,9 @@ class UserInterfaceAgent(val queueAgent: ActorRef) extends Agent with Consumer {
         case message: CamelMessage => Handle_UserMessage(message, sender())
         case message               => Handle_UnknownMessage("UserInterfaceAgent", message)
     }
+
+    def endpointUri =
+        "netty:tcp://" + ClusterManagerConfig.clusterManagerIpAddress + ":2001?textline=true"
 
     override def replyTimeout(): FiniteDuration = {
         new FiniteDuration(60000 * 5, MILLISECONDS)

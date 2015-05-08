@@ -7,7 +7,7 @@ import scala.util.control.Exception
 import org.joda.time.DateTime
 import akka.actor._
 
-class RealNodeManagerAgent(val id: Int = 0) extends Agent {
+class NodeManagerAgent(val id: Int = 0) extends Agent {
 
     val resourceTracker = context.actorSelection(NodeManagerConfig.getResourceTrackerAddress)
     val serverState = context.actorOf(Props(new ServerStateAgent(self)), name = "ServerStateAgent" + id.toString())

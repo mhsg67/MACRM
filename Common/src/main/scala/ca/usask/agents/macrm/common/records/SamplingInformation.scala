@@ -10,7 +10,7 @@ import java.io.Serializable
  * capability that are required by some of this job's tasks
  */
 @SerialVersionUID(100L)
-class SamplingInformation(val samplingRate:Double,
+class SamplingInformation(val samplingRate: Double,
                           val clusterNodesWithConstraint: List[(NodeId, List[Constraint])],
-                          val clusterNodeWithoutConstraint:List[NodeId])
+                          val clusterNodeWithoutConstraint: List[NodeId])
     extends Serializable 

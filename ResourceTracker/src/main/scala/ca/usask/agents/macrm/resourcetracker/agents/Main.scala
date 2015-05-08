@@ -4,9 +4,7 @@ import akka.actor._
 import ca.usask.agents.macrm.resourcetracker.utils._
 import com.typesafe.config.ConfigFactory
 
-/**
- * It is the starter for resource finder agent
- */
+
 object main {
 
     def readConfiguration(): List[String] = {

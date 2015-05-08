@@ -10,19 +10,18 @@ import scala.concurrent.duration._
 import scala.collection.mutable._
 import scala.util._
 
-class NodeManagerAgent(val id: Int = 0) extends Agent {
-
-    val random = new Random(id)
+class SimulationNodeManagerAgent(val id: Int = 0) extends Agent {
 
     var heartBeatTimer: Cancellable = null
-    var isInCentralizeState = false
+    var isInCentralizeState = 0
     var pendingServingJob: Long = 0
     var havePendingServing = false
     var receivedHeartBeatRespond = true
     var missedHeartBeat = false
-    var containerToActorSystem = Map[Long, ActorSystem]()
-    var containerToOwnerActor = Map[Long, ActorRef]()
 
+    val random = new Random(id)
+    val containerToActorSystem = Map[Long, ActorSystem]()
+    val containerToOwnerActor = Map[Long, ActorRef]()
     val serverState = new SimulationServerState()
     val resourceTracker = context.actorSelection(NodeManagerConfig.getResourceTrackerAddress)
 
@@ -45,16 +44,22 @@ class NodeManagerAgent(val id: Int = 0) extends Agent {
     def Event_NodeManagerSimulationInitiate(message: _NodeManagerSimulationInitiate) = {
         Logger.Log("NodeManagerAgent" + id.toString() + " Initialization Start")
         serverState.initializeSimulationServer(message.resource, message.capabilities)
-        val startDelay = new FiniteDuration(NodeManagerConfig.heartBeatStartDelay + random.nextInt(NodeManagerConfig.heartBeatInterval), MILLISECONDS)
+        val startDelay = (NodeManagerConfig.heartBeatStartDelay + random.nextInt(NodeManagerConfig.heartBeatInterval)).milliseconds
         heartBeatTimer = context.system.scheduler.scheduleOnce(startDelay, self, "heartBeatEvent")
     }
 
     def sendHeartBeat() = {
-        missedHeartBeat = false
-        resourceTracker ! new _HeartBeat(self, DateTime.now(), serverState.getServerStatus(self))
-        val nextHeartBeatDelay = new FiniteDuration(NodeManagerConfig.heartBeatInterval, MILLISECONDS)
-        heartBeatTimer = context.system.scheduler.scheduleOnce(nextHeartBeatDelay, self, "heartBeatEvent")
-        receivedHeartBeatRespond = false
+        val nodeReport = serverState.getServerStatus(self)
+        if (isInCentralizeState > 0 && nodeReport.getFreeResources().isNotUsable() && missedHeartBeat == false) {
+            heartBeatTimer = context.system.scheduler.scheduleOnce((NodeManagerConfig.heartBeatInterval / 2).milliseconds, self, "heartBeatEvent")
+            missedHeartBeat = true
+        }
+        else {
+            missedHeartBeat = false
+            resourceTracker ! new _HeartBeat(self, DateTime.now(), nodeReport)
+            heartBeatTimer = context.system.scheduler.scheduleOnce(NodeManagerConfig.heartBeatInterval.milliseconds, self, "heartBeatEvent")
+            receivedHeartBeatRespond = false
+        }
     }
 
     def Event_heartBeat() = {
@@ -75,7 +80,7 @@ class NodeManagerAgent(val id: Int = 0) extends Agent {
 
         containerToOwnerActor.remove(message.containerId)
 
-        if (isInCentralizeState) {
+        if (isInCentralizeState > 0) {
             heartBeatTimer.cancel()
             sendHeartBeat()
         }
@@ -111,7 +116,8 @@ class NodeManagerAgent(val id: Int = 0) extends Agent {
     }
 
     def Handle_AllocateContainerFromSchedulerAgent(sender: ActorRef, message: _AllocateContainerFromSA) = {
-        isInCentralizeState = true
+        receivedHeartBeatRespond = true
+        isInCentralizeState = message._centralizeMode
 
         if (message._jobDescriptions != null)
             if (startNewJobManagers(message._jobDescriptions) < message._jobDescriptions.length)
@@ -148,7 +154,7 @@ class NodeManagerAgent(val id: Int = 0) extends Agent {
     import com.typesafe.config.ConfigFactory
     def createJobManagerActor(job: JobDescription, samplInfo: SamplingInformation, containerId: Long) = {
         val jobMangerSystem = ActorSystem.create("JobManagerAgent", ConfigFactory.load().getConfig("JobManagerAgent"))
-        val newJobManager = jobMangerSystem.actorOf(Props(new JobManagerAgent(containerId, self, job.userId, job.jobId, samplInfo)), name = "JobManagerAgent")
+        val newJobManager = jobMangerSystem.actorOf(Props(new SimulationJobManagerAgent(containerId, self, job.userId, job.jobId, samplInfo)), name = "JobManagerAgent")
         newJobManager ! new _JobManagerSimulationInitiate(job.tasks)
         containerToOwnerActor.update(containerId, newJobManager)
         containerToActorSystem.update(containerId, jobMangerSystem)
@@ -167,7 +173,7 @@ class NodeManagerAgent(val id: Int = 0) extends Agent {
             }
             case Some(x) => {
                 containerToOwnerActor.update(x, ownerActor)
-                context.system.scheduler.scheduleOnce(FiniteDuration(task.duration.getMillis, MILLISECONDS), self, new _ContainerExecutionFinished(x, false))
+                context.system.scheduler.scheduleOnce(task.duration.getMillis.milliseconds, self, new _ContainerExecutionFinished(x, false))
                 true
             }
         }

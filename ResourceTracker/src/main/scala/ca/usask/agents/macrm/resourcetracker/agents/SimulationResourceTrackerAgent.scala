@@ -5,12 +5,11 @@ import ca.usask.agents.macrm.common.records._
 import ca.usask.agents.macrm.common.agents._
 import org.joda.time._
 import akka.actor._
-import java.util.Formatter.DateTime
 
-class ResourceTrackerAgent extends Agent {
+class SimulationResourceTrackerAgent extends Agent {
 
-    var currentSamplingRate = 2.0
-    var isInCentralizeState = false
+   var currentSamplingRate = 2.0
+    var isInCentralizeState = 0
     val clusterManagerAgent = context.actorSelection(ResourceTrakerConfig.getClusterManagerAddress())
 
     def addIPandPortToNodeReport(oldReport: NodeReport, sender: ActorRef) =
@@ -25,21 +24,18 @@ class ResourceTrackerAgent extends Agent {
         case message               => Handle_UnknownMessage("ResourceTrackerAgent", message)
     }
 
-    def Event_initiate() = {
-        Logger.Log("ResourceTrackerAgent Initialization")
-    }
+    def Event_initiate() = Logger.Log("ResourceTrackerAgent Initialization")
 
     //TODO: for real test and the case of centralize scheduling you should check 
     //if the node has resource for minimum container instead of a job manager container
     def Handle_HeartBeat(sender: ActorRef, message: _HeartBeat) = {
         updateClusterDatebaseByNMHeartBeat(sender, message)
+        updateClusterModeAndSamplingRate()
 
         if (doesServerHaveResourceForAJobManager(message._report))
             clusterManagerAgent ! new _ServerWithEmptyResources(self, DateTime.now(), addIPandPortToNodeReport(message._report, sender))
-        else if (isInCentralizeState == true)
-            sender ! new _EmptyHeartBeatResponse(true)
         else
-            sender ! new _EmptyHeartBeatResponse(false)
+            sender ! new _EmptyHeartBeatResponse(isInCentralizeState)
     }
 
     def updateClusterDatebaseByNMHeartBeat(sender: ActorRef, message: _HeartBeat) = {
@@ -51,6 +47,32 @@ class ResourceTrackerAgent extends Agent {
 
         if (isNewNode == true)
             clusterManagerAgent ! new _ClusterState(self, DateTime.now(), currentSamplingRate, null, List((nodeId, message._report.capabilities)), null, true)
+    }
+
+    def updateClusterModeAndSamplingRate() {
+        val currentUtilization = ClusterDatabase.getCurrentClusterLoad()
+        val maxResourceUtilization = if (currentUtilization.memoryUtilization > currentUtilization.virtualCoreUtilization)
+            currentUtilization.memoryUtilization
+        else
+            currentUtilization.virtualCoreUtilization
+
+        /*if (maxResourceUtilization >= 0.90) {
+            if (isInCentralizeState == 0) {
+                clusterManagerAgent ! "changeToCentralizedMode1"
+                isInCentralizeState = 1
+                currentSamplingRate = 2
+            }
+        }
+        else*/ {
+            if (maxResourceUtilization < 0.90 && isInCentralizeState > 0) isInCentralizeState = 0
+            val properSamplingRate = calcProperSamplingRate(maxResourceUtilization)
+            if (properSamplingRate != currentSamplingRate && properSamplingRate >= 2.0) {
+                println("properSamplingRate " + properSamplingRate)
+                currentSamplingRate = properSamplingRate
+                clusterManagerAgent ! new _ClusterState(self, DateTime.now(), currentSamplingRate, null, null, null, true)
+            }
+        }
+
     }
 
     def doesServerHaveResourceForAJobManager(_nodeReport: NodeReport) = {
@@ -65,32 +87,14 @@ class ResourceTrackerAgent extends Agent {
     def Handle_JMHeartBeat(message: _JMHeartBeat) = {
         val currentUtilization = ClusterDatabase.getCurrentClusterLoad()
         println(currentUtilization)
-
-        val maxResourceUtilization = if (currentUtilization.memoryUtilization > currentUtilization.virtualCoreUtilization)
-            currentUtilization.memoryUtilization
-        else
-            currentUtilization.virtualCoreUtilization
-
-        if (maxResourceUtilization > 0.94) {
-            clusterManagerAgent ! "changeToCentralizedMode"
-            isInCentralizeState = true
-            currentSamplingRate = 2
-        }
-        else {
-            if (maxResourceUtilization < 0.91 && isInCentralizeState == true) isInCentralizeState = false
-            val properSamplingRate = calcProperSamplingRate(maxResourceUtilization)
-            if (properSamplingRate != currentSamplingRate && properSamplingRate >= 2.0) {
-                println("properSamplingRate " + properSamplingRate)
-                currentSamplingRate = properSamplingRate
-                clusterManagerAgent ! new _ClusterState(self, DateTime.now(), currentSamplingRate, null, null, null, true)
-            }
-        }
+        println("<sampRate:" + currentSamplingRate + ">")
     }
 
     def calcProperSamplingRate(resourceUtilization: Double): Double = {
         val resourceUtilizationPercentage = resourceUtilization * 100
-        val base = 67.87845228
-        val growth = 1.6
-        math.pow(growth, ((resourceUtilizationPercentage - base) / 5))
+        if (resourceUtilizationPercentage >= 75)
+            (resourceUtilizationPercentage * resourceUtilizationPercentage * 0.02) - (2.9 * resourceUtilizationPercentage) + 107
+        else
+            2.0
     }
 }

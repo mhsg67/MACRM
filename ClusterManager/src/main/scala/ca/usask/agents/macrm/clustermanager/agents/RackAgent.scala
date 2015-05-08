@@ -9,10 +9,10 @@ import scala.util.Random
 
 class RackAgent(val myId: Int) extends Agent {
 
-    var nodesWithFreeResources = Map[NodeId, Resource]()
+    val nodesWithFreeResources = Map[NodeId, Resource]()
+    val queueOfGetNodeWithFreeResources = Queue[ActorRef]()
 
     def receive = {
-
         case "initiateEvent" => Event_initiate()
         case "getNodeWithFreeResources" => Handle_getNodeWithFreeResources(sender())
         case message: _ServerWithEmptyResources => Handle_ServerWithEmptyResources(message)
@@ -21,13 +21,11 @@ class RackAgent(val myId: Int) extends Agent {
         case message => Handle_UnknownMessage("RackAgent", message)
     }
 
-    def Event_initiate() {
-        Logger.Log("QueueAgent" + myId.toString() + " Initialization")
-    }
+    def Event_initiate() =
+        Logger.Log("RackAgent" + myId.toString() + " Initialization")
 
-    def Handle_NodeWithFreeResourcesIsInconsistance(message: _NodeWithFreeResourcesIsInconsistance) = {
+    def Handle_NodeWithFreeResourcesIsInconsistance(message: _NodeWithFreeResourcesIsInconsistance) =
         message.nodes.foreach(x => nodesWithFreeResources.update(x._1, x._2))
-    }
 
     def Handle_updateNodesWithFreeResources(sender: ActorRef, message: _UpdateNodesWithFreeResourcesTransaction) = {
         var impossibleIndexes = List[NodeId]()
@@ -59,10 +57,18 @@ class RackAgent(val myId: Int) extends Agent {
     }
 
     def Handle_getNodeWithFreeResources(sender: ActorRef) = {
-        sender ! new _NodesWithFreeResources(Random.shuffle(nodesWithFreeResources.toList))
+        if (nodesWithFreeResources.toList.isEmpty)
+            queueOfGetNodeWithFreeResources.enqueue(sender)
+        else
+            sender ! new _NodesWithFreeResources(Random.shuffle(nodesWithFreeResources.toList))
     }
 
     def Handle_ServerWithEmptyResources(message: _ServerWithEmptyResources) = {
         nodesWithFreeResources.update(message._report.nodeId, message._report.getFreeResources())
+
+        if (!queueOfGetNodeWithFreeResources.isEmpty) {
+            queueOfGetNodeWithFreeResources.toList.foreach(x => x ! new _NodesWithFreeResources(Random.shuffle(nodesWithFreeResources.toList)))
+            queueOfGetNodeWithFreeResources.clear()
+        }
     }
 }

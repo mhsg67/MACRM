@@ -14,7 +14,6 @@ class ClusterDatastructure {
         if (addedServers != null) {
             clusterNodes = clusterNodes.filterNot(x => addedServers.exists(y => y._1 == x._1))
             clusterNodes ++= addedServers
-            println("ClusterNodes " + clusterNodes.length)
         }
         if (rareResourcesUpdate != null) rareResourcesUpdate.foreach(x => addOrDropRareResources(x._1, x._2))
     }

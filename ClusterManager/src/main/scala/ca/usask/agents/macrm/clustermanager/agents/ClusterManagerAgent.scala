@@ -31,7 +31,6 @@ class ClusterManagerAgent extends Agent {
         case message: _JobFinished              => Handle_JobFinished(message)
         case message: _ServerWithEmptyResources => Handle_ServerWithEmptyResources(message)
         case message: _EachUserShareOfCluster   => Handle_EachUserShareOfCluster(message)
-        case message: _ServerStatusUpdate       => Handle_ServerStatusUpdate(message)
         case message                            => Handle_UnknownMessage("ClusterManagerAgent", message)
     }
 
@@ -47,9 +46,6 @@ class ClusterManagerAgent extends Agent {
         userInterfaceAgent ! "initiateEvent"
         Logger.Log("ClusterManagerAgent Initialization End")
     }
-
-    def Handle_ServerStatusUpdate(message: _ServerStatusUpdate) =
-        nodeToRackMap(message._report.nodeId.host, message._report.nodeId.port) ! message
 
     def Handle_JobFinished(message: _JobFinished) =
         userInterfaceAgent ! message

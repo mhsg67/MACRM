@@ -20,6 +20,15 @@ object main {
         lines.map(x => x.split(":")(1)).toList
     }
 
+    def getNodeResource(index: Int) = index match {
+        case x1 if 0 until 535 contains x1   => new Resource(8000, 6)
+        case x2 if 535 until 842 contains x2 => new Resource(4000, 6)
+        case x3 if 842 until 922 contains x3 => new Resource(12000, 6)
+        case x4 if 922 until 986 contains x4 => new Resource(16000, 12)
+        case x5 if 986 until 996 contains x5 => new Resource(4000, 3)
+        case _                               => new Resource(2000, 6)
+    }
+
     def main(args: Array[String]) {
         val startIndex = args(0).toInt
         val numActor = args(1).toInt
@@ -32,23 +41,15 @@ object main {
         JobManagerConfig.resourceTrackerIPAddress = generalConfig(1)
         JobManagerConfig.clusterManagerIPAddress = generalConfig(0)
 
-        val actorsList = (startIndex until startIndex + numActor toList).map(y => ActorSystem.create("NodeManagerAgent", ConfigFactory.load().getConfig("NodeManagerAgent")).actorOf(Props(new SimulationNodeManagerAgent(y)), name = "NodeManagerAgent"))
+        val initialLoads = generalConfig.drop(5).map(x => { val y = x.split(','); (y(0).toFloat, y(1).toFloat) })
         var count = startIndex
+
+        val actorsList = (startIndex until startIndex + numActor toList).map(y => ActorSystem.create("NodeManagerAgent", ConfigFactory.load().getConfig("NodeManagerAgent")).actorOf(Props(new SimulationNodeManagerAgent(y)), name = "NodeManagerAgent"))
         actorsList.foreach(x => {
-            if(count<535)
-                x ! new _NodeManagerSimulationInitiate(new Resource(8000, 6), List())
-            else if(count>=535 && count<842)
-                x ! new _NodeManagerSimulationInitiate(new Resource(4000, 6), List())
-            else if(count>=842 && count<922)
-                x ! new _NodeManagerSimulationInitiate(new Resource(12000, 6), List())
-            else if(count>=922 && count<986)
-                x ! new _NodeManagerSimulationInitiate(new Resource(16000, 12), List())
-            else if(count>=986 && count<996)
-                x ! new _NodeManagerSimulationInitiate(new Resource(4000, 3), List())
-            else
-                x ! new _NodeManagerSimulationInitiate(new Resource(2000, 6), List())
+            val nodeResource = getNodeResource(count)
+            val initialLoad = new Resource(initialLoads(count - 1)._1, initialLoads(count - 1)._2)
+            x ! new _NodeManagerSimulationInitiate(nodeResource, initialLoad, List())
             count = count + 1
         })
-
     }
 }

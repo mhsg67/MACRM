@@ -44,6 +44,7 @@ class SimulationNodeManagerAgent(val id: Int = 0) extends Agent {
     def Event_NodeManagerSimulationInitiate(message: _NodeManagerSimulationInitiate) = {
         Logger.Log("NodeManagerAgent" + id.toString() + " Initialization Start")
         serverState.initializeSimulationServer(message.resource, message.capabilities)
+        serverState.createContainer(-1, -1, -1, message.initialLoad)
         val startDelay = (NodeManagerConfig.heartBeatStartDelay + random.nextInt(NodeManagerConfig.heartBeatInterval)).milliseconds
         heartBeatTimer = context.system.scheduler.scheduleOnce(startDelay, self, "heartBeatEvent")
     }

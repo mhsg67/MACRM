@@ -8,6 +8,7 @@ import scala.collection.mutable._
 @SerialVersionUID(100L)
 case class JobDescription(val jobId: Long,
                           val userId: Int,
+                          val duration: Long = 0,
                           val numberOfTasks: Int,
                           var tasks: List[TaskDescription])
     extends Serializable {

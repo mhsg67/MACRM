@@ -3,8 +3,8 @@ package ca.usask.agents.macrm.common.records
 import java.io.Serializable
 
 @SerialVersionUID(100L)
-class Resource(val memory: Int = 0,
-               val virtualCore: Int = 0)
+class Resource(val memory: Double = 0.0,
+               val virtualCore: Double = 0.0)
     extends Serializable {
 
     override def equals(input: Any): Boolean = input match {

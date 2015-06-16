@@ -8,7 +8,7 @@ class JSONManagerTest extends UnitSpec{
     
     "getJobDescription" should "return JobDescription Object" in {        
         
-        val result:Either[String, JobDescription] = JSONManager.getJobDescription("""{"JI": 1,"UI": 1,"TS":[{"INX":0,"DUR":100,"RST":2,"CPU":1,"MEM":250,"PRI":0,"TSC":1},{"INX":1,"DUR":100,"RST":2,"CPU":1,"MEM":250,"PRI":0,"TSC":1}],"CS": []}""")
+        val result:Either[String, JobDescription] = JSONManager.getJobDescription("""{"JI": 1, "UI": 1,"DUR": 1, "TS":[{"INX":0,"DUR":100,"RST":2,"CPU":1,"MEM":250,"PRI":0,"TSC":1},{"INX":1,"DUR":100,"RST":2,"CPU":1,"MEM":250,"PRI":0,"TSC":1}],"CS": []}""")
         
         result should be ('right)
         result.right.get.jobId should be (1)
@@ -20,8 +20,8 @@ class JSONManagerTest extends UnitSpec{
         result.right.get.tasks(0).duration should be (new Duration(0))
         result.right.get.tasks(0).relativeSubmissionTime should be (new Duration(0))
         result.right.get.tasks(0).resource shouldBe a [Resource]
-        result.right.get.tasks(0).resource.memory should be (1000)
-        result.right.get.tasks(0).resource.virtualCore should be (1)
+        result.right.get.tasks(0).resource.memory should be (250)
+        result.right.get.tasks(0).resource.virtualCore should be (0.5)
         result.right.get.tasks(0).constraints should be (List())
         
         result.right.get.tasks(1) shouldBe a [TaskDescription]
@@ -36,7 +36,7 @@ class JSONManagerTest extends UnitSpec{
     
     "getJobDescription" should "return JobDescription with constraints" in {  
         
-        val result:Either[String, JobDescription] = JSONManager.getJobDescription("""{"JI": 1,"UI": 1,"TS":[{"INX":0,"DUR":100,"RST":2,"CPU":1,"MEM":250,"PRI":0,"TSC":1},{"INX":1,"DUR":100,"RST":2,"CPU":1,"MEM":250,"PRI":0,"TSC":1},{"INX":2,"DUR":200,"RST":3,"CPU":1,"MEM":500,"PRI":0,"TSC":1}],"CS":[{"INX":0,"N":"1","OP":0,"V":1},{"INX":0,"N":"2","OP":0,"V":2},{"INX":0,"N":"3","OP":0,"V":3},{"INX":1,"N":"1","OP":0,"V":2},{"INX":1,"N":"2","OP":0,"V":1},{"INX":2,"N":"1","OP":0,"V":3}]}""")
+        val result:Either[String, JobDescription] = JSONManager.getJobDescription("""{"JI": 1,"UI": 1,"DUR": 1, "TS":[{"INX":0,"DUR":100,"RST":2,"CPU":1,"MEM":250,"PRI":0,"TSC":1},{"INX":1,"DUR":100,"RST":2,"CPU":1,"MEM":250,"PRI":0,"TSC":1},{"INX":2,"DUR":200,"RST":3,"CPU":1,"MEM":500,"PRI":0,"TSC":1}],"CS":[{"INX":0,"N":"1","OP":0,"V":1},{"INX":0,"N":"2","OP":0,"V":2},{"INX":0,"N":"3","OP":0,"V":3},{"INX":1,"N":"1","OP":0,"V":2},{"INX":1,"N":"2","OP":0,"V":1},{"INX":2,"N":"1","OP":0,"V":3}]}""")
         
         result should be ('right)
         result.right.get.constraints.length should be (6)

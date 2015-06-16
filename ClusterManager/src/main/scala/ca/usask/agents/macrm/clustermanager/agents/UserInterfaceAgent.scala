@@ -26,7 +26,7 @@ class UserInterfaceAgent(val queueAgent: ActorRef) extends Agent with Consumer {
         "netty:tcp://" + ClusterManagerConfig.clusterManagerIpAddress + ":2001?textline=true"
 
     override def replyTimeout(): FiniteDuration = {
-        new FiniteDuration(60000 * 15, MILLISECONDS)
+        new FiniteDuration(60000 * 25, MILLISECONDS)
     }
 
     def Event_initiate() = {
@@ -43,7 +43,7 @@ class UserInterfaceAgent(val queueAgent: ActorRef) extends Agent with Consumer {
                 }
                 case Right(x) => {
 
-                    jobIdToJobSubmissionJobDuration.update(x.jobId, (DateTime.now().getMillis, x.tasks(1).duration.getMillis))
+                    jobIdToJobSubmissionJobDuration.update(x.jobId, (DateTime.now().getMillis, x.duration))
                     queueAgent ! new _JobSubmission(x)
                     submittedJobCache = ""
                 }

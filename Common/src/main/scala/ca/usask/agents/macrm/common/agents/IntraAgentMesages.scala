@@ -18,7 +18,7 @@ case class _TaskSubmission(val taskDescriptions: List[TaskDescription]) extends 
 
 case class _NodeSamplingTimeout(val forWave: Int, val retry: Int) extends BasicMessage
 
-case class _NodeManagerSimulationInitiate(val resource: Resource, val capabilities: List[Constraint])
+case class _NodeManagerSimulationInitiate(val resource: Resource, val initialLoad:Resource, val capabilities: List[Constraint])
 
 case class _JobManagerSimulationInitiate(val taskDescriptions: List[TaskDescription]) extends BasicMessage
 

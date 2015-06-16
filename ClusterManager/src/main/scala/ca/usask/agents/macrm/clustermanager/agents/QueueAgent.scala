@@ -49,7 +49,7 @@ class QueueAgent extends Agent {
         val freeResources = message._report.getFreeResources()
         if (!schedulingQueue.isEmpty && !freeResources.isNotUsable())
             schedulingQueue.getBestMatches(freeResources, message._report.capabilities) match {
-                case None => message._report.nodeId.agent ! "emptyHeartBeatResponse"
+                case None => message._report.nodeId.agent ! new _EmptyHeartBeatResponse(0)
                 case Some(x) => {
                     val addedSamplingInfo = x._1.map(y => {
                         if (y.numberOfTasks != 1)

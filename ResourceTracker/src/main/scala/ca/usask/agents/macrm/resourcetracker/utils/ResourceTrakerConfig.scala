@@ -35,8 +35,8 @@ object ResourceTrakerConfig {
     /**
      * Minimum resources for a JobManager container
      */
-     val minMemory = 500
-     val minVirtualCore = 1
+     val minMemory = 0.0
+     val minVirtualCore = 0.0
      val minResourceForJobManager = new Resource(minMemory,minVirtualCore)
     
     /**

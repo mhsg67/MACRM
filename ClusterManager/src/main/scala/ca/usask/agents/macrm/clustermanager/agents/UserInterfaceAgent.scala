@@ -26,7 +26,7 @@ class UserInterfaceAgent(val queueAgent: ActorRef) extends Agent with Consumer {
         "netty:tcp://" + ClusterManagerConfig.clusterManagerIpAddress + ":2001?textline=true"
 
     override def replyTimeout(): FiniteDuration = {
-        new FiniteDuration(60000 * 25, MILLISECONDS)
+        new FiniteDuration(60000 * 30, MILLISECONDS)
     }
 
     def Event_initiate() = {

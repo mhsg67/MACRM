@@ -15,18 +15,35 @@ import java.net._
 object main {
 
     def readConfiguration(): List[String] = {
-        val file = scala.io.Source.fromFile("NodeManagerConfig.txt")
+        val file = scala.io.Source.fromFile("ConfigNodeManager.txt")
         val lines = file.getLines()
         lines.map(x => x.split(":")(1)).toList
     }
 
-    def getNodeResource(index: Int) = index match {
+    /*def getNodeResource(index: Int) = index match {
         case x1 if 0 until 535 contains x1   => new Resource(8000, 6)
         case x2 if 535 until 842 contains x2 => new Resource(4000, 6)
         case x3 if 842 until 922 contains x3 => new Resource(12000, 6)
         case x4 if 922 until 986 contains x4 => new Resource(16000, 12)
         case x5 if 986 until 996 contains x5 => new Resource(4000, 3)
         case _                               => new Resource(2000, 6)
+    }*/
+
+    /*def getNodeResource(index: Int) = index match {
+        case x1 if 0 until 268 contains x1   => new Resource(8000, 6)
+        case x2 if 268 until 421 contains x2 => new Resource(4000, 6)
+        case x3 if 421 until 461 contains x3 => new Resource(12000, 6)
+        case x4 if 461 until 493 contains x4 => new Resource(16000, 12)
+        case x5 if 493 until 498 contains x5 => new Resource(4000, 3)
+        case _                               => new Resource(2000, 6)
+    }*/
+
+    def getNodeResource(index: Int) = index match {
+        case x1 if 0 until 108 contains x1   => new Resource(8000, 6)
+        case x2 if 108 until 169 contains x2 => new Resource(4000, 6)
+        case x3 if 169 until 185 contains x3 => new Resource(12000, 6)
+        case x4 if 185 until 198 contains x4 => new Resource(16000, 12)
+        case _                               => new Resource(4000, 3)
     }
 
     def main(args: Array[String]) {
@@ -38,6 +55,7 @@ object main {
         NodeManagerConfig.resourceTrackerIPAddress = generalConfig(1)
         JobManagerConfig.numberOfAllowedSamplingRetry = generalConfig(3).toInt
         JobManagerConfig.samplingTimeoutLong = generalConfig(2).toLong
+        println("timeout " + JobManagerConfig.samplingTimeoutLong)
         JobManagerConfig.resourceTrackerIPAddress = generalConfig(1)
         JobManagerConfig.clusterManagerIPAddress = generalConfig(0)
 

@@ -14,12 +14,12 @@ class SimulationJobManagerAgent(val containerId: Long,
                                 val jobId: Long,
                                 val samplingInformation: SamplingInformation) extends Agent {
 
+    var waveArrival: DateTime = null
     var samplingTimeout: Cancellable = null
     var currentWaveOfTasks = 0
     var remainingTasksToFinish = 0
 
     val waveToSamplingRate = Map[Int, Int]()
-    val samplingTimeoutMillis = new FiniteDuration(JobManagerConfig.samplingTimeoutLong, MILLISECONDS)
     val samplingManager = new SimulationSamplingManager()
     val resourceTracker = context.actorSelection(JobManagerConfig.getResourceTrackerAddress)
     val clusterManager = context.actorSelection(JobManagerConfig.getClusterManagerAddress())
@@ -50,11 +50,15 @@ class SimulationJobManagerAgent(val containerId: Long,
 
         val tempTask = message.taskDescriptions.tail.map(x => TaskDescription(self, jobId, x, userId))
         remainingTasksToFinish = tempTask.length
+        var waveCount = 0
         collection.SortedSet(tempTask.map(x => x.relativeSubmissionTime.getMillis): _*).
             foreach { x =>
+                waveCount += 1
                 val tasksWithSimilarSubmissionTime = tempTask.filter(y => y.relativeSubmissionTime.getMillis == x)
-                context.system.scheduler.scheduleOnce(FiniteDuration(x, MILLISECONDS), self, new _TaskSubmission(tasksWithSimilarSubmissionTime))
+                context.system.scheduler.scheduleOnce(x millis, self, new _TaskSubmission(tasksWithSimilarSubmissionTime))
             }
+        waveArrival = DateTime.now()
+        println(jobId + " WC " + waveCount)
     }
 
     def Handle_ResourceSamplingResponse(message: _ResourceSamplingResponse, sender: ActorRef) = {
@@ -74,13 +78,14 @@ class SimulationJobManagerAgent(val containerId: Long,
             sendheartBeat(-1)
         }
         else {
+            println(jobId + " WA " + (DateTime.now().getMillis - waveArrival.getMillis))
             currentWaveOfTasks += 1
             updateWaveToSamplingRate(currentWaveOfTasks, 0)
             samplingManager.addNewSubmittedTasks(message.taskDescriptions)
             val samplingList = samplingManager.getSamplingNode(message.taskDescriptions, 0)
 
             samplingList.foreach(x => getActorRefFromNodeId(x._1) ! new _ResourceSamplingInquiry(self, DateTime.now(), x._2, jobId))
-            samplingTimeout = context.system.scheduler.scheduleOnce(samplingTimeoutMillis, self, new _NodeSamplingTimeout(currentWaveOfTasks, 1))
+            samplingTimeout = context.system.scheduler.scheduleOnce(JobManagerConfig.samplingTimeoutLong millis, self, new _NodeSamplingTimeout(currentWaveOfTasks, 1))
         }
     }
 
@@ -91,7 +96,7 @@ class SimulationJobManagerAgent(val containerId: Long,
             if (message.retry <= JobManagerConfig.numberOfAllowedSamplingRetry) {
                 val samplingList = samplingManager.getSamplingNode(unscheduledTasks, message.retry)
                 samplingList.foreach(x => getActorRefFromNodeId(x._1) ! new _ResourceSamplingInquiry(self, DateTime.now(), x._2, jobId))
-                samplingTimeout = context.system.scheduler.scheduleOnce(samplingTimeoutMillis, self, new _NodeSamplingTimeout(currentWaveOfTasks, message.retry + 1))
+                samplingTimeout = context.system.scheduler.scheduleOnce(JobManagerConfig.samplingTimeoutLong millis, self, new _NodeSamplingTimeout(currentWaveOfTasks, message.retry + 1))
 
                 println("SampTimeout:" + jobId.toString() + " SampRate:" + (samplingList.length / unscheduledTasks.length).toString() + " SampListSize:" + samplingList.length.toString())
             }
@@ -100,8 +105,10 @@ class SimulationJobManagerAgent(val containerId: Long,
                 clusterManager ! new _TaskSubmissionFromJM(self, DateTime.now(), unscheduledTasks)
             }
         }
-        else
+        else {
+            println(jobId + " WTO " + (DateTime.now().getMillis - waveArrival.getMillis))
             sendheartBeat(message.forWave)
+        }
     }
 
     def Handle_TasksExecutionFinished(message: _TasksExecutionFinished) = {
@@ -109,7 +116,7 @@ class SimulationJobManagerAgent(val containerId: Long,
         if (remainingTasksToFinish == 0) {
             if (samplingTimeout != null) samplingTimeout.cancel()
             clusterManager ! new _JobFinished(self, DateTime.now(), jobId)
-            context.system.scheduler.scheduleOnce(1 millis, node, new _ContainerExecutionFinished(containerId, true))
+            context.system.scheduler.scheduleOnce(2 millis, node, new _ContainerExecutionFinished(containerId, true))
         }
     }
 

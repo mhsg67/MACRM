@@ -26,8 +26,8 @@ object ClusterManagerConfig {
      * 1000 memory = 1GB memory
      * 1 virtual core
      */
-    val jobManagerContainerMemorySize = 250
-    val jobManagerContainerVirtualCoreSize = 0.5
+    val jobManagerContainerMemorySize = 100
+    val jobManagerContainerVirtualCoreSize = 0.2
 
     var clusterManagerIpAddress = "127.0.0.1"
 }

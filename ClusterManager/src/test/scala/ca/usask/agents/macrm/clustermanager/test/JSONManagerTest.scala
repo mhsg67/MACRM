@@ -20,8 +20,8 @@ class JSONManagerTest extends UnitSpec{
         result.right.get.tasks(0).duration should be (new Duration(0))
         result.right.get.tasks(0).relativeSubmissionTime should be (new Duration(0))
         result.right.get.tasks(0).resource shouldBe a [Resource]
-        result.right.get.tasks(0).resource.memory should be (250)
-        result.right.get.tasks(0).resource.virtualCore should be (0.5)
+        //result.right.get.tasks(0).resource.memory should be (250)
+        //result.right.get.tasks(0).resource.virtualCore should be (0.5)
         result.right.get.tasks(0).constraints should be (List())
         
         result.right.get.tasks(1) shouldBe a [TaskDescription]

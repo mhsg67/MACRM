@@ -30,6 +30,7 @@ class SimulationSamplingManager {
     
     def getUnscheduledTasks(): List[TaskDescription] = unscheduledTasks.map(x => x._2)
 
+    
     def getSamplingNode(tasks: List[TaskDescription], retry: Int): List[(NodeId, Resource)] = {
         val samplingCount = if (retry >= 1) samplingRate * math.pow(2.0, retry).toInt * tasks.length else samplingRate * tasks.length
 

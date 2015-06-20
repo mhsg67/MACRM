@@ -20,7 +20,7 @@ object NodeManagerConfig {
      * Based on YARN configuration we set heart beat interval
      * to RM to 1000
      */
-    var heartBeatInterval = 3000
+    var heartBeatInterval = 2000
 
     /**
      * Each node start to send heart beat 3000 millisecond

@@ -10,7 +10,7 @@ import com.typesafe.config.ConfigFactory
 object main {
 
     def readConfiguration(): List[String] = {
-        val file = scala.io.Source.fromFile("ClusterManagerConfig.txt")
+        val file = scala.io.Source.fromFile("ConfigClusterManager.txt")
         val lines = file.getLines()
         lines.map(x => x.split(":")(1)).toList
     }

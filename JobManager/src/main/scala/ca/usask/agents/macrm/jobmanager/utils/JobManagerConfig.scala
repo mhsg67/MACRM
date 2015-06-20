@@ -34,7 +34,7 @@ object JobManagerConfig {
      * we start sampling, after 10 millis of that, if we still have
      * unschedule tasks we try to do sampling again
      */
-    var samplingTimeoutLong:Long = 300
+    var samplingTimeoutLong:Long = 10
 
     /**
      * If the samplingTimout for 2 times and the JobManager could not find

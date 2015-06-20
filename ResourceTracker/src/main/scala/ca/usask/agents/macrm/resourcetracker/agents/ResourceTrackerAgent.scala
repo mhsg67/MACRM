@@ -67,7 +67,7 @@ class ResourceTrackerAgent extends Agent {
         else {
             if (maxResourceUtilization < 0.90 && isInCentralizeState > 0) isInCentralizeState = 0
             val properSamplingRate = calcProperSamplingRate(maxResourceUtilization)
-            if (properSamplingRate != currentSamplingRate && properSamplingRate >= 2.0) {
+            if (properSamplingRate != currentSamplingRate && properSamplingRate >= 2.0 && math.abs(properSamplingRate-currentSamplingRate)>0.01) {
                 println("properSamplingRate " + properSamplingRate)
                 currentSamplingRate = properSamplingRate
                 clusterManagerAgent ! new _ClusterState(self, DateTime.now(), currentSamplingRate, null, null, null, true)
